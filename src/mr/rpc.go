@@ -17,13 +17,22 @@ import "strconv"
 // and reply for an RPC.
 //
 
-type worker struct {
-	FileList []string
-	NReduce  int
+type WorkerParameter struct {
+	File      []string
+	Reduce    int
+	TimeStart time.Time
+	TimeEnd   time.Time
+	//callmu    sync.Mutex
 }
 
-type timeF struct {
-	timeNow time.Time
+type TaskState struct {
+	State    int
+	Tasktype int
+	Index    int
+}
+
+type Replyparameter struct {
+	Status bool
 }
 
 // Add your RPC definitions here.

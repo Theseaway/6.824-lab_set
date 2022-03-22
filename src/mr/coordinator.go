@@ -1,7 +1,9 @@
 package mr
 
 import (
+	"fmt"
 	"log"
+	"sync"
 	"time"
 )
 import "net"
@@ -12,39 +14,61 @@ import "net/http"
 const (
 	wait = iota
 	busy
+	done
+	pending
 )
 
 type Coordinator struct {
-	fileList   []string
-	ActiveTime time.Time
-	nReduce    int
+	FileList []string
+	NReduce  int
 
-	mapState []int
-	mapTime  []time.Time
-	mapDone  bool
+	activeTime time.Time
+	timechan   chan bool
+	timemu     sync.Mutex
+	mapState   []int
+	mapTime    []time.Time
+	mapDone    bool
 
 	reduceState []int
 	reduceTime  []time.Time
 	reduceDone  bool
 }
 
+func (c *Coordinator) keepAlive() {
+	for {
+		res := <-c.timechan
+		if res {
+			c.timemu.Lock()
+			c.activeTime = time.Now().UTC()
+			c.timemu.Unlock()
+		} else {
+			time.Sleep(time.Second)
+		}
+	}
+}
+
 // Your code here -- RPC handlers for the worker to call.
 
-//
-// an example RPC handler.
-//
-// the RPC argument and reply types are defined in rpc.go.
-//
-func (c *Coordinator) TaskGet(wrk *worker, timef *timeF) error {
-	wrk.FileList = c.fileList
-	wrk.NReduce = c.nReduce
+func (c *Coordinator) TaskGet(tss *TaskState, wrk *WorkerParameter) error {
+	wrk.File = c.FileList
+	wrk.Reduce = c.NReduce
 	now := time.Now().UTC()
-	c.ActiveTime = now
-	timef.timeNow = now
-	for i := 0; i < wrk.NReduce; i++ {
-		c.mapState[i] = busy
+	wrk.TimeStart = now
+	inum := len(c.FileList)
+	for i := 0; i < inum; i++ {
+		c.mapState[i] = tss.State
 		c.mapTime[i] = now
 	}
+	c.timechan <- true
+	return nil
+}
+
+func (c *Coordinator) MapFinished(task *TaskState, reply *Replyparameter) error {
+	c.mapState[task.Index] = task.State
+	c.mapTime[task.Index] = time.Now().UTC()
+	fmt.Printf("Map Task %d Completed\n", task.Index)
+	reply.Status = true
+	c.timechan <- true
 	return nil
 }
 
@@ -54,7 +78,6 @@ func (c *Coordinator) TaskGet(wrk *worker, timef *timeF) error {
 func (c *Coordinator) server() {
 	rpc.Register(c)
 	rpc.HandleHTTP()
-
 	sockname := coordinatorSock()
 	os.Remove(sockname)
 	l, e := net.Listen("unix", sockname)
@@ -69,11 +92,15 @@ func (c *Coordinator) server() {
 // if the entire job has finished.
 //
 func (c *Coordinator) Done() bool {
-	ret := false
-
-	// Your code here.
-
-	return ret
+	c.timemu.Lock()
+	dur := time.Since(c.activeTime) / time.Millisecond
+	c.timemu.Unlock()
+	fmt.Printf("pause time :%d\n", dur)
+	if dur > 60*1000 {
+		return true
+	} else {
+		return false
+	}
 }
 
 //
@@ -83,11 +110,14 @@ func (c *Coordinator) Done() bool {
 //
 func MakeCoordinator(files []string, nReduce int) *Coordinator {
 	c := Coordinator{}
-	c.fileList = files
+	c.timechan = make(chan bool, 1000)
+	c.timemu = sync.Mutex{}
+	c.FileList = files
 	inputNum := len(files)
-	c.nReduce = nReduce
+	c.NReduce = nReduce
+	go c.keepAlive()
 	now := time.Now().UTC()
-	c.ActiveTime = now
+	c.timechan <- true
 	c.mapState = make([]int, inputNum)
 	c.mapTime = make([]time.Time, inputNum)
 	c.mapDone = false
@@ -95,11 +125,10 @@ func MakeCoordinator(files []string, nReduce int) *Coordinator {
 		c.mapTime[i] = now
 		c.mapState[i] = wait
 	}
-
-	c.reduceState = make([]int, c.nReduce)
-	c.reduceTime = make([]time.Time, c.nReduce)
+	c.reduceState = make([]int, c.NReduce)
+	c.reduceTime = make([]time.Time, c.NReduce)
 	c.reduceDone = false
-	for i := 0; i < c.nReduce; i++ {
+	for i := 0; i < c.NReduce; i++ {
 		c.reduceTime[i] = now
 		c.reduceState[i] = wait
 	}
