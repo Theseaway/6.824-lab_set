@@ -1,11 +1,12 @@
 package mr
 
 import (
+	"io"
 	"log"
-	"strconv"
 	"sync"
 	"time"
 )
+
 import "net"
 import "os"
 import "net/rpc"
@@ -20,36 +21,39 @@ const (
 )
 
 const (
-	mapTask    = 1
-	reduceTask = 2
+	MAPTASK    = 1
+	REDUCETASK = 2
+	TASKDONE   = 3
 )
 
-type fileAdd struct {
-	name  string
-	index int
+type TaskBase struct {
+	File  string
+	State int
+	Time  time.Time
 }
 
 type Map struct {
-	State int
-	Time  time.Time
+	TaskBase
 }
 
 type Reduce struct {
-	State int
-	Time  time.Time
+	TaskBase
 }
 
 type Workers struct {
-	MapList    []Map
-	mapmu      sync.Mutex
-	ReduceList []Reduce
-	reducemu   sync.Mutex
+	MapWait     []Map
+	MapDoing    []Map
+	mLock       sync.Mutex
+	ReduceWait  []Reduce
+	ReduceDoing []Reduce
+	rLock       sync.Mutex
+	TmpList     TmpWait
+	tmpFilelock sync.Mutex
 }
 
 type Coordinator struct {
-	MapFile    []string
-	reduceFile []string
 	NReduce    int
+	InputNum   int
 	wrk        Workers
 	activeTime time.Time
 	timechan   chan bool
@@ -71,87 +75,162 @@ func (c *Coordinator) keepAlive() {
 
 // Your code here -- RPC handlers for the worker to call.
 
-func (c *Coordinator) TaskGet(tss *TaskState, wrk *WorkerParameter) error {
-	// check the state of task
-	for {
-		WaitList := []fileAdd{}
-		c.wrk.mapmu.Lock()
-		for i := 0; i < len(c.MapFile); i++ {
-			if c.wrk.MapList[i].State == wait || c.wrk.MapList[i].State == pending {
-				tpMap := fileAdd{c.MapFile[i], i}
-				WaitList = append(WaitList, tpMap)
-			}
-		}
-		c.wrk.mapmu.Unlock()
-		if len(WaitList) > 0 {
-			c.wrk.mapmu.Lock()
-			wrk.TaskType = mapTask
-			wrk.Reduce = c.NReduce
-			wrk.TimeStart = time.Now().UTC()
-			for _, elem := range WaitList {
-				wrk.File = append(wrk.File, elem.name)
-				c.wrk.MapList[elem.index].State = busy
-				c.wrk.MapList[elem.index].Time = time.Now().UTC()
-			}
-			c.timechan <- true
-			c.wrk.mapmu.Unlock()
-			return nil
-		} else {
-			c.wrk.reducemu.Lock()
-			for i := 0; i < c.NReduce; i++ {
-				if c.wrk.ReduceList[i].State == wait || c.wrk.ReduceList[i].State == pending {
-					tpMap := fileAdd{c.reduceFile[i], i}
-					WaitList = append(WaitList, tpMap)
-				}
-			}
-			c.wrk.reducemu.Unlock()
-			if len(WaitList) > 0 {
-				c.wrk.reducemu.Lock()
-				wrk.TaskType = reduceTask
-				wrk.Reduce = c.NReduce
-				wrk.TimeStart = time.Now().UTC()
-				for i := 0; i < len(WaitList); i++ {
-					wrk.File = append(wrk.File, WaitList[i].name)
-					wrk.TaskNum = append(wrk.TaskNum, WaitList[i].index)
-					c.wrk.ReduceList[WaitList[i].index].State = busy
-					c.wrk.ReduceList[WaitList[i].index].Time = time.Now().UTC()
-				}
-				c.timechan <- true
-				c.wrk.reducemu.Unlock()
-				return nil
-			} else {
-				wrk.TaskType = 3
-				return nil
-			}
-		}
+func (c *Coordinator) TaskGet(tss *TaskReply, wrk *WorkerParameter) error {
+	logFile, err := os.OpenFile("../../Log/ServerLog.txt", os.O_CREATE|os.O_APPEND|os.O_RDWR, 0666)
+	if err != nil {
+		panic(err)
 	}
+	defer logFile.Close()
+	mw := io.MultiWriter(os.Stdout, logFile)
+	log.SetOutput(mw)
+
+	c.wrk.mLock.Lock()
+	if len(c.wrk.MapWait) > 0 {
+		wrk.File = c.wrk.MapWait[len(c.wrk.MapWait)-1].File
+		wrk.TaskType = MAPTASK
+		wrk.Reduce = c.NReduce
+		wrk.TimeStart = time.Now().UTC()
+		wrk.TaskNum = len(c.wrk.MapWait) - 1
+		log.Printf("map task out:\n%v\n", wrk)
+		c.timechan <- true
+		c.wrk.MapWait = c.wrk.MapWait[:len(c.wrk.MapWait)-1]
+		c.wrk.mLock.Unlock()
+		return nil
+	}
+	c.wrk.mLock.Unlock()
+
+	c.wrk.rLock.Lock()
+	if len(c.wrk.ReduceWait) > 0 {
+		wrk.File = c.wrk.ReduceWait[len(c.wrk.ReduceWait)-1].File
+		wrk.TaskType = REDUCETASK
+		wrk.Reduce = c.NReduce
+		wrk.TimeStart = time.Now().UTC()
+		wrk.TaskNum = len(c.wrk.ReduceWait) - 1
+		log.Printf("reduce task out:\n%v\n", wrk)
+		c.timechan <- true
+		c.wrk.ReduceWait = c.wrk.ReduceWait[:len(c.wrk.ReduceWait)-1]
+		c.wrk.rLock.Unlock()
+		return nil
+	}
+	c.wrk.rLock.Unlock()
+	wrk.TaskType = 3
+	return nil
 }
 
-func (c *Coordinator) MapFinished(task *TaskState, reply *Replyparameter) error {
-	if task.Tasktype == mapTask {
-		c.wrk.mapmu.Lock()
-		c.wrk.MapList[task.Index].State = task.State
-		c.wrk.MapList[task.Index].Time = time.Now().UTC()
-		c.wrk.mapmu.Unlock()
-	} else if task.Tasktype == reduceTask {
-		c.wrk.reducemu.Lock()
-		c.wrk.ReduceList[task.Index].State = task.State
-		c.wrk.ReduceList[task.Index].Time = time.Now().UTC()
-		c.wrk.reducemu.Unlock()
+func (c *Coordinator) TaskFinished(task *TaskReply, reply *Replyparameter) error {
+	logFile, err := os.OpenFile("../../Log/ServerLog.txt", os.O_CREATE|os.O_APPEND|os.O_RDWR, 0666)
+	if err != nil {
+		panic(err)
+	}
+	defer logFile.Close()
+	mw := io.MultiWriter(os.Stdout, logFile)
+	log.SetOutput(mw)
+
+	if task.Tasktype == MAPTASK {
+		c.wrk.mLock.Lock()
+		mm := Map{
+			TaskBase{File: task.File,
+				State: done,
+				Time:  time.Now().UTC()},
+		}
+		log.Printf("MapList task Finished and move to MapDoing List:\n%v\n", mm)
+		c.wrk.MapDoing = append(c.wrk.MapDoing, mm)
+		c.wrk.mLock.Unlock()
+	} else if task.Tasktype == REDUCETASK {
+		c.wrk.rLock.Lock()
+		rr := Reduce{
+			TaskBase{File: task.File,
+				State: done,
+				Time:  time.Now().UTC()},
+		}
+		log.Printf("Reduce task Finished and move to ReduceDoing List:\n%v\n", rr)
+		c.wrk.ReduceDoing = append(c.wrk.ReduceDoing, rr)
+		c.wrk.rLock.Unlock()
 	}
 	c.timechan <- true
 	return nil
 }
 
-func (c *Coordinator) MapAllDone(wrk *WorkerParameter, reply *Replyparameter) error {
-	c.wrk.reducemu.Lock()
-	for index, _ := range wrk.tmpFileList {
-		c.wrk.ReduceList[index].State = wait
-		c.wrk.ReduceList[index].Time = time.Now().UTC()
+func (c *Coordinator) TmpFileAdd(FileList *TmpWait, reply *Replyparameter) error {
+	logFile, err := os.OpenFile("../../Log/ServerLog.txt", os.O_CREATE|os.O_APPEND|os.O_RDWR, 0666)
+	if err != nil {
+		panic(err)
 	}
-	c.wrk.reducemu.Unlock()
+	defer logFile.Close()
+	mw := io.MultiWriter(os.Stdout, logFile)
+	log.SetOutput(mw)
+	///////////////////////////////////////////////////////////////
+	c.wrk.tmpFilelock.Lock()
+
+	c.wrk.TmpList.File = append(c.wrk.TmpList.File, FileList.File...)
+
+	c.wrk.tmpFilelock.Unlock()
 	reply.Status = true
+	log.Printf("tmpFile now:\n%v\n", c.wrk.TmpList.File)
+	c.timechan <- true
 	return nil
+}
+
+func (c *Coordinator) mapDone() bool {
+	logFile, err := os.OpenFile("../../Log/ServerLog.txt", os.O_CREATE|os.O_APPEND|os.O_RDWR, 0666)
+	if err != nil {
+		panic(err)
+	}
+	defer logFile.Close()
+	mw := io.MultiWriter(os.Stdout, logFile)
+	log.SetOutput(mw)
+	res := false
+	c.wrk.mLock.Lock()
+	log.Println("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$")
+	log.Println("Checking Map task")
+	if len(c.wrk.MapWait) == 0 || len(c.wrk.MapDoing) == 8 {
+		log.Println("All map tasks done")
+		res = true
+	}
+	c.wrk.mLock.Unlock()
+	log.Println("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$")
+	c.timechan <- true
+	return res
+}
+
+func (c *Coordinator) check() {
+	logFile, err := os.OpenFile("../../Log/ServerLog.txt", os.O_CREATE|os.O_APPEND|os.O_RDWR, 0666)
+	if err != nil {
+		panic(err)
+	}
+	defer logFile.Close()
+	mw := io.MultiWriter(os.Stdout, logFile)
+	log.SetOutput(mw)
+
+	loop := 1
+	for {
+		c.timemu.Lock()
+		log.Printf("launch %d check process\n", loop)
+		c.timemu.Unlock()
+		if c.mapDone() {
+			log.Printf("number of tmp file list:%d\n", len(c.wrk.TmpList.File))
+			c.wrk.rLock.Lock()
+			for _, file := range c.wrk.TmpList.File {
+				task := Reduce{}
+				task.File = file
+				task.State = wait
+				task.Time = time.Now().UTC()
+				c.wrk.ReduceWait = append(c.wrk.ReduceWait, task)
+				log.Printf("tasks added to List:%v\n", task)
+			}
+			c.wrk.rLock.Unlock()
+			c.wrk.TmpList.File = []string{}
+			log.Println("All task move to the reduce list")
+			break
+		}
+		time.Sleep(1000 * time.Millisecond)
+		c.timemu.Lock()
+		loop++
+		c.timemu.Unlock()
+		c.timechan <- true
+	}
+	log.Println("Check Process Over")
+	c.timechan <- true
 }
 
 //
@@ -178,7 +257,7 @@ func (c *Coordinator) Done() bool {
 	dur := time.Since(c.activeTime) / time.Millisecond
 	c.timemu.Unlock()
 	//fmt.Printf("pause time :%d\n", dur)
-	if dur > 10*1000 {
+	if dur > 100*1000 {
 		return true
 	} else {
 		return false
@@ -191,31 +270,36 @@ func (c *Coordinator) Done() bool {
 // nReduce is the number of reduce tasks to use.
 //
 func MakeCoordinator(files []string, nReduce int) *Coordinator {
+	logFile, err := os.OpenFile("../../Log/ServerLog.txt", os.O_CREATE|os.O_RDWR, 0666)
+	if err != nil {
+		panic(err)
+	}
+	defer logFile.Close()
+	mw := io.MultiWriter(os.Stdout, logFile)
+	log.SetOutput(mw)
 	//fmt.Println("coordinator created\n")
+	now := time.Now().UTC()
 	c := Coordinator{}
 	c.timechan = make(chan bool, 1000)
 	c.timemu = sync.Mutex{}
-	c.MapFile = files
-	inputNum := len(files)
 	c.NReduce = nReduce
-	go c.keepAlive()
-	now := time.Now().UTC()
-	c.timechan <- true
-
 	c.wrk = Workers{}
-	c.wrk.mapmu = sync.Mutex{}
-	c.wrk.MapList = make([]Map, inputNum)
-	for i := 0; i < inputNum; i++ {
-		c.wrk.MapList[i].Time = now
-		c.wrk.MapList[i].State = wait
+	c.InputNum = len(files)
+	for i := 0; i < c.InputNum; i++ {
+		task := Map{}
+		task.File = files[i]
+		task.State = wait
+		task.Time = now
+		c.wrk.MapWait = append(c.wrk.MapWait, task)
 	}
-	c.wrk.reducemu = sync.Mutex{}
-	c.wrk.ReduceList = make([]Reduce, c.NReduce)
-	for i := 0; i < c.NReduce; i++ {
-		c.reduceFile = append(c.reduceFile, "tmp-"+strconv.Itoa(i)+".txt")
-		c.wrk.ReduceList[i].Time = now
-		c.wrk.ReduceList[i].State = none
-	}
+	go c.keepAlive()
+	c.timechan <- true
 	c.server()
+	go c.check()
+	log.Printf("Coordinator initialization complete\ncoordinator now:\nNReduce:%v \nInputNum:%v \n", c.NReduce, c.InputNum)
+	for index, task := range c.wrk.MapWait {
+		log.Printf("\ntask %d:\nFile:%v\nState:%v\nTime:%v\n", index, task.File, task.State, task.Time)
+	}
+	log.Println("#################################################")
 	return &c
 }

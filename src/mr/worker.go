@@ -43,59 +43,52 @@ func ihash(key string) int {
 //
 func Worker(mapf func(string, string) []KeyValue,
 	reducef func(string, []string) string) {
-	fmt.Println("function Worker called once")
-	negative := 0
+
+	logfilename := "../../Log/W" + strconv.Itoa(time.Now().Day()) + ".txt"
+	logFile, err := os.OpenFile(logfilename, os.O_CREATE|os.O_APPEND|os.O_RDWR, 0666)
+	if err != nil {
+		panic(err)
+	}
+	defer logFile.Close()
+	mw := io.MultiWriter(os.Stdout, logFile)
+	log.SetOutput(mw)
+
 	for {
-	start:
 		wrk := WorkerParameter{}
-		timef := TaskState{}
+		timef := TaskReply{}
 		IfSucc := call("Coordinator.TaskGet", &timef, &wrk)
+		log.Println("Server service TaskGet called")
 		if !IfSucc {
 			os.Exit(1)
 		}
-		if wrk.TaskType == 3 {
+		if wrk.TaskType == TASKDONE {
 			os.Exit(1)
 		}
-		if len(wrk.File) == 0 {
-			time.Sleep(5 * time.Second)
-			negative++
-			if negative > 1 {
-				fmt.Println("No file input, program ends")
-				os.Exit(1)
-			}
-			goto start
+		if wrk.TaskType == MAPTASK {
+			log.Println("MAPTASK GET")
+			go mapProc(wrk.File, mapf, wrk.TaskNum, wrk.Reduce)
+		} else if wrk.TaskType == REDUCETASK {
+			go reduceProc(wrk.File, reducef)
+		} else if wrk.TaskType == TASKDONE {
+			os.Exit(1)
+		} else {
+			panic("wrong task type")
 		}
-		//wrk.callmu = sync.Mutex{}
-		negative = 0
-		wtMap := sync.WaitGroup{}
-		wrk.tmpFilewr = sync.Mutex{}
-		wrk.tmpFileList = map[int]bool{}
-		for i := 0; i < wrk.Reduce; i++ {
-			tlock := sync.Mutex{}
-			wrk.tmpLockList = append(wrk.tmpLockList, tlock)
-		}
-		for i := 0; i < len(wrk.File); i++ {
-			wtMap.Add(1)
-			go mapProc(&wrk, &wtMap, mapf, i)
-		}
-		wtMap.Wait()
-
-		reply := Replyparameter{}
-		call("Coordinator.MapAllDone", &wrk, &reply)
-
-		wtReduce := sync.WaitGroup{}
-		for index, _ := range wrk.tmpFileList {
-			wtReduce.Add(1)
-			go reduceProc(&wrk, &wtReduce, index, reducef)
-		}
-		wtReduce.Wait()
 	}
 }
 
-func mapProc(wrk *WorkerParameter, wtMap *sync.WaitGroup, mapf func(string, string) []KeyValue, index int) {
-	defer wtMap.Done()
+func mapProc(file string, mapf func(string, string) []KeyValue, taskNum, Reduce int) {
+	logfilename := "../../Log/W" + strconv.Itoa(time.Now().Day()) + ".txt"
+	logFile, err := os.OpenFile(logfilename, os.O_CREATE|os.O_APPEND|os.O_RDWR, 0666)
+	if err != nil {
+		panic(err)
+	}
+	defer logFile.Close()
+	mw := io.MultiWriter(os.Stdout, logFile)
+	log.SetOutput(mw)
 
-	fd, err := os.Open(wrk.File[index])
+	log.Printf("File %s get", file)
+	fd, err := os.Open(file)
 	if err != nil {
 		panic(err)
 	}
@@ -106,112 +99,94 @@ func mapProc(wrk *WorkerParameter, wtMap *sync.WaitGroup, mapf func(string, stri
 	fd.Close()
 
 	flknmap := map[int]*os.File{}
-	result := mapf(wrk.File[index], string(contents))
-	for _, elem := range result {
-		hashindex := ihash(elem.Key) % wrk.Reduce
-
-		var fdnow *os.File
-		if _, ok := flknmap[hashindex]; ok {
-			fdnow = flknmap[hashindex]
-		} else {
-			// global lock for updating tmpFileList for next reduce step
-			wrk.tmpFilewr.Lock()
-			if _, ok := wrk.tmpFileList[hashindex]; !ok {
-				wrk.tmpFileList[hashindex] = true
-			}
-			wrk.tmpFilewr.Unlock()
-			// open file and ready to write
-			tname := "tmp-" + strconv.Itoa(hashindex) + ".txt"
-			fdnew, err := os.OpenFile(tname, os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0660)
-			if err != nil {
-				panic(err)
-			}
-			fdnow = fdnew
-			//update map
-			flknmap[hashindex] = fdnow
+	FileAdd := []string{}
+	for i := 0; i < Reduce; i++ {
+		tname := "tmp-" + strconv.Itoa(taskNum) + "-" + strconv.Itoa(i) + ".txt"
+		FileAdd = append(FileAdd, tname)
+		fdnew, err := os.OpenFile(tname, os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0660)
+		if err != nil {
+			panic(err)
 		}
-		wrk.tmpLockList[hashindex].Lock()
-		writer := bufio.NewWriter(fdnow)
+		flknmap[i] = fdnew
+	}
+	log.Printf("MAPTASK's tmp file %v created\n", FileAdd)
+	result := mapf(file, string(contents))
+	for _, elem := range result {
+		hashindex := ihash(elem.Key) % Reduce
+		writer := bufio.NewWriter(flknmap[hashindex])
 		writer.WriteString(elem.Key + " " + elem.Value + "\n")
 		writer.Flush()
-		wrk.tmpLockList[hashindex].Unlock()
 	}
-
 	for _, file := range flknmap {
 		file.Close()
 	}
-	task := TaskState{done, 1, index}
+
+	input := TmpWait{FileAdd}
 	reply := Replyparameter{false}
-	call("Coordinator.MapFinished", &task, &reply)
+	call("Coordinator.TmpFileAdd", &input, &reply)
+
+	task := TaskReply{file, MAPTASK}
+	reply = Replyparameter{false}
+	call("Coordinator.TaskFinished", &task, &reply)
+	log.Println("Server service TaskFinished called")
+
 }
 
-func reduceProc(wrk *WorkerParameter, wtReduce *sync.WaitGroup, index int, reducef func(string, []string) string) {
-	defer wtReduce.Done()
-	tmpname := "tmp-" + strconv.Itoa(index) + ".txt"
-	fd, err := os.Open(tmpname)
+func reduceProc(file string, reducef func(string, []string) string) {
+	logfilename := "../../Log/W" + strconv.Itoa(time.Now().Day()) + ".txt"
+	logFile, err := os.OpenFile(logfilename, os.O_CREATE|os.O_APPEND|os.O_RDWR, 0666)
+	if err != nil {
+		panic(err)
+	}
+	defer logFile.Close()
+	mw := io.MultiWriter(os.Stdout, logFile)
+	log.SetOutput(mw)
+
+	log.Printf("reduce task get :%v\n", file)
+	fd, err := os.Open(file)
 	if err != nil {
 		panic(err)
 	}
 	defer fd.Close()
-	flk := FileLk{}
-	flk.tmpset = make([]*os.File, wrk.Reduce)
-	for i := 0; i < wrk.Reduce; i++ {
-		tmpfile := "tmp-" + strconv.Itoa(i) + ".txt"
-		tmpfd, err := os.OpenFile(tmpfile, os.O_WRONLY|os.O_CREATE, 0660)
+	kvMap := map[string][]string{}
+	buf := bufio.NewReader(fd)
+	for {
+		lineraw, err := buf.ReadString('\n')
 		if err != nil {
-			panic("open file in Worker failed\n")
+			if err == io.EOF {
+				//log.Println("File read ok!")
+				break
+			} else {
+				log.Println("Read file error!", err)
+				return
+			}
 		}
-		flk.tmpset[i] = tmpfd
-		mu := sync.Mutex{}
-		flk.muset = append(flk.muset, &mu)
+		line := strings.TrimSpace(lineraw)
+		splitRes := strings.Fields(line)
+		if _, ok := kvMap[splitRes[0]]; !ok {
+			tmpslice := []string{}
+			tmpslice = append(tmpslice, splitRes[1])
+			kvMap[splitRes[0]] = tmpslice
+		} else {
+			kvMap[splitRes[0]] = append(kvMap[splitRes[0]], splitRes[1])
+		}
 	}
-	flk.muset[index].Lock()
-
-	outname := "mr-out-" + strconv.Itoa(index) + ".txt"
+	outname := "mr-out-" + file
 	outfd, err := os.OpenFile(outname, os.O_WRONLY|os.O_CREATE, 0660)
 	if err != nil {
 		panic(err)
 	}
 	defer outfd.Close()
-	outwriter := bufio.NewWriter(outfd)
-
-	KeyValueMap := map[string][]string{}
-	buf := bufio.NewReader(fd)
-	for {
-		line, err := buf.ReadString('\n')
-		if err != nil {
-			if err == io.EOF {
-				break
-			} else {
-				fmt.Println("Read file error!", err)
-				return
-			}
-		}
-		lin := line[:len(line)-1]
-		spres := strings.Split(lin, " ")
-		if len(spres) < 1 {
-			panic("split error, please check the word")
-		}
-		//fmt.Printf("length of spres is %d\n", len(spres))
-		if len(spres) == 2 {
-			if _, ok := KeyValueMap[spres[0]]; !ok {
-				tmpslice := []string{}
-				tmpslice = append(tmpslice, spres[1])
-				KeyValueMap[spres[0]] = tmpslice
-			} else {
-				KeyValueMap[spres[0]] = append(KeyValueMap[spres[0]], spres[1])
-			}
-		}
+	log.Printf("reduce output created :%v\n", outname)
+	writer := bufio.NewWriter(outfd)
+	for key, val := range kvMap {
+		result := reducef(key, val)
+		writer.WriteString(key + " " + result + "\n")
 	}
-	for key_, value_ := range KeyValueMap {
-		outwriter.WriteString(key_ + " " + reducef(key_, value_) + "\n")
-		outwriter.Flush()
-	}
-	flk.muset[index].Unlock()
-
-	task := TaskState{done, 2, index}
+	writer.Flush()
+	task := TaskReply{file, REDUCETASK}
 	reply := Replyparameter{false}
-	call("Coordinator.MapFinished", &task, &reply)
+	call("Coordinator.TaskFinished", &task, &reply)
 }
 
 //

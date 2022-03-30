@@ -8,7 +8,6 @@ package mr
 
 import (
 	"os"
-	"sync"
 	"time"
 )
 import "strconv"
@@ -19,21 +18,21 @@ import "strconv"
 //
 
 type WorkerParameter struct {
-	File        []string
-	Reduce      int
-	tmpFilewr   sync.Mutex
-	tmpFileList map[int]bool
-	tmpLockList []sync.Mutex
-	TimeStart   time.Time
-	TimeEnd     time.Time
-	TaskType    int
-	TaskNum     []int
+	File      string
+	Reduce    int
+	TimeStart time.Time
+	TimeEnd   time.Time
+	TaskType  int
+	TaskNum   int
 }
 
-type TaskState struct {
-	State    int
+type TaskReply struct {
+	File     string
 	Tasktype int
-	Index    int
+}
+
+type TmpWait struct {
+	File []string
 }
 
 type Replyparameter struct {
