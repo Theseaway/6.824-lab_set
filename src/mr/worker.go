@@ -1,19 +1,17 @@
 package mr
 
 import (
-	"bufio"
+	"encoding/json"
 	"fmt"
-	"io"
+	"hash/fnv"
 	"io/ioutil"
+	"log"
+	"net/rpc"
 	"os"
-	"strconv"
-	"strings"
-	"sync"
+	"path/filepath"
+	"sort"
 	"time"
 )
-import "log"
-import "net/rpc"
-import "hash/fnv"
 
 //
 // Map functions return a slice of KeyValue.
@@ -21,11 +19,6 @@ import "hash/fnv"
 type KeyValue struct {
 	Key   string
 	Value string
-}
-
-type FileLk struct {
-	tmpset []*os.File
-	muset  []*sync.Mutex
 }
 
 //
@@ -38,168 +31,163 @@ func ihash(key string) int {
 	return int(h.Sum32() & 0x7fffffff)
 }
 
+// for sorting by key.
+type ByKey []KeyValue
+
+// for sorting by key.
+func (a ByKey) Len() int           { return len(a) }
+func (a ByKey) Swap(i, j int)      { a[i], a[j] = a[j], a[i] }
+func (a ByKey) Less(i, j int) bool { return a[i].Key < a[j].Key }
+
 //
 // main/mrworker.go calls this function.
 //
-func Worker(mapf func(string, string) []KeyValue,
-	reducef func(string, []string) string) {
-
-	logfilename := "../../Log/W" + strconv.Itoa(time.Now().Day()) + ".txt"
-	logFile, err := os.OpenFile(logfilename, os.O_CREATE|os.O_APPEND|os.O_RDWR, 0666)
-	if err != nil {
-		panic(err)
-	}
-	defer logFile.Close()
-	mw := io.MultiWriter(os.Stdout, logFile)
-	log.SetOutput(mw)
-
+func Worker(mapf func(string, string) []KeyValue, reducef func(string, []string) string) {
+	// 启动worker
 	for {
-		wrk := WorkerParameter{}
-		timef := TaskReply{}
-		IfSucc := call("Coordinator.TaskGet", &timef, &wrk)
-		log.Println("Server service TaskGet called")
-		if !IfSucc {
-			os.Exit(1)
-		}
-		if wrk.TaskType == TASKDONE {
-			os.Exit(1)
-		}
-		if wrk.TaskType == MAPTASK {
-			log.Println("MAPTASK GET")
-			go mapProc(wrk.File, mapf, wrk.TaskNum, wrk.Reduce)
-		} else if wrk.TaskType == REDUCETASK {
-			go reduceProc(wrk.File, reducef)
-		} else if wrk.TaskType == TASKDONE {
-			os.Exit(1)
-		} else {
-			panic("wrong task type")
+		// worker从master获取任务
+		task := getTask()
+
+		// 拿到task之后，根据task的state，map task交给mapper， reduce task交给reducer
+		// 额外加两个state，让 worker 等待 或者 直接退出
+		switch task.TaskState {
+		case Map:
+			mapper(&task, mapf)
+		case Reduce:
+			reducer(&task, reducef)
+		case Wait:
+			time.Sleep(5 * time.Second)
+		case Exit:
+			return
 		}
 	}
 }
 
-func mapProc(file string, mapf func(string, string) []KeyValue, taskNum, Reduce int) {
-	logfilename := "../../Log/W" + strconv.Itoa(time.Now().Day()) + ".txt"
-	logFile, err := os.OpenFile(logfilename, os.O_CREATE|os.O_APPEND|os.O_RDWR, 0666)
-	if err != nil {
-		panic(err)
-	}
-	defer logFile.Close()
-	mw := io.MultiWriter(os.Stdout, logFile)
-	log.SetOutput(mw)
+func reducer(task *Task, reducef func(string, []string) string) {
+	//先从filepath读取intermediate的KeyValue
+	intermediate := *readFromLocalFile(task.Intermediates)
+	//根据kv排序
+	sort.Sort(ByKey(intermediate))
 
-	log.Printf("File %s get", file)
-	fd, err := os.Open(file)
+	dir, _ := os.Getwd()
+	tempFile, err := ioutil.TempFile(dir, "mr-tmp-*")
 	if err != nil {
-		panic(err)
+		log.Fatal("Failed to create temp file", err)
 	}
-	contents, err := ioutil.ReadAll(fd)
-	if err != nil {
-		panic("read file failed in mapPorc")
-	}
-	fd.Close()
-
-	flknmap := map[int]*os.File{}
-	FileAdd := []string{}
-	for i := 0; i < Reduce; i++ {
-		tname := "tmp-" + strconv.Itoa(taskNum) + "-" + strconv.Itoa(i) + ".txt"
-		FileAdd = append(FileAdd, tname)
-		fdnew, err := os.OpenFile(tname, os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0660)
-		if err != nil {
-			panic(err)
+	// 这部分代码修改自mrsequential.go
+	i := 0
+	for i < len(intermediate) {
+		//将相同的key放在一起分组合并
+		j := i + 1
+		for j < len(intermediate) && intermediate[j].Key == intermediate[i].Key {
+			j++
 		}
-		flknmap[i] = fdnew
+		values := []string{}
+		for k := i; k < j; k++ {
+			values = append(values, intermediate[k].Value)
+		}
+		//交给reducef，拿到结果
+		output := reducef(intermediate[i].Key, values)
+		//写到对应的output文件
+		fmt.Fprintf(tempFile, "%v %v\n", intermediate[i].Key, output)
+		i = j
 	}
-	log.Printf("MAPTASK's tmp file %v created\n", FileAdd)
-	result := mapf(file, string(contents))
-	for _, elem := range result {
-		hashindex := ihash(elem.Key) % Reduce
-		writer := bufio.NewWriter(flknmap[hashindex])
-		writer.WriteString(elem.Key + " " + elem.Value + "\n")
-		writer.Flush()
+	tempFile.Close()
+	oname := fmt.Sprintf("mr-out-%d", task.TaskNumber)
+	os.Rename(tempFile.Name(), oname)
+	task.Output = oname
+	TaskCompleted(task)
+}
+
+func mapper(task *Task, mapf func(string, string) []KeyValue) {
+	//从文件名读取content
+	content, err := ioutil.ReadFile(task.Input)
+	if err != nil {
+		log.Fatal("Failed to read file: "+task.Input, err)
 	}
-	for _, file := range flknmap {
+	//将content交给mapf，缓存结果
+	intermediates := mapf(task.Input, string(content))
+
+	//缓存后的结果会写到本地磁盘，并切成R份
+	//切分方式是根据key做hash
+	buffer := make([][]KeyValue, task.NReducer)
+	for _, intermediate := range intermediates {
+		slot := ihash(intermediate.Key) % task.NReducer
+		buffer[slot] = append(buffer[slot], intermediate)
+	}
+	mapOutput := make([]string, 0)
+	for i := 0; i < task.NReducer; i++ {
+		mapOutput = append(mapOutput, writeToLocalFile(task.TaskNumber, i, &buffer[i]))
+	}
+	//R个文件的位置发送给master
+	task.Intermediates = mapOutput
+	TaskCompleted(task)
+}
+
+func getTask() Task {
+	// worker从master获取任务
+	args := ExampleArgs{}
+	reply := Task{}
+	call("Master.AssignTask", &args, &reply)
+	return reply
+}
+
+func TaskCompleted(task *Task) {
+	//通过RPC，把task信息发给master
+	reply := ExampleReply{}
+	call("Master.TaskCompleted", task, &reply)
+}
+
+func writeToLocalFile(x int, y int, kvs *[]KeyValue) string {
+	dir, _ := os.Getwd()
+	tempFile, err := ioutil.TempFile(dir, "mr-tmp-*")
+	if err != nil {
+		log.Fatal("Failed to create temp file", err)
+	}
+	enc := json.NewEncoder(tempFile)
+	for _, kv := range *kvs {
+		if err := enc.Encode(&kv); err != nil {
+			log.Fatal("Failed to write kv pair", err)
+		}
+	}
+	tempFile.Close()
+	outputName := fmt.Sprintf("mr-%d-%d", x, y)
+	os.Rename(tempFile.Name(), outputName)
+	return filepath.Join(dir, outputName)
+}
+
+func readFromLocalFile(files []string) *[]KeyValue {
+	kva := []KeyValue{}
+	for _, filepath := range files {
+		file, err := os.Open(filepath)
+		if err != nil {
+			log.Fatal("Failed to open file "+filepath, err)
+		}
+		dec := json.NewDecoder(file)
+		for {
+			var kv KeyValue
+			if err := dec.Decode(&kv); err != nil {
+				break
+			}
+			kva = append(kva, kv)
+		}
 		file.Close()
 	}
-
-	input := TmpWait{FileAdd}
-	reply := Replyparameter{false}
-	call("Coordinator.TmpFileAdd", &input, &reply)
-
-	task := TaskReply{file, MAPTASK}
-	reply = Replyparameter{false}
-	call("Coordinator.TaskFinished", &task, &reply)
-	log.Println("Server service TaskFinished called")
-
-}
-
-func reduceProc(file string, reducef func(string, []string) string) {
-	logfilename := "../../Log/W" + strconv.Itoa(time.Now().Day()) + ".txt"
-	logFile, err := os.OpenFile(logfilename, os.O_CREATE|os.O_APPEND|os.O_RDWR, 0666)
-	if err != nil {
-		panic(err)
-	}
-	defer logFile.Close()
-	mw := io.MultiWriter(os.Stdout, logFile)
-	log.SetOutput(mw)
-
-	log.Printf("reduce task get :%v\n", file)
-	fd, err := os.Open(file)
-	if err != nil {
-		panic(err)
-	}
-	defer fd.Close()
-	kvMap := map[string][]string{}
-	buf := bufio.NewReader(fd)
-	for {
-		lineraw, err := buf.ReadString('\n')
-		if err != nil {
-			if err == io.EOF {
-				//log.Println("File read ok!")
-				break
-			} else {
-				log.Println("Read file error!", err)
-				return
-			}
-		}
-		line := strings.TrimSpace(lineraw)
-		splitRes := strings.Fields(line)
-		if _, ok := kvMap[splitRes[0]]; !ok {
-			tmpslice := []string{}
-			tmpslice = append(tmpslice, splitRes[1])
-			kvMap[splitRes[0]] = tmpslice
-		} else {
-			kvMap[splitRes[0]] = append(kvMap[splitRes[0]], splitRes[1])
-		}
-	}
-	outname := "mr-out-" + file
-	outfd, err := os.OpenFile(outname, os.O_WRONLY|os.O_CREATE, 0660)
-	if err != nil {
-		panic(err)
-	}
-	defer outfd.Close()
-	log.Printf("reduce output created :%v\n", outname)
-	writer := bufio.NewWriter(outfd)
-	for key, val := range kvMap {
-		result := reducef(key, val)
-		writer.WriteString(key + " " + result + "\n")
-	}
-	writer.Flush()
-	task := TaskReply{file, REDUCETASK}
-	reply := Replyparameter{false}
-	call("Coordinator.TaskFinished", &task, &reply)
+	return &kva
 }
 
 //
-// send an RPC request to the coordinator, wait for the response.
+// send an RPC request to the master, wait for the response.
 // usually returns true.
 // returns false if something goes wrong.
 //
 func call(rpcname string, args interface{}, reply interface{}) bool {
 	// c, err := rpc.DialHTTP("tcp", "127.0.0.1"+":1234")
-	sockname := coordinatorSock()
+	sockname := masterSock()
 	c, err := rpc.DialHTTP("unix", sockname)
 	if err != nil {
-		log.Fatal("dialing:", err)
+		// Master结束进程，退出worker
+		os.Exit(0)
 	}
 	defer c.Close()
 
