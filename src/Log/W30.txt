@@ -1,0 +1,19 @@
+2022/03/30 08:14:53 Server service TaskGet called
+2022/03/30 08:14:53 File ../pg-tom_sawyer.txt get
+2022/03/30 08:14:53 Server service TaskGet called
+2022/03/30 08:14:53 File ../pg-sherlock_holmes.txt get
+2022/03/30 08:14:53 Server service TaskGet called
+2022/03/30 08:14:53 File ../pg-metamorphosis.txt get
+2022/03/30 08:14:53 Server service TaskGet called
+2022/03/30 08:14:53 File ../pg-huckleberry_finn.txt get
+2022/03/30 08:14:53 Server service TaskGet called
+2022/03/30 08:14:53 Server service TaskGet called
+2022/03/30 08:14:53 File ../pg-frankenstein.txt get
+2022/03/30 08:14:53 File ../pg-grimm.txt get
+2022/03/30 08:14:53 Server service TaskGet called
+2022/03/30 08:14:53 File ../pg-being_ernest.txt get
+2022/03/30 08:14:53 Server service TaskGet called
+2022/03/30 08:14:53 Server service TaskGet called
+2022/03/30 08:14:53 File ../pg-dorian_gray.txt get
+2022/03/30 08:14:53 Server service TaskGet called
+2022/03/30 08:14:53 Server service TaskGet called

@@ -1,0 +1,72 @@
+Test (2A): election after network failure ...
+time="2022-04-14T06:43:33-07:00" level=info msg="Server 0 MSG: Server 0 Time out"
+time="2022-04-14T06:43:33-07:00" level=info msg="Server 0 MSG: Server 0 launch election"
+time="2022-04-14T06:43:33-07:00" level=info msg="Server 0 MSG: Raft Server Information in function LeaderElection()" CurrentTerm=1 Index=0 LeaderId=-1 State=1 Term=1 Voted=true
+time="2022-04-14T06:43:33-07:00" level=info msg="Server 0 MSG: Raft Server 0 transfer to candidate"
+time="2022-04-14T06:43:33-07:00" level=info msg="Server 1 MSG: Server 1 Time out"
+time="2022-04-14T06:43:33-07:00" level=info msg="Server 1 MSG: Server 1 launch election"
+time="2022-04-14T06:43:33-07:00" level=info msg="Server 1 MSG: Raft Server Information in function LeaderElection()" CurrentTerm=1 Index=1 LeaderId=-1 State=1 Term=1 Voted=true
+time="2022-04-14T06:43:33-07:00" level=info msg="Server 1 MSG: Raft Server 1 transfer to candidate"
+time="2022-04-14T06:43:33-07:00" level=info msg="Server 2 MSG: Server 2 Time out"
+time="2022-04-14T06:43:33-07:00" level=info msg="Server 2 MSG: Server 2 launch election"
+time="2022-04-14T06:43:33-07:00" level=info msg="Server 2 MSG: Raft Server Information in function LeaderElection()" CurrentTerm=1 Index=2 LeaderId=-1 State=1 Term=1 Voted=true
+time="2022-04-14T06:43:33-07:00" level=info msg="Server 2 MSG: Raft Server 2 transfer to candidate"
+time="2022-04-14T06:43:33-07:00" level=info msg="Server 0 MSG: Candidate 0 Failed to get vote from server 1"
+time="2022-04-14T06:43:33-07:00" level=info msg="Server 0 MSG: Candidate 0 Failed to get vote from server 2"
+time="2022-04-14T06:43:33-07:00" level=info msg="Server 0 MSG: Leader Election failed"
+time="2022-04-14T06:43:33-07:00" level=info msg="Server 0 MSG: Candidate 0 convert to follower"
+time="2022-04-14T06:43:33-07:00" level=info msg="Server 0 MSG: Raft Server Information in function All2follower()" CurrentTerm=1 Index=0 LeaderId=-1 State=0 Term=1 Voted=true
+time="2022-04-14T06:43:33-07:00" level=info msg="Server 1 MSG: Candidate 1 Failed to get vote from server 0"
+time="2022-04-14T06:43:33-07:00" level=info msg="Server 1 MSG: Candidate 1 Failed to get vote from server 2"
+time="2022-04-14T06:43:33-07:00" level=info msg="Server 1 MSG: Leader Election failed"
+time="2022-04-14T06:43:33-07:00" level=info msg="Server 1 MSG: Candidate 1 convert to follower"
+time="2022-04-14T06:43:33-07:00" level=info msg="Server 1 MSG: Raft Server Information in function All2follower()" CurrentTerm=1 Index=1 LeaderId=-1 State=0 Term=1 Voted=true
+time="2022-04-14T06:43:33-07:00" level=info msg="Server 2 MSG: Candidate 2 Failed to get vote from server 0"
+time="2022-04-14T06:43:33-07:00" level=info msg="Server 2 MSG: Candidate 2 Failed to get vote from server 1"
+time="2022-04-14T06:43:33-07:00" level=info msg="Server 2 MSG: Leader Election failed"
+time="2022-04-14T06:43:33-07:00" level=info msg="Server 2 MSG: Candidate 2 convert to follower"
+time="2022-04-14T06:43:33-07:00" level=info msg="Server 2 MSG: Raft Server Information in function All2follower()" CurrentTerm=1 Index=2 LeaderId=-1 State=0 Term=1 Voted=true
+time="2022-04-14T06:43:33-07:00" level=info msg="Server 1 MSG: Server 1 launch election"
+time="2022-04-14T06:43:33-07:00" level=info msg="Server 1 MSG: Raft Server Information in function LeaderElection()" CurrentTerm=2 Index=1 LeaderId=-1 State=1 Term=2 Voted=true
+time="2022-04-14T06:43:33-07:00" level=info msg="Server 1 MSG: Raft Server 1 transfer to candidate"
+time="2022-04-14T06:43:33-07:00" level=info msg="Server 1 MSG: Candidate 1 Succeed to get vote from server 2"
+time="2022-04-14T06:43:33-07:00" level=info msg="Server 1 MSG: Candidate 1 Succeed to get vote from server 0"
+time="2022-04-14T06:43:33-07:00" level=info msg="Server 1 MSG: candidate 1 transfer to leader"
+time="2022-04-14T06:43:33-07:00" level=info msg="Server 1 MSG: Raft Server Information in function candidate2leader()" CurrentTerm=2 Index=1 LeaderId=1 State=2 Term=2 Voted=true
+time="2022-04-14T06:43:33-07:00" level=info msg="Server 0 MSG: Follower 0 receive normal msg from Leader 1"
+time="2022-04-14T06:43:33-07:00" level=info msg="Server 2 MSG: Follower 2 receive normal msg from Leader 1"
+time="2022-04-14T06:43:33-07:00" level=info msg="Server 0 MSG: Raft Server Information in function GetState()" CurrentTerm=2 Index=0 LeaderId=1 State=0 Term=2 Voted=true
+time="2022-04-14T06:43:33-07:00" level=info msg="Server 1 MSG: Raft Server Information in function GetState()" CurrentTerm=2 Index=1 LeaderId=1 State=2 Term=2 Voted=true
+time="2022-04-14T06:43:33-07:00" level=info msg="Server 2 MSG: Raft Server Information in function GetState()" CurrentTerm=2 Index=2 LeaderId=1 State=0 Term=2 Voted=true
+time="2022-04-14T06:43:33-07:00" level=info msg="TEST INFO: Leader is 1"
+time="2022-04-14T06:43:33-07:00" level=info msg="TEST INFO: Leader 1 disconnect"
+time="2022-04-14T06:43:34-07:00" level=info msg="Server 0 MSG: Server 0 launch election"
+time="2022-04-14T06:43:34-07:00" level=info msg="Server 0 MSG: Raft Server Information in function LeaderElection()" CurrentTerm=3 Index=0 LeaderId=1 State=1 Term=3 Voted=true
+time="2022-04-14T06:43:34-07:00" level=info msg="Server 0 MSG: Raft Server 0 transfer to candidate"
+time="2022-04-14T06:43:34-07:00" level=info msg="Server 0 MSG: Candidate 0 Succeed to get vote from server 2"
+time="2022-04-14T06:43:34-07:00" level=info msg="Server 0 MSG: candidate 0 transfer to leader"
+time="2022-04-14T06:43:34-07:00" level=info msg="Server 0 MSG: Raft Server Information in function candidate2leader()" CurrentTerm=3 Index=0 LeaderId=0 State=2 Term=3 Voted=true
+time="2022-04-14T06:43:34-07:00" level=info msg="Server 2 MSG: Server 2 launch election"
+time="2022-04-14T06:43:34-07:00" level=info msg="Server 2 MSG: Raft Server Information in function LeaderElection()" CurrentTerm=4 Index=2 LeaderId=0 State=1 Term=4 Voted=true
+time="2022-04-14T06:43:34-07:00" level=info msg="Server 2 MSG: Raft Server 2 transfer to candidate"
+time="2022-04-14T06:43:34-07:00" level=info msg="Server 0 MSG: Receive New Vote from Candidate 2"
+time="2022-04-14T06:43:34-07:00" level=info msg="Server 0 MSG: Leader 0 convert to follower"
+time="2022-04-14T06:43:34-07:00" level=info msg="Server 0 MSG: Raft Server Information in function All2follower()" CurrentTerm=4 Index=0 LeaderId=2 State=0 Term=4 Voted=true
+time="2022-04-14T06:43:34-07:00" level=info msg="Server 2 MSG: Candidate 2 Succeed to get vote from server 0"
+time="2022-04-14T06:43:34-07:00" level=info msg="Server 2 MSG: candidate 2 transfer to leader"
+time="2022-04-14T06:43:34-07:00" level=info msg="Server 2 MSG: Raft Server Information in function candidate2leader()" CurrentTerm=4 Index=2 LeaderId=2 State=2 Term=4 Voted=true
+time="2022-04-14T06:43:34-07:00" level=info msg="Server 0 MSG: Raft Server Information in function GetState()" CurrentTerm=4 Index=0 LeaderId=2 State=0 Term=4 Voted=true
+time="2022-04-14T06:43:34-07:00" level=info msg="Server 2 MSG: Raft Server Information in function GetState()" CurrentTerm=4 Index=2 LeaderId=2 State=2 Term=4 Voted=true
+time="2022-04-14T06:43:34-07:00" level=info msg="TEST INFO: Leader 1 connect"
+time="2022-04-14T06:43:34-07:00" level=info msg="Server 0 MSG: Raft Server Information in function GetState()" CurrentTerm=4 Index=0 LeaderId=2 State=0 Term=4 Voted=true
+time="2022-04-14T06:43:34-07:00" level=info msg="Server 1 MSG: Raft Server Information in function GetState()" CurrentTerm=2 Index=1 LeaderId=1 State=2 Term=2 Voted=true
+time="2022-04-14T06:43:34-07:00" level=info msg="Server 2 MSG: Raft Server Information in function GetState()" CurrentTerm=4 Index=2 LeaderId=2 State=2 Term=4 Voted=true
+time="2022-04-14T06:43:34-07:00" level=info msg="TEST INFO: Leader is 2 After old leader rejoin"
+time="2022-04-14T06:43:34-07:00" level=info msg="TEST INFO: Server 2 and 0 disconnect"
+time="2022-04-14T06:43:35-07:00" level=info msg="Server 2 MSG: Candidate 2 Failed to get vote from server 1"
+time="2022-04-14T06:43:36-07:00" level=info msg="Server 1 MSG: Raft Server Information in function GetState()" CurrentTerm=2 Index=1 LeaderId=1 State=2 Term=2 Voted=true
+--- FAIL: TestReElection2A (3.48s)
+    config.go:489: expected no leader among connected servers, but 1 claims to be leader
+FAIL
+exit status 1
+FAIL	6.824/raft	3.482s
