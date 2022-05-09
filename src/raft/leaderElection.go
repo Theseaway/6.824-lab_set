@@ -3,7 +3,6 @@ package raft
 import "sync"
 
 func (rf *Raft) leaderElection() {
-
 	rf.currentTerm++
 	DPrintf("[%v]: 目前Term: %v，服务器 %v 请求投票", rf.me, rf.currentTerm, rf.me)
 	rf.state = Candidate
@@ -11,11 +10,12 @@ func (rf *Raft) leaderElection() {
 	rf.resetElectionTimer()
 	term := rf.currentTerm
 	votecount := 1
+	log := rf.log.LastLog()
 	args := RequestVoteArgs{
 		Term:         term,
 		CandidateId:  rf.me,
-		LastLogIndex: 0,
-		LastLogTerm:  0,
+		LastLogIndex: log.Index,
+		LastLogTerm:  log.Term,
 	}
 
 	var becomeLeader sync.Once

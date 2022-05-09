@@ -18,6 +18,9 @@ package raft
 //
 
 import (
+	"fmt"
+	"strings"
+
 	//	"bytes"
 	"sync"
 	"sync/atomic"
@@ -59,11 +62,6 @@ type ApplyMsg struct {
 	SnapshotIndex int
 }
 
-type logSet struct {
-	entry []string
-	term  uint32
-}
-
 //
 // A Go object implementing a single Raft peer.
 //
@@ -80,14 +78,17 @@ type Raft struct {
 	state       RaftState
 	currentTerm int
 	votedFor    int
-	logs        []logSet
-	commitIndex uint32
-	lastApplied uint32
+	commitIndex int
+	lastApplied int
 	nextIndex   []int
 	matchIndex  []int
+	log         Log
 	//magic time
 	electionTime time.Time
 	heartBeat    time.Duration
+
+	applyCh   chan ApplyMsg
+	applyCond *sync.Cond
 }
 
 // return currentTerm and whether this server
@@ -177,13 +178,20 @@ func (rf *Raft) Snapshot(index int, snapshot []byte) {
 // the leader.
 //
 func (rf *Raft) Start(command interface{}) (int, int, bool) {
-	index := -1
-	term := -1
-	isLeader := true
-
-	// Your code here (2B).
-
-	return index, term, isLeader
+	rf.mu.Lock()
+	defer rf.mu.Unlock()
+	if rf.state != Leader {
+		return -1, rf.currentTerm, false
+	}
+	log := rf.log.LastLog()
+	entry := Entry{
+		Command: command,
+		Term:    rf.currentTerm,
+		Index:   log.Index + 1,
+	}
+	rf.log.append(entry)
+	rf.appendEntries(false)
+	return log.Index + 1, rf.currentTerm, true
 }
 
 //
@@ -211,7 +219,6 @@ func (rf *Raft) killed() bool {
 // heartsbeats recently.
 func (rf *Raft) ticker() {
 	for rf.killed() == false {
-
 		// Your code here to check if a leader election should
 		// be started and to randomize sleeping time using
 		// time.Sleep().
@@ -245,20 +252,65 @@ func Make(peers []*labrpc.ClientEnd, me int,
 	rf.persister = persister
 	rf.me = me
 	rf.currentTerm = 0
+	rf.votedFor = -1
 	rf.mu = sync.Mutex{}
-	rf.logs = []logSet{}
-	rf.matchIndex = []int{}
-	rf.nextIndex = []int{}
+
+	rf.log = makeEmptyLog()
+	rf.log.append(Entry{-1, 0, 0})
+	rf.matchIndex = make([]int, len(rf.peers))
+	rf.nextIndex = make([]int, len(rf.peers))
 	rf.resetElectionTimer()
+	rf.commitIndex = 0
+	rf.lastApplied = 0
 	rf.state = Follower
 	rf.heartBeat = 100 * time.Millisecond
+
+	rf.applyCh = applyCh
+	rf.applyCond = sync.NewCond(&rf.mu)
+
 	// Your initialization code here (2A, 2B, 2C).
 
 	// initialize from state persisted before a crash
 	rf.readPersist(persister.ReadRaftState())
-
 	// start ticker goroutine to start elections
 	go rf.ticker()
-
+	go rf.LoopCommit()
 	return rf
+}
+
+func (rf *Raft) SendMsg() {
+	rf.applyCond.Broadcast()
+	DPrintf("[%v]: rf.applyCond.Broadcast()", rf.me)
+}
+
+func (rf *Raft) CommitInfo() string {
+	nums := []string{}
+	for i := 0; i <= rf.lastApplied; i++ {
+		nums = append(nums, fmt.Sprintf("%4d", rf.log.at(i).Command))
+	}
+	return fmt.Sprint(strings.Join(nums, "|"))
+}
+
+func (rf *Raft) LoopCommit() {
+	rf.mu.Lock()
+	defer rf.mu.Unlock()
+
+	for !rf.killed() {
+		// all server rule 1
+		if rf.commitIndex > rf.lastApplied && rf.log.LastLog().Index > rf.lastApplied {
+			rf.lastApplied++
+			applyMsg := ApplyMsg{
+				CommandValid: true,
+				Command:      rf.log.at(rf.lastApplied).Command,
+				CommandIndex: rf.lastApplied,
+			}
+			DPrintVerbose("[%v]: COMMIT %d: %s", rf.me, rf.lastApplied, rf.CommitInfo())
+			rf.mu.Unlock()
+			rf.applyCh <- applyMsg
+			rf.mu.Lock()
+		} else {
+			rf.applyCond.Wait()
+			DPrintf("[%v]: rf.applyCond.Wait()", rf.me)
+		}
+	}
 }
