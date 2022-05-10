@@ -25,7 +25,7 @@ func (rf *Raft) appendEntries(HeartBeat bool) {
 			rf.resetElectionTimer()
 			continue
 		}
-		if HeartBeat || lastLog.Index >= rf.nextIndex[peer] {
+		if lastLog.Index >= rf.nextIndex[peer] || HeartBeat {
 			nextIndex := rf.nextIndex[peer]
 			// 完全不匹配, 从头给出
 			if nextIndex <= 0 {
@@ -33,7 +33,7 @@ func (rf *Raft) appendEntries(HeartBeat bool) {
 			}
 			// 该follower的日志超出当前长度
 			if lastLog.Index+1 < nextIndex {
-				nextIndex = lastLog.Index // 把最后的日志给出
+				nextIndex = lastLog.Index
 			}
 			// 获取可能匹配的prevLog的Index和Term，然后进行再次的匹配
 			// 如果不匹配，会重新再进行匹配
@@ -139,6 +139,7 @@ func (rf *Raft) AppendEntries(args *AppendEntriesArgs, reply *AppendEntriesReply
 		reply.XTerm = -1
 		reply.XIndex = -1
 		reply.XLen = rf.log.Len()
+		DPrintf("[%v]: 当前日志数小于leader索引号，请求重新匹配", rf.me)
 		DPrintf("[%v]: Conflict XTerm %v, XIndex %v, XLen %v", rf.me, reply.XTerm, reply.XIndex, reply.XLen)
 		return
 	}
@@ -146,11 +147,13 @@ func (rf *Raft) AppendEntries(args *AppendEntriesArgs, reply *AppendEntriesReply
 	//如果本机log的args.PrevLogIndex处的日志的Term与传入参数的Term数不太一样
 	//那么拒绝接受并进行检查日志在哪里不匹配
 	if rf.log.at(args.PrevLogIndex).Term != args.PrevLogTerm {
+
 		reply.Conflict = true
 		xTerm := rf.log.at(args.PrevLogIndex).Term
 		for xIndex := args.PrevLogIndex; xIndex > 0; xIndex-- {
 			if rf.log.at(xIndex-1).Term != xTerm {
 				reply.XIndex = xIndex
+				DPrintf("[%v]: 找到冲突Term 前的日志 %v", rf.me, rf.log.at(xIndex-1))
 				break
 			}
 		}

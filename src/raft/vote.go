@@ -49,22 +49,24 @@ func (rf *Raft) setNewTerm(term int) {
 func (rf *Raft) RequestVote(args *RequestVoteArgs, reply *RequestVoteReply) {
 	rf.mu.Lock()
 	defer rf.mu.Unlock()
-	// 本服务器term比候选者大，拒绝
-	if args.Term < rf.currentTerm {
-		reply.Term = rf.currentTerm
-		reply.VoteGranted = false
-	}
 	//本服务器term比候选者小，直接转变为追随者
 	if args.Term > rf.currentTerm {
 		rf.setNewTerm(args.Term)
 	}
+	// 本服务器term比候选者大，拒绝
+	if args.Term < rf.currentTerm {
+		reply.Term = rf.currentTerm
+		reply.VoteGranted = false
+		return
+	}
 
 	lastLog := rf.log.LastLog()
-	valid := lastLog.Index > args.LastLogIndex || (lastLog.Index == args.LastLogIndex && lastLog.Term >= args.LastLogTerm)
+	valid := args.LastLogTerm > lastLog.Term || (args.LastLogTerm == lastLog.Term && args.LastLogIndex >= lastLog.Index)
 	if (rf.votedFor == -1 || rf.votedFor == args.CandidateId) && valid {
 		rf.votedFor = args.CandidateId
 		reply.VoteGranted = true
 		DPrintf("[%v]: 当前Term： %v, 给候选 %v 投票", rf.me, rf.currentTerm, rf.votedFor)
+		rf.resetElectionTimer()
 	} else {
 		reply.VoteGranted = false
 	}
