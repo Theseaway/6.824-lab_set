@@ -45,7 +45,7 @@ func (rf *Raft) appendEntries(HeartBeat bool) {
 				PrevLogTerm:  prevLog.Term,
 				//依据nextIndex发送所需要的日志
 				Entries:      make([]Entry, lastLog.Index-nextIndex+1),
-				LeaderCommit: rf.me,
+				LeaderCommit: rf.commitIndex,
 			}
 			copy(args.Entries, rf.log.Tail(nextIndex))
 			go rf.leaderSendEntries(peer, &args)
@@ -170,6 +170,9 @@ func (rf *Raft) AppendEntries(args *AppendEntriesArgs, reply *AppendEntriesReply
 		// append entries rpc 4
 		if entry.Index > rf.log.LastLog().Index {
 			rf.log.append(args.Entries[idx:]...)
+			if entry.Index == 200 {
+				DPrintf("debug code")
+			}
 			DPrintf("[%d]: follower append [%v]", rf.me, args.Entries[idx:])
 			rf.persist()
 			break
