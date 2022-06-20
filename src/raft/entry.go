@@ -116,19 +116,16 @@ func (rf *Raft) Commit() {
 func (rf *Raft) AppendEntries(args *AppendEntriesArgs, reply *AppendEntriesReply) {
 	rf.mu.Lock()
 	defer rf.mu.Unlock()
-	reply.Success = false
-	reply.Term = rf.currentTerm
+
+	if args.Term < rf.currentTerm {
+		reply.Success = false
+		reply.Term = rf.currentTerm
+		return
+	}
+
 	if args.Term > rf.currentTerm {
 		rf.setNewTerm(args.Term)
-		return
 	}
-
-	// append entries rpc 1
-	if args.Term < rf.currentTerm {
-		return
-	}
-
-	rf.resetElectionTimer()
 	if rf.state == Candidate {
 		rf.state = Follower
 	}
@@ -136,30 +133,31 @@ func (rf *Raft) AppendEntries(args *AppendEntriesArgs, reply *AppendEntriesReply
 	//如果本机log索引号小于leader索引号，拒绝接受
 	if rf.log.LastLog().Index < args.PrevLogIndex {
 		reply.Conflict = true
-		reply.XTerm = -1
-		reply.XIndex = -1
-		reply.XLen = rf.log.Len()
-		DPrintf("[%v]: 当前日志数小于leader索引号，请求重新匹配", rf.me)
+		//reply.XTerm = -1
+		//reply.XIndex = -1
+		//reply.XLen = rf.log.Len()
+		DPrintf("[%v]: 当前日志索引小于leader日志索引，当前日志长度: %d", rf.me, rf.log.Len())
 		DPrintf("[%v]: Conflict XTerm %v, XIndex %v, XLen %v", rf.me, reply.XTerm, reply.XIndex, reply.XLen)
 		return
 	}
 
-	//如果本机log的args.PrevLogIndex处的日志的Term与传入参数的Term数不太一样
-	//那么拒绝接受并进行检查日志在哪里不匹配
+	// 如果本机log的args.PrevLogIndex处的日志的Term与传入参数的Term数不太一样
+	// 那么拒绝接受并进行检查日志在哪里不匹配
 	if rf.log.at(args.PrevLogIndex).Term != args.PrevLogTerm {
-
 		reply.Conflict = true
-		xTerm := rf.log.at(args.PrevLogIndex).Term
-		for xIndex := args.PrevLogIndex; xIndex > 0; xIndex-- {
-			if rf.log.at(xIndex-1).Term != xTerm {
-				reply.XIndex = xIndex
-				DPrintf("[%v]: 找到冲突Term 前的日志 %v", rf.me, rf.log.at(xIndex-1))
-				break
+		/*
+			xTerm := rf.log.at(args.PrevLogIndex).Term
+			for xIndex := args.PrevLogIndex; xIndex > 0; xIndex-- {
+				if rf.log.at(xIndex-1).Term != xTerm {
+					reply.XIndex = xIndex
+					DPrintf("[%v]: 找到冲突Term 前的日志 %v", rf.me, rf.log.at(xIndex-1))
+					break
+				}
 			}
-		}
-		reply.XTerm = xTerm
-		reply.XLen = rf.log.Len()
-		DPrintf("[%v]: Conflict XTerm %v, XIndex %v, XLen %v", rf.me, reply.XTerm, reply.XIndex, reply.XLen)
+			reply.XTerm = xTerm
+			reply.XLen = rf.log.Len()
+		*/
+		//DPrintf("[%v]: Conflict XTerm %v, XIndex %v, XLen %v", rf.me, reply.XTerm, reply.XIndex, reply.XLen)
 		return
 	}
 

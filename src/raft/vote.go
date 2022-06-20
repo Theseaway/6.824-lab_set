@@ -49,15 +49,16 @@ func (rf *Raft) setNewTerm(term int) {
 func (rf *Raft) RequestVote(args *RequestVoteArgs, reply *RequestVoteReply) {
 	rf.mu.Lock()
 	defer rf.mu.Unlock()
-	//本服务器term比候选者小，直接转变为追随者
-	if args.Term > rf.currentTerm {
-		rf.setNewTerm(args.Term)
-	}
+
 	// 本服务器term比候选者大，拒绝
 	if args.Term < rf.currentTerm {
 		reply.Term = rf.currentTerm
 		reply.VoteGranted = false
 		return
+	}
+	//本服务器term比候选者小，直接转变为追随者
+	if args.Term > rf.currentTerm {
+		rf.setNewTerm(args.Term)
 	}
 
 	lastLog := rf.log.LastLog()
@@ -69,8 +70,8 @@ func (rf *Raft) RequestVote(args *RequestVoteArgs, reply *RequestVoteReply) {
 		rf.resetElectionTimer()
 	} else {
 		reply.VoteGranted = false
+		reply.Term = rf.currentTerm
 	}
-	reply.Term = rf.currentTerm
 }
 
 func (rf *Raft) sendRequestVote(Id int, args *RequestVoteArgs, reply *RequestVoteReply) bool {
@@ -86,16 +87,14 @@ func (rf *Raft) candidateRequest(Id int, count *int, args *RequestVoteArgs, beco
 	}
 	rf.mu.Lock()
 	defer rf.mu.Unlock()
-	if reply.VoteGranted == false {
-		if reply.Term > rf.currentTerm {
-			DPrintf("[%v]: 有新的Term存在：%v", rf.me, reply.Term)
-			rf.setNewTerm(reply.Term)
-			return
-		}
+	if reply.VoteGranted == false && reply.Term > rf.currentTerm {
+		DPrintf("[%v]: 有新的Term存在：%v", rf.me, reply.Term)
+		rf.setNewTerm(reply.Term)
 		return
 	}
 	*count++
 	DPrintf("[%v]： 收到投票，目前票数： %v", rf.me, *count)
+	//确保目前仍然是候选者
 	if 2*(*count) > len(rf.peers) && rf.currentTerm == args.Term && rf.state == Candidate {
 		becomeLeader.Do(func() {
 			DPrintf("[%v]：投票过半，提前结束", rf.me)
@@ -108,5 +107,4 @@ func (rf *Raft) candidateRequest(Id int, count *int, args *RequestVoteArgs, beco
 			rf.appendEntries(true)
 		})
 	}
-
 }
