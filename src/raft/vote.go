@@ -50,6 +50,7 @@ func (rf *Raft) RequestVote(args *RequestVoteArgs, reply *RequestVoteReply) {
 	rf.mu.Lock()
 	defer rf.mu.Unlock()
 
+	DPrintf("[%d]: ")
 	// 本服务器term比候选者大，拒绝
 	if args.Term < rf.currentTerm {
 		reply.Term = rf.currentTerm
@@ -63,7 +64,8 @@ func (rf *Raft) RequestVote(args *RequestVoteArgs, reply *RequestVoteReply) {
 
 	lastLog := rf.log.LastLog()
 	valid := args.LastLogTerm > lastLog.Term || (args.LastLogTerm == lastLog.Term && args.LastLogIndex >= lastLog.Index)
-	if (rf.votedFor == -1 || rf.votedFor == args.CandidateId) && valid {
+	//if (rf.votedFor == -1 || rf.votedFor == args.CandidateId) && valid {
+	if rf.votedFor == -1 && valid {
 		rf.votedFor = args.CandidateId
 		reply.VoteGranted = true
 		DPrintf("[%v]: 当前Term： %v, 给候选 %v 投票", rf.me, rf.currentTerm, rf.votedFor)

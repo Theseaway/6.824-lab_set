@@ -503,6 +503,7 @@ func (cfg *config) nCommitted(index int) (int, interface{}) {
 
 		cfg.mu.Lock()
 		cmd1, ok := cfg.logs[i][index]
+		DPrintf("TEST: server %d --> index now is %d, cmd is %v", i, index, cmd1)
 		cfg.mu.Unlock()
 
 		if ok {
@@ -561,6 +562,7 @@ func (cfg *config) wait(index int, n int, startTerm int) interface{} {
 // if retry==false, calls Start() only once, in order
 // to simplify the early Lab 2B tests.
 func (cfg *config) one(cmd interface{}, expectedServers int, retry bool) int {
+	DPrintf("TEST: function one called\n")
 	t0 := time.Now()
 	starts := 0
 	for time.Since(t0).Seconds() < 10 && cfg.checkFinished() == false {
@@ -568,6 +570,7 @@ func (cfg *config) one(cmd interface{}, expectedServers int, retry bool) int {
 		index := -1
 		for si := 0; si < cfg.n; si++ {
 			starts = (starts + 1) % cfg.n
+			DPrintf("TEST: server chosen now is : %d\n", starts)
 			var rf *Raft
 			cfg.mu.Lock()
 			if cfg.connected[starts] {
@@ -577,6 +580,7 @@ func (cfg *config) one(cmd interface{}, expectedServers int, retry bool) int {
 			if rf != nil {
 				index1, _, ok := rf.Start(cmd)
 				if ok {
+					DPrintf("TEST: raft start function called on server %d\ncmd is %v", rf.me, cmd)
 					index = index1
 					break
 				}

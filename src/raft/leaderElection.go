@@ -17,7 +17,7 @@ func (rf *Raft) leaderElection() {
 		LastLogIndex: log.Index,
 		LastLogTerm:  log.Term,
 	}
-
+	DPrintf("[%d]: Last Log is --> %v", rf.me, args)
 	var becomeLeader sync.Once
 	for Id, _ := range rf.peers {
 		if Id != rf.me {
