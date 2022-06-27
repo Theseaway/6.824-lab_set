@@ -50,7 +50,7 @@ func (rf *Raft) RequestVote(args *RequestVoteArgs, reply *RequestVoteReply) {
 	rf.mu.Lock()
 	defer rf.mu.Unlock()
 
-	DPrintf("[%d]: ")
+	DPrintf("[%d]: 接收服务器 %d 的投票请求", rf.me, args.CandidateId)
 	// 本服务器term比候选者大，拒绝
 	if args.Term < rf.currentTerm {
 		reply.Term = rf.currentTerm
@@ -94,8 +94,10 @@ func (rf *Raft) candidateRequest(Id int, count *int, args *RequestVoteArgs, beco
 		rf.setNewTerm(reply.Term)
 		return
 	}
-	*count++
-	DPrintf("[%v]： 收到投票，目前票数： %v", rf.me, *count)
+	if reply.VoteGranted {
+		*count++
+		DPrintf("[%v]： 收到投票，目前票数： %v", rf.me, *count)
+	}
 	//确保目前仍然是候选者
 	if 2*(*count) > len(rf.peers) && rf.currentTerm == args.Term && rf.state == Candidate {
 		becomeLeader.Do(func() {
