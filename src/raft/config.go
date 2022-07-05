@@ -570,7 +570,6 @@ func (cfg *config) one(cmd interface{}, expectedServers int, retry bool) int {
 		index := -1
 		for si := 0; si < cfg.n; si++ {
 			starts = (starts + 1) % cfg.n
-			DPrintf("TEST: server chosen now is : %d\n", starts)
 			var rf *Raft
 			cfg.mu.Lock()
 			if cfg.connected[starts] {
@@ -593,6 +592,7 @@ func (cfg *config) one(cmd interface{}, expectedServers int, retry bool) int {
 			t1 := time.Now()
 			for time.Since(t1).Seconds() < 2 {
 				nd, cmd1 := cfg.nCommitted(index)
+				DPrintf("TEST: command --> %v, index --> %v, 承认commit数量 --> %v", cmd1, index, nd)
 				if nd > 0 && nd >= expectedServers {
 					// committed
 					if cmd1 == cmd {

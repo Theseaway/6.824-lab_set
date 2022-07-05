@@ -172,15 +172,32 @@ func (rf *Raft) AppendEntries(args *AppendEntriesArgs, reply *AppendEntriesReply
 	}
 
 	DPrintf("[%d]: \nargs.Entries: %v\nLocal: %v\n", rf.me, args.Entries, rf.log.Entries)
+
+	if len(args.Entries) > 0 {
+		entry := args.Entries[0]
+		if entry.Index <= rf.log.LastLog().Index && rf.log.at(entry.Index).Term != entry.Term {
+			rf.log.truncate(entry.Index)
+			rf.persist()
+		}
+		if entry.Index > rf.log.LastLog().Index {
+			rf.log.append(args.Entries[0:]...)
+			if entry.Index == 200 {
+				DPrintf("debug code")
+			}
+			DPrintf("[%d]: entry now is\n %v", rf.me, rf.log.Entries)
+
+			rf.persist()
+		}
+	}
 	/*
 		for idx := 0; idx < len(args.Entries); idx++ {
-			entry := args.Entries[0]
+			entry := args.Entries[idx]
 			if entry.Index <= rf.log.LastLog().Index && rf.log.at(entry.Index).Term != entry.Term {
 				rf.log.truncate(entry.Index)
 				rf.persist()
 			}
 			if entry.Index > rf.log.LastLog().Index {
-				rf.log.append(args.Entries[0:]...)
+				rf.log.append(args.Entries[idx:]...)
 				if entry.Index == 200 {
 					DPrintf("debug code")
 				}
@@ -189,29 +206,30 @@ func (rf *Raft) AppendEntries(args *AppendEntriesArgs, reply *AppendEntriesReply
 				rf.persist()
 			}
 		}
+	*/
+	/*
+		for idx, entry := range args.Entries {
+			// append entries rpc 3
+			DPrintf("[%d]: LOOP IN APPEND ENTRY;\n entry.Index --> %d, lastlog.Index --> %d"+
+				"; entry.Term --> %d, lastlog.Term --> %d", rf.me, entry.Index, rf.log.LastLog().Index,
+				entry.Term, rf.log.LastLog().Term)
+			if entry.Index <= rf.log.LastLog().Index && rf.log.at(entry.Index).Term != entry.Term {
+				rf.log.truncate(entry.Index)
+				rf.persist()
+			}
+			// append entries rpc 4
+			if entry.Index > rf.log.LastLog().Index {
+				rf.log.append(args.Entries[idx:]...)
+				if entry.Index == 200 {
+					DPrintf("debug code")
+				}
+				DPrintf("[%d]: after append entry %v\n local log is\n %v", rf.me, args.Entries[idx:], rf.log.Entries)
+				rf.persist()
+				break
+			}
+		}
 
 	*/
-
-	for idx, entry := range args.Entries {
-		// append entries rpc 3
-		DPrintf("[%d]: LOOP IN APPEND ENTRY;\n entry.Index --> %d, lastlog.Index --> %d"+
-			"; entry.Term --> %d, lastlog.Term --> %d", rf.me, entry.Index, rf.log.LastLog().Index,
-			entry.Term, rf.log.LastLog().Term)
-		if entry.Index <= rf.log.LastLog().Index && rf.log.at(entry.Index).Term != entry.Term {
-			rf.log.truncate(entry.Index)
-			rf.persist()
-		}
-		// append entries rpc 4
-		if entry.Index > rf.log.LastLog().Index {
-			rf.log.append(args.Entries[idx:]...)
-			if entry.Index == 200 {
-				DPrintf("debug code")
-			}
-			DPrintf("[%d]: after append entry %v\n local log is\n %v", rf.me, args.Entries[idx:], rf.log.Entries)
-			rf.persist()
-			break
-		}
-	}
 
 	// append entries rpc 5
 	if args.LeaderCommit > rf.commitIndex {
