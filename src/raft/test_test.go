@@ -592,7 +592,7 @@ func TestCount2B(t *testing.T) {
 	}
 
 	leader := cfg.checkOneLeader()
-
+	DPrintf("TEST: rpcs() function called")
 	total1 := rpcs()
 
 	if total1 > 30 || total1 < 1 {

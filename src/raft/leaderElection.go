@@ -10,6 +10,7 @@ func (rf *Raft) leaderElection() {
 	rf.resetElectionTimer()
 	term := rf.currentTerm
 	votecount := 1
+	servercount := 1
 	log := rf.log.LastLog()
 	args := RequestVoteArgs{
 		Term:         term,
@@ -21,7 +22,7 @@ func (rf *Raft) leaderElection() {
 	var becomeLeader sync.Once
 	for Id, _ := range rf.peers {
 		if Id != rf.me {
-			go rf.candidateRequest(Id, &votecount, &args, &becomeLeader)
+			go rf.candidateRequest(Id, &votecount, &args, &becomeLeader, &servercount)
 		}
 	}
 	//当代码到这里的时候，已经跳出此函数了

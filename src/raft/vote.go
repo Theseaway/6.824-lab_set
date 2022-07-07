@@ -50,11 +50,11 @@ func (rf *Raft) RequestVote(args *RequestVoteArgs, reply *RequestVoteReply) {
 	rf.mu.Lock()
 	defer rf.mu.Unlock()
 
-	DPrintf("[%d]: 接收服务器 %d 的投票请求", rf.me, args.CandidateId)
 	// 本服务器term比候选者大，拒绝
 	if args.Term < rf.currentTerm {
 		reply.Term = rf.currentTerm
 		reply.VoteGranted = false
+		DPrintf("[%d]: 拒绝来自服务器 %d 的投票请求", rf.me, args.CandidateId)
 		return
 	}
 	//本服务器term比候选者小，直接转变为追随者
@@ -68,7 +68,7 @@ func (rf *Raft) RequestVote(args *RequestVoteArgs, reply *RequestVoteReply) {
 	if rf.votedFor == -1 && valid {
 		rf.votedFor = args.CandidateId
 		reply.VoteGranted = true
-		DPrintf("[%v]: 当前Term： %v, 给候选 %v 投票", rf.me, rf.currentTerm, rf.votedFor)
+		DPrintf("[%d]: 接收来自服务器 %d 的投票请求; Term --> %d", rf.me, args.CandidateId, rf.currentTerm)
 		rf.resetElectionTimer()
 	} else {
 		reply.VoteGranted = false
@@ -81,9 +81,10 @@ func (rf *Raft) sendRequestVote(Id int, args *RequestVoteArgs, reply *RequestVot
 	return ok
 }
 
-func (rf *Raft) candidateRequest(Id int, count *int, args *RequestVoteArgs, becomeLeader *sync.Once) {
+func (rf *Raft) candidateRequest(Id int, count *int, args *RequestVoteArgs, becomeLeader *sync.Once, server *int) {
 	reply := RequestVoteReply{}
 	ok := rf.sendRequestVote(Id, args, &reply)
+	*server++
 	if !ok {
 		return
 	}
@@ -110,5 +111,11 @@ func (rf *Raft) candidateRequest(Id int, count *int, args *RequestVoteArgs, beco
 			}
 			rf.appendEntries(true)
 		})
+	}
+	if *server == len(rf.peers) && rf.state == Candidate {
+		rf.state = Follower
+		rf.votedFor = -1
+		rf.resetElectionTimer()
+		DPrintf("[%d]: 没收到足够的选票，转为 follower", rf.me)
 	}
 }
