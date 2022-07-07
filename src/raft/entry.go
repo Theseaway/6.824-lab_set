@@ -37,7 +37,7 @@ func (rf *Raft) appendEntries(HeartBeat bool) {
 			if lastLog.Index+1 < nextIndex {
 				nextIndex = lastLog.Index
 			}
-			DPrintf("[%d]: nextIndex on server %d is %d", rf.me, peer, rf.nextIndex[peer])
+			DPrintf("[%d]: state --> %v; nextIndex on server %d is %d", rf.me, rf.state, peer, rf.nextIndex[peer])
 			// 获取可能匹配的prevLog的Index和Term，然后进行再次的匹配
 			// 如果不匹配，会重新再进行匹配
 			prevLog := rf.log.at(nextIndex - 1)
@@ -76,8 +76,8 @@ func (rf *Raft) leaderSendEntries(peer int, args *AppendEntriesArgs) {
 			rf.nextIndex[peer] = max(rf.nextIndex[peer], next)
 			rf.matchIndex[peer] = max(rf.matchIndex[peer], match)
 		} else if reply.Conflict {
-			DPrintf("[%v]: 冲突，Index 为 %v ，服务器标号为 %v", rf.me, reply.XIndex, peer)
-			if reply.XTerm == -1 {
+			DPrintf("[%v]: 冲突Index --> %v ，服务器标号 --> %v", rf.me, reply.XIndex, peer)
+			if reply.XTerm == -1 { // 日志缺失情况，把next 的开头改为reply.XLen开头。
 				rf.nextIndex[peer] = reply.XLen
 			} else {
 				lastLogInXTerm := rf.findLastLogInTerm(reply.XTerm)
@@ -87,8 +87,6 @@ func (rf *Raft) leaderSendEntries(peer int, args *AppendEntriesArgs) {
 					rf.nextIndex[peer] = reply.XIndex
 				}
 			}
-		} else if rf.nextIndex[peer] > 1 {
-			rf.nextIndex[peer]--
 		}
 		rf.Commit()
 	}
@@ -173,31 +171,15 @@ func (rf *Raft) AppendEntries(args *AppendEntriesArgs, reply *AppendEntriesReply
 
 	DPrintf("[%d]: \nargs.Entries: %v\nLocal: %v\n", rf.me, args.Entries, rf.log.Entries)
 
-	if len(args.Entries) > 0 {
-		entry := args.Entries[0]
-		if entry.Index <= rf.log.LastLog().Index && rf.log.at(entry.Index).Term != entry.Term {
-			rf.log.truncate(entry.Index)
-			rf.persist()
-		}
-		if entry.Index > rf.log.LastLog().Index {
-			rf.log.append(args.Entries[0:]...)
-			if entry.Index == 200 {
-				DPrintf("debug code")
-			}
-			DPrintf("[%d]: entry now is\n %v", rf.me, rf.log.Entries)
-
-			rf.persist()
-		}
-	}
 	/*
-		for idx := 0; idx < len(args.Entries); idx++ {
-			entry := args.Entries[idx]
+		if len(args.Entries) > 0 {
+			entry := args.Entries[0]
 			if entry.Index <= rf.log.LastLog().Index && rf.log.at(entry.Index).Term != entry.Term {
 				rf.log.truncate(entry.Index)
 				rf.persist()
 			}
 			if entry.Index > rf.log.LastLog().Index {
-				rf.log.append(args.Entries[idx:]...)
+				rf.log.append(args.Entries[0:]...)
 				if entry.Index == 200 {
 					DPrintf("debug code")
 				}
@@ -206,7 +188,26 @@ func (rf *Raft) AppendEntries(args *AppendEntriesArgs, reply *AppendEntriesReply
 				rf.persist()
 			}
 		}
+
 	*/
+
+	for idx := 0; idx < len(args.Entries); idx++ {
+		entry := args.Entries[idx]
+		if entry.Index <= rf.log.LastLog().Index && rf.log.at(entry.Index).Term != entry.Term {
+			rf.log.truncate(entry.Index)
+			rf.persist()
+		}
+		if entry.Index > rf.log.LastLog().Index {
+			rf.log.append(args.Entries[idx:]...)
+			if entry.Index == 200 {
+				DPrintf("debug code")
+			}
+			DPrintf("[%d]: entry now is\n %v", rf.me, rf.log.Entries)
+
+			rf.persist()
+		}
+	}
+
 	/*
 		for idx, entry := range args.Entries {
 			// append entries rpc 3
