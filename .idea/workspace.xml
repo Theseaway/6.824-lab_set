@@ -5,8 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="b9689d2a-9add-414c-bc71-f73c14f133e7" name="变更" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/raft/test_test.go" beforeDir="false" afterPath="$PROJECT_DIR$/src/raft/test_test.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/raft/entry.go" beforeDir="false" afterPath="$PROJECT_DIR$/src/raft/entry.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -16,6 +15,7 @@
   <component name="GOROOT" url="file:///usr/local/go" />
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="RESET_MODE" value="HARD" />
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
@@ -40,7 +40,7 @@
     &quot;last_opened_file_path&quot;: &quot;/Users/seaway/Share/6.824-lab_set&quot;
   }
 }</component>
-  <component name="RunManager" selected="Go 测试.6.824/raft 中的 TestFailNoAgree2B">
+  <component name="RunManager" selected="Go 测试.6.824/raft 中的 TestManyElections2A">
     <configuration name="6.824/raft 中的 TestBackup2B" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
       <module name="6.824-lab_set" />
       <working_directory value="$PROJECT_DIR$/src/raft" />
@@ -77,6 +77,18 @@
       <pattern value="^\QTestFailNoAgree2B\E$" />
       <method v="2" />
     </configuration>
+    <configuration name="6.824/raft 中的 TestManyElections2A" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
+      <module name="6.824-lab_set" />
+      <working_directory value="$PROJECT_DIR$/src/raft" />
+      <root_directory value="$PROJECT_DIR$/src" />
+      <kind value="PACKAGE" />
+      <package value="6.824/raft" />
+      <directory value="$PROJECT_DIR$" />
+      <filePath value="$PROJECT_DIR$" />
+      <framework value="gotest" />
+      <pattern value="^\QTestManyElections2A\E$" />
+      <method v="2" />
+    </configuration>
     <configuration name="6.824/raft 中的 TestRPCBytes2B" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
       <module name="6.824-lab_set" />
       <working_directory value="$PROJECT_DIR$/src/raft" />
@@ -89,25 +101,13 @@
       <pattern value="^\QTestRPCBytes2B\E$" />
       <method v="2" />
     </configuration>
-    <configuration name="6.824/raft 中的 TestRejoin2B" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
-      <module name="6.824-lab_set" />
-      <working_directory value="$PROJECT_DIR$/src/raft" />
-      <root_directory value="$PROJECT_DIR$/src" />
-      <kind value="PACKAGE" />
-      <package value="6.824/raft" />
-      <directory value="$PROJECT_DIR$" />
-      <filePath value="$PROJECT_DIR$" />
-      <framework value="gotest" />
-      <pattern value="^\QTestRejoin2B\E$" />
-      <method v="2" />
-    </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Go 测试.6.824/raft 中的 TestManyElections2A" />
         <item itemvalue="Go 测试.6.824/raft 中的 TestFailNoAgree2B" />
         <item itemvalue="Go 测试.6.824/raft 中的 TestConcurrentStarts2B" />
         <item itemvalue="Go 测试.6.824/raft 中的 TestBackup2B" />
         <item itemvalue="Go 测试.6.824/raft 中的 TestRPCBytes2B" />
-        <item itemvalue="Go 测试.6.824/raft 中的 TestRejoin2B" />
       </list>
     </recent_temporary>
   </component>
@@ -126,7 +126,7 @@
                   <entry key="branch">
                     <value>
                       <list>
-                        <option value="raft" />
+                        <option value="lab/raft" />
                       </list>
                     </value>
                   </entry>

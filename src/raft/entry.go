@@ -199,12 +199,9 @@ func (rf *Raft) AppendEntries(args *AppendEntriesArgs, reply *AppendEntriesReply
 		}
 		if entry.Index > rf.log.LastLog().Index {
 			rf.log.append(args.Entries[idx:]...)
-			if entry.Index == 200 {
-				DPrintf("debug code")
-			}
 			DPrintf("[%d]: entry now is\n %v", rf.me, rf.log.Entries)
-
 			rf.persist()
+			break
 		}
 	}
 
