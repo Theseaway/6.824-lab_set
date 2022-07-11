@@ -37,7 +37,7 @@ func (rf *Raft) setNewTerm(term int) {
 		rf.state = Follower
 		rf.currentTerm = term
 		rf.votedFor = -1
-		DPrintf("[%d]: set term to %v\n", rf.me, rf.currentTerm)
+		DPrintf("[%d]: 设置term为 --> %v\n", rf.me, rf.currentTerm)
 		rf.persist()
 		rf.resetElectionTimer()
 	}
@@ -65,7 +65,7 @@ func (rf *Raft) RequestVote(args *RequestVoteArgs, reply *RequestVoteReply) {
 	lastLog := rf.log.LastLog()
 	valid := args.LastLogTerm > lastLog.Term || (args.LastLogTerm == lastLog.Term && args.LastLogIndex >= lastLog.Index)
 	//if (rf.votedFor == -1 || rf.votedFor == args.CandidateId) && valid {
-	if rf.votedFor == -1 && valid {
+	if (rf.votedFor == -1 || rf.votedFor == args.CandidateId) && valid {
 		rf.votedFor = args.CandidateId
 		reply.VoteGranted = true
 		DPrintf("[%d]: 接收来自服务器 %d 的投票请求; Term --> %d", rf.me, args.CandidateId, rf.currentTerm)
@@ -114,7 +114,6 @@ func (rf *Raft) candidateRequest(Id int, count *int, args *RequestVoteArgs, beco
 		})
 	} else if *server == len(rf.peers) && 2*(*count) < len(rf.peers) {
 		rf.state = Follower
-		rf.votedFor = -1
 		rf.resetElectionTimer()
 		DPrintf("[%d]: 没收到足够的选票，转为 follower", rf.me)
 	}

@@ -1,516 +1,1352 @@
-=== RUN   TestPersist22C
-2022/07/11 03:42:05 util.go:25: TEST: endnames[i] --> [    ]
-2022/07/11 03:42:05 util.go:25: TEST: endnames[i] --> [    ]
-2022/07/11 03:42:05 util.go:25: [0]: function LoopCommit start
-2022/07/11 03:42:05 util.go:25: [1]: function LoopCommit start
-2022/07/11 03:42:05 util.go:25: [1]: function LoopCommit wait
-2022/07/11 03:42:05 util.go:25: TEST: endnames[i] --> [    ]
-2022/07/11 03:42:05 util.go:25: [0]: function LoopCommit wait
-2022/07/11 03:42:05 util.go:25: TEST: endnames[i] --> [    ]
-2022/07/11 03:42:05 util.go:25: [2]: function LoopCommit start
-2022/07/11 03:42:05 util.go:25: TEST: endnames[i] --> [    ]
-2022/07/11 03:42:05 util.go:25: [2]: function LoopCommit wait
-Test (2C): more persistence ...
-2022/07/11 03:42:05 util.go:25: [4]: function LoopCommit start
-2022/07/11 03:42:05 util.go:25: [4]: function LoopCommit wait
-2022/07/11 03:42:05 util.go:25: [3]: function LoopCommit start
-2022/07/11 03:42:05 util.go:25: [3]: function LoopCommit wait
-2022/07/11 03:42:05 util.go:25: TEST: function one called
-2022/07/11 03:42:05 util.go:25: [4]: 目前Term: 1，服务器 4 请求投票
-2022/07/11 03:42:05 util.go:25: [4]: Last Log is --> {1 4 0 0}
-2022/07/11 03:42:05 util.go:25: [0]: 目前Term: 1，服务器 0 请求投票
-2022/07/11 03:42:05 util.go:25: [0]: Last Log is --> {1 0 0 0}
-2022/07/11 03:42:05 util.go:25: [3]: set term to 1
-2022/07/11 03:42:05 util.go:25: [2]: set term to 1
-2022/07/11 03:42:05 util.go:25: [2]: 接收来自服务器 4 的投票请求; Term --> 1
-2022/07/11 03:42:05 util.go:25: [3]: 接收来自服务器 4 的投票请求; Term --> 1
-2022/07/11 03:42:05 util.go:25: [1]: set term to 1
-2022/07/11 03:42:05 util.go:25: [1]: 接收来自服务器 4 的投票请求; Term --> 1
-2022/07/11 03:42:05 util.go:25: [4]： 收到投票，目前票数： 2
-2022/07/11 03:42:05 util.go:25: [4]： 收到投票，目前票数： 3
-2022/07/11 03:42:05 util.go:25: [4]：投票过半，提前结束
-2022/07/11 03:42:05 util.go:25: [0]: 没收到足够的选票，转为 follower
-2022/07/11 03:42:05 util.go:25: [4]: state --> Leader; nextIndex on server 0 is 1
-2022/07/11 03:42:05 util.go:25: [4]: state --> Leader; nextIndex on server 1 is 1
-2022/07/11 03:42:05 util.go:25: [4]: state --> Leader; nextIndex on server 2 is 1
-2022/07/11 03:42:05 util.go:25: [4]: state --> Leader; nextIndex on server 3 is 1
-2022/07/11 03:42:05 util.go:25: [4]： 收到投票，目前票数： 4
-2022/07/11 03:42:05 util.go:25: [0]: 
+=== RUN   TestManyElections2A
+2022/07/11 18:48:43 util.go:25: TEST: endnames[i] --> [      ]
+2022/07/11 18:48:43 util.go:25: TEST: endnames[i] --> [      ]
+2022/07/11 18:48:43 util.go:25: TEST: endnames[i] --> [      ]
+2022/07/11 18:48:43 util.go:25: TEST: endnames[i] --> [      ]
+2022/07/11 18:48:43 util.go:25: [1]: function LoopCommit start
+2022/07/11 18:48:43 util.go:25: [1]: function LoopCommit wait
+2022/07/11 18:48:43 util.go:25: [0]: function LoopCommit start
+2022/07/11 18:48:43 util.go:25: [2]: function LoopCommit start
+2022/07/11 18:48:43 util.go:25: [0]: function LoopCommit wait
+2022/07/11 18:48:43 util.go:25: [2]: function LoopCommit wait
+2022/07/11 18:48:43 util.go:25: TEST: endnames[i] --> [      ]
+2022/07/11 18:48:43 util.go:25: [3]: function LoopCommit start
+2022/07/11 18:48:43 util.go:25: [3]: function LoopCommit wait
+2022/07/11 18:48:43 util.go:25: [4]: function LoopCommit start
+2022/07/11 18:48:43 util.go:25: [4]: function LoopCommit wait
+2022/07/11 18:48:43 util.go:25: TEST: endnames[i] --> [      ]
+2022/07/11 18:48:43 util.go:25: TEST: endnames[i] --> [      ]
+2022/07/11 18:48:43 util.go:25: [5]: function LoopCommit start
+2022/07/11 18:48:43 util.go:25: [5]: function LoopCommit wait
+2022/07/11 18:48:43 util.go:25: [6]: function LoopCommit start
+2022/07/11 18:48:43 util.go:25: [6]: function LoopCommit wait
+Test (2A): multiple elections ...
+2022/07/11 18:48:43 util.go:25: [4]: 目前Term: 1，服务器 4 请求投票
+2022/07/11 18:48:43 util.go:25: [4]: Last Log is --> {1 4 0 0}
+2022/07/11 18:48:43 util.go:25: [2]: 目前Term: 1，服务器 2 请求投票
+2022/07/11 18:48:43 util.go:25: [2]: Last Log is --> {1 2 0 0}
+2022/07/11 18:48:43 util.go:25: [6]: set term to 1
+2022/07/11 18:48:43 util.go:25: [0]: set term to 1
+2022/07/11 18:48:43 util.go:25: [1]: set term to 1
+2022/07/11 18:48:43 util.go:25: [6]: 接收来自服务器 4 的投票请求; Term --> 1
+2022/07/11 18:48:43 util.go:25: [4]： 收到投票，目前票数： 2
+2022/07/11 18:48:43 util.go:25: [5]: set term to 1
+2022/07/11 18:48:43 util.go:25: [1]: 接收来自服务器 4 的投票请求; Term --> 1
+2022/07/11 18:48:43 util.go:25: [5]: 接收来自服务器 2 的投票请求; Term --> 1
+2022/07/11 18:48:43 util.go:25: [0]: 接收来自服务器 2 的投票请求; Term --> 1
+2022/07/11 18:48:43 util.go:25: [4]： 收到投票，目前票数： 3
+2022/07/11 18:48:43 util.go:25: [3]: set term to 1
+2022/07/11 18:48:43 util.go:25: [2]： 收到投票，目前票数： 2
+2022/07/11 18:48:43 util.go:25: [3]: 接收来自服务器 2 的投票请求; Term --> 1
+2022/07/11 18:48:43 util.go:25: [2]： 收到投票，目前票数： 3
+2022/07/11 18:48:43 util.go:25: [2]： 收到投票，目前票数： 4
+2022/07/11 18:48:43 util.go:25: [2]：投票过半，提前结束
+2022/07/11 18:48:43 util.go:25: [2]: state --> Leader; nextIndex on server 0 is 1
+2022/07/11 18:48:43 util.go:25: [2]: state --> Leader; nextIndex on server 1 is 1
+2022/07/11 18:48:43 util.go:25: [2]: state --> Leader; nextIndex on server 3 is 1
+2022/07/11 18:48:43 util.go:25: [2]: state --> Leader; nextIndex on server 4 is 1
+2022/07/11 18:48:43 util.go:25: [2]: state --> Leader; nextIndex on server 5 is 1
+2022/07/11 18:48:43 util.go:25: [2]: state --> Leader; nextIndex on server 6 is 1
+2022/07/11 18:48:43 util.go:25: [1]: 
 args.Entries: []
 Local: [{-1 0 0}]
-2022/07/11 03:42:05 util.go:25: [2]: 
+2022/07/11 18:48:43 util.go:25: [6]: 
 args.Entries: []
 Local: [{-1 0 0}]
-2022/07/11 03:42:05 util.go:25: [1]: 
+2022/07/11 18:48:43 util.go:25: [5]: 
 args.Entries: []
 Local: [{-1 0 0}]
-2022/07/11 03:42:05 util.go:25: [3]: 
+2022/07/11 18:48:43 util.go:25: [4]: 没收到足够的选票，转为 follower
+2022/07/11 18:48:43 util.go:25: [4]: 
 args.Entries: []
 Local: [{-1 0 0}]
-2022/07/11 03:42:05 util.go:25: [4]: START ENTRY (cmd,term,index)--> {11 1 1}
-2022/07/11 03:42:05 util.go:25: [4]: state --> Leader; nextIndex on server 0 is 1
-2022/07/11 03:42:05 util.go:25: [4]: state --> Leader; nextIndex on server 1 is 1
-2022/07/11 03:42:05 util.go:25: [4]: state --> Leader; nextIndex on server 2 is 1
-2022/07/11 03:42:05 util.go:25: [4]: state --> Leader; nextIndex on server 3 is 1
-2022/07/11 03:42:05 util.go:25: TEST: raft start function called on server 4
-cmd is 11
-2022/07/11 03:42:05 util.go:25: [1]: 
-args.Entries: [{11 1 1}]
+2022/07/11 18:48:43 util.go:25: [3]: 
+args.Entries: []
 Local: [{-1 0 0}]
-2022/07/11 03:42:05 util.go:25: [1]: entry now is
- [{-1 0 0} {11 1 1}]
-2022/07/11 03:42:05 util.go:25: TEST: server 0 --> index now is 1, cmd is <nil>
-2022/07/11 03:42:05 util.go:25: TEST: server 1 --> index now is 1, cmd is <nil>
-2022/07/11 03:42:05 util.go:25: TEST: server 2 --> index now is 1, cmd is <nil>
-2022/07/11 03:42:05 util.go:25: TEST: server 3 --> index now is 1, cmd is <nil>
-2022/07/11 03:42:05 util.go:25: TEST: server 4 --> index now is 1, cmd is <nil>
-2022/07/11 03:42:05 util.go:25: TEST: command --> <nil>, index --> 1, 承认commit数量 --> 0
-2022/07/11 03:42:05 util.go:25: [2]: 
-args.Entries: [{11 1 1}]
+2022/07/11 18:48:43 util.go:25: [0]: 
+args.Entries: []
 Local: [{-1 0 0}]
-2022/07/11 03:42:05 util.go:25: [2]: entry now is
- [{-1 0 0} {11 1 1}]
-2022/07/11 03:42:05 util.go:25: [0]: 
-args.Entries: [{11 1 1}]
+2022/07/11 18:48:43 util.go:25: [2]: state --> Leader; nextIndex on server 0 is 1
+2022/07/11 18:48:43 util.go:25: [2]: state --> Leader; nextIndex on server 1 is 1
+2022/07/11 18:48:43 util.go:25: [2]: state --> Leader; nextIndex on server 3 is 1
+2022/07/11 18:48:43 util.go:25: [2]: state --> Leader; nextIndex on server 4 is 1
+2022/07/11 18:48:43 util.go:25: [2]: state --> Leader; nextIndex on server 5 is 1
+2022/07/11 18:48:43 util.go:25: [2]: state --> Leader; nextIndex on server 6 is 1
+2022/07/11 18:48:43 util.go:25: [6]: 
+args.Entries: []
 Local: [{-1 0 0}]
-2022/07/11 03:42:05 util.go:25: [0]: entry now is
- [{-1 0 0} {11 1 1}]
-2022/07/11 03:42:05 util.go:25: [4]： Leader提交 日志：index 1
-2022/07/11 03:42:05 util.go:25: [4]: rf.applyCond.Broadcast()
-2022/07/11 03:42:05 util.go:25: [3]: 
-args.Entries: [{11 1 1}]
+2022/07/11 18:48:43 util.go:25: [4]: 
+args.Entries: []
 Local: [{-1 0 0}]
-2022/07/11 03:42:05 util.go:25: [3]: entry now is
- [{-1 0 0} {11 1 1}]
-2022/07/11 03:42:05 util.go:25: [4]: applyCond wake up
-2022/07/11 03:42:05 util.go:25: [4]: commitIndex --> 1; logIndex --> 1; lastApplied --> 0
-2022/07/11 03:42:05 util.go:25: [4]: function LoopCommit start
-2022/07/11 03:42:05 util.go:25: [4]: commitIndex --> 1; logIndex --> 1; lastApplied --> 1
-2022/07/11 03:42:05 util.go:32: [4]: COMMIT 1:   -1|  11
-2022/07/11 03:42:05 util.go:25: [4]: function LoopCommit start
-2022/07/11 03:42:05 util.go:25: [4]: function LoopCommit wait
-2022/07/11 03:42:05 util.go:25: TEST: server 0 --> index now is 1, cmd is <nil>
-2022/07/11 03:42:05 util.go:25: TEST: server 1 --> index now is 1, cmd is <nil>
-2022/07/11 03:42:05 util.go:25: TEST: server 2 --> index now is 1, cmd is <nil>
-2022/07/11 03:42:05 util.go:25: TEST: server 3 --> index now is 1, cmd is <nil>
-2022/07/11 03:42:05 util.go:25: TEST: server 4 --> index now is 1, cmd is 11
-2022/07/11 03:42:05 util.go:25: TEST: command --> 11, index --> 1, 承认commit数量 --> 1
-2022/07/11 03:42:05 util.go:25: TEST: server 0 --> index now is 1, cmd is <nil>
-2022/07/11 03:42:05 util.go:25: TEST: server 1 --> index now is 1, cmd is <nil>
-2022/07/11 03:42:05 util.go:25: TEST: server 2 --> index now is 1, cmd is <nil>
-2022/07/11 03:42:05 util.go:25: TEST: server 3 --> index now is 1, cmd is <nil>
-2022/07/11 03:42:05 util.go:25: TEST: server 4 --> index now is 1, cmd is 11
-2022/07/11 03:42:05 util.go:25: TEST: command --> 11, index --> 1, 承认commit数量 --> 1
-2022/07/11 03:42:05 util.go:25: [4]: state --> Leader; nextIndex on server 0 is 2
-2022/07/11 03:42:05 util.go:25: [4]: state --> Leader; nextIndex on server 1 is 2
-2022/07/11 03:42:05 util.go:25: [4]: state --> Leader; nextIndex on server 2 is 2
-2022/07/11 03:42:05 util.go:25: [4]: state --> Leader; nextIndex on server 3 is 2
-2022/07/11 03:42:05 util.go:25: [0]: 
+2022/07/11 18:48:43 util.go:25: [3]: 
 args.Entries: []
-Local: [{-1 0 0} {11 1 1}]
-2022/07/11 03:42:05 util.go:25: [3]: 
+Local: [{-1 0 0}]
+2022/07/11 18:48:43 util.go:25: [0]: 
 args.Entries: []
-Local: [{-1 0 0} {11 1 1}]
-2022/07/11 03:42:05 util.go:25: [3]: rf.applyCond.Broadcast()
-2022/07/11 03:42:05 util.go:25: [0]: rf.applyCond.Broadcast()
-2022/07/11 03:42:05 util.go:25: [2]: 
+Local: [{-1 0 0}]
+2022/07/11 18:48:43 util.go:25: [1]: 
 args.Entries: []
-Local: [{-1 0 0} {11 1 1}]
-2022/07/11 03:42:05 util.go:25: [2]: rf.applyCond.Broadcast()
-2022/07/11 03:42:05 util.go:25: [1]: 
+Local: [{-1 0 0}]
+2022/07/11 18:48:43 util.go:25: [5]: 
 args.Entries: []
-Local: [{-1 0 0} {11 1 1}]
-2022/07/11 03:42:05 util.go:25: [1]: rf.applyCond.Broadcast()
-2022/07/11 03:42:05 util.go:25: [3]: applyCond wake up
-2022/07/11 03:42:05 util.go:25: [3]: commitIndex --> 1; logIndex --> 1; lastApplied --> 0
-2022/07/11 03:42:05 util.go:25: [0]: applyCond wake up
-2022/07/11 03:42:05 util.go:25: [0]: commitIndex --> 1; logIndex --> 1; lastApplied --> 0
-2022/07/11 03:42:05 util.go:25: [0]: function LoopCommit start
-2022/07/11 03:42:05 util.go:25: [0]: commitIndex --> 1; logIndex --> 1; lastApplied --> 1
-2022/07/11 03:42:05 util.go:32: [0]: COMMIT 1:   -1|  11
-2022/07/11 03:42:05 util.go:25: [2]: applyCond wake up
-2022/07/11 03:42:05 util.go:25: [2]: commitIndex --> 1; logIndex --> 1; lastApplied --> 0
-2022/07/11 03:42:05 util.go:25: [2]: function LoopCommit start
-2022/07/11 03:42:05 util.go:25: [2]: commitIndex --> 1; logIndex --> 1; lastApplied --> 1
-2022/07/11 03:42:05 util.go:25: [1]: applyCond wake up
-2022/07/11 03:42:05 util.go:25: [1]: commitIndex --> 1; logIndex --> 1; lastApplied --> 0
-2022/07/11 03:42:05 util.go:25: [1]: function LoopCommit start
-2022/07/11 03:42:05 util.go:25: [0]: function LoopCommit start
-2022/07/11 03:42:05 util.go:25: [0]: function LoopCommit wait
-2022/07/11 03:42:05 util.go:25: [1]: commitIndex --> 1; logIndex --> 1; lastApplied --> 1
-2022/07/11 03:42:05 util.go:32: [1]: COMMIT 1:   -1|  11
-2022/07/11 03:42:05 util.go:25: [3]: function LoopCommit start
-2022/07/11 03:42:05 util.go:25: [3]: commitIndex --> 1; logIndex --> 1; lastApplied --> 1
-2022/07/11 03:42:05 util.go:32: [3]: COMMIT 1:   -1|  11
-2022/07/11 03:42:05 util.go:25: [3]: function LoopCommit start
-2022/07/11 03:42:05 util.go:25: [3]: function LoopCommit wait
-2022/07/11 03:42:05 util.go:32: [2]: COMMIT 1:   -1|  11
-2022/07/11 03:42:05 util.go:25: [2]: function LoopCommit start
-2022/07/11 03:42:05 util.go:25: [2]: function LoopCommit wait
-2022/07/11 03:42:05 util.go:25: [1]: function LoopCommit start
-2022/07/11 03:42:05 util.go:25: [1]: function LoopCommit wait
-2022/07/11 03:42:05 util.go:25: TEST: server 0 --> index now is 1, cmd is 11
-2022/07/11 03:42:05 util.go:25: TEST: server 1 --> index now is 1, cmd is 11
-2022/07/11 03:42:05 util.go:25: TEST: server 2 --> index now is 1, cmd is 11
-2022/07/11 03:42:05 util.go:25: TEST: server 3 --> index now is 1, cmd is 11
-2022/07/11 03:42:05 util.go:25: TEST: server 4 --> index now is 1, cmd is 11
-2022/07/11 03:42:05 util.go:25: TEST: command --> 11, index --> 1, 承认commit数量 --> 5
-2022/07/11 03:42:05 util.go:25: [4]: state --> Leader; nextIndex on server 0 is 2
-2022/07/11 03:42:05 util.go:25: [4]: state --> Leader; nextIndex on server 1 is 2
-2022/07/11 03:42:05 util.go:25: [4]: state --> Leader; nextIndex on server 2 is 2
-2022/07/11 03:42:05 util.go:25: [4]: state --> Leader; nextIndex on server 3 is 2
-2022/07/11 03:42:05 util.go:25: [0]: 
+Local: [{-1 0 0}]
+2022/07/11 18:48:43 util.go:25: [2]: state --> Leader; nextIndex on server 0 is 1
+2022/07/11 18:48:43 util.go:25: [2]: state --> Leader; nextIndex on server 1 is 1
+2022/07/11 18:48:43 util.go:25: [2]: state --> Leader; nextIndex on server 3 is 1
+2022/07/11 18:48:43 util.go:25: [2]: state --> Leader; nextIndex on server 4 is 1
+2022/07/11 18:48:43 util.go:25: [2]: state --> Leader; nextIndex on server 5 is 1
+2022/07/11 18:48:43 util.go:25: [2]: state --> Leader; nextIndex on server 6 is 1
+2022/07/11 18:48:43 util.go:25: [0]: 
 args.Entries: []
-Local: [{-1 0 0} {11 1 1}]
-2022/07/11 03:42:05 util.go:25: [1]: 
+Local: [{-1 0 0}]
+2022/07/11 18:48:43 util.go:25: [6]: 
 args.Entries: []
-Local: [{-1 0 0} {11 1 1}]
-2022/07/11 03:42:05 util.go:25: [2]: 
+Local: [{-1 0 0}]
+2022/07/11 18:48:43 util.go:25: [4]: 
 args.Entries: []
-Local: [{-1 0 0} {11 1 1}]
-2022/07/11 03:42:05 util.go:25: [3]: 
+Local: [{-1 0 0}]
+2022/07/11 18:48:43 util.go:25: [1]: 
 args.Entries: []
-Local: [{-1 0 0} {11 1 1}]
-2022/07/11 03:42:05 util.go:25: [4]: state --> Leader; nextIndex on server 0 is 2
-2022/07/11 03:42:05 util.go:25: [4]: state --> Leader; nextIndex on server 1 is 2
-2022/07/11 03:42:05 util.go:25: [4]: state --> Leader; nextIndex on server 2 is 2
-2022/07/11 03:42:05 util.go:25: [4]: state --> Leader; nextIndex on server 3 is 2
-2022/07/11 03:42:05 util.go:25: [0]: 
+Local: [{-1 0 0}]
+2022/07/11 18:48:43 util.go:25: [5]: 
 args.Entries: []
-Local: [{-1 0 0} {11 1 1}]
-2022/07/11 03:42:05 util.go:25: [1]: 
+Local: [{-1 0 0}]
+2022/07/11 18:48:43 util.go:25: [3]: 
 args.Entries: []
-Local: [{-1 0 0} {11 1 1}]
-2022/07/11 03:42:05 util.go:25: [2]: 
+Local: [{-1 0 0}]
+2022/07/11 18:48:43 util.go:25: [0]: GET STATE; 目前Term: 1, 服务器状态： Follower
+2022/07/11 18:48:43 util.go:25: [1]: GET STATE; 目前Term: 1, 服务器状态： Follower
+2022/07/11 18:48:43 util.go:25: [2]: GET STATE; 目前Term: 1, 服务器状态： Leader
+2022/07/11 18:48:43 util.go:25: [3]: GET STATE; 目前Term: 1, 服务器状态： Follower
+2022/07/11 18:48:43 util.go:25: [4]: GET STATE; 目前Term: 1, 服务器状态： Follower
+2022/07/11 18:48:43 util.go:25: [5]: GET STATE; 目前Term: 1, 服务器状态： Follower
+2022/07/11 18:48:43 util.go:25: [6]: GET STATE; 目前Term: 1, 服务器状态： Follower
+2022/07/11 18:48:44 util.go:25: [2]: state --> Leader; nextIndex on server 0 is 1
+2022/07/11 18:48:44 util.go:25: [2]: state --> Leader; nextIndex on server 1 is 1
+2022/07/11 18:48:44 util.go:25: [2]: state --> Leader; nextIndex on server 3 is 1
+2022/07/11 18:48:44 util.go:25: [2]: state --> Leader; nextIndex on server 4 is 1
+2022/07/11 18:48:44 util.go:25: [2]: state --> Leader; nextIndex on server 5 is 1
+2022/07/11 18:48:44 util.go:25: [2]: state --> Leader; nextIndex on server 6 is 1
+2022/07/11 18:48:44 util.go:25: [6]: 
 args.Entries: []
-Local: [{-1 0 0} {11 1 1}]
-2022/07/11 03:42:05 util.go:25: [3]: 
+Local: [{-1 0 0}]
+2022/07/11 18:48:44 util.go:25: [0]: 
 args.Entries: []
-Local: [{-1 0 0} {11 1 1}]
-2022/07/11 03:42:05 util.go:25: [4]: state --> Leader; nextIndex on server 0 is 2
-2022/07/11 03:42:05 util.go:25: [4]: state --> Leader; nextIndex on server 1 is 2
-2022/07/11 03:42:05 util.go:25: [4]: state --> Leader; nextIndex on server 2 is 2
-2022/07/11 03:42:05 util.go:25: [4]: state --> Leader; nextIndex on server 3 is 2
-2022/07/11 03:42:05 util.go:25: [0]: 
+Local: [{-1 0 0}]
+2022/07/11 18:48:44 util.go:25: [4]: 
 args.Entries: []
-Local: [{-1 0 0} {11 1 1}]
-2022/07/11 03:42:05 util.go:25: [2]: 
+Local: [{-1 0 0}]
+2022/07/11 18:48:44 util.go:25: [5]: 
 args.Entries: []
-Local: [{-1 0 0} {11 1 1}]
-2022/07/11 03:42:05 util.go:25: [1]: 
+Local: [{-1 0 0}]
+2022/07/11 18:48:44 util.go:25: [2]: state --> Leader; nextIndex on server 0 is 1
+2022/07/11 18:48:44 util.go:25: [2]: state --> Leader; nextIndex on server 1 is 1
+2022/07/11 18:48:44 util.go:25: [2]: state --> Leader; nextIndex on server 3 is 1
+2022/07/11 18:48:44 util.go:25: [2]: state --> Leader; nextIndex on server 4 is 1
+2022/07/11 18:48:44 util.go:25: [2]: state --> Leader; nextIndex on server 5 is 1
+2022/07/11 18:48:44 util.go:25: [2]: state --> Leader; nextIndex on server 6 is 1
+2022/07/11 18:48:44 util.go:25: [4]: 
 args.Entries: []
-Local: [{-1 0 0} {11 1 1}]
-2022/07/11 03:42:05 util.go:25: [3]: 
+Local: [{-1 0 0}]
+2022/07/11 18:48:44 util.go:25: [5]: 
 args.Entries: []
-Local: [{-1 0 0} {11 1 1}]
-2022/07/11 03:42:05 util.go:25: [4]: state --> Leader; nextIndex on server 0 is 2
-2022/07/11 03:42:05 util.go:25: [4]: state --> Leader; nextIndex on server 1 is 2
-2022/07/11 03:42:05 util.go:25: [4]: state --> Leader; nextIndex on server 2 is 2
-2022/07/11 03:42:05 util.go:25: [4]: state --> Leader; nextIndex on server 3 is 2
-2022/07/11 03:42:05 util.go:25: [0]: 
+Local: [{-1 0 0}]
+2022/07/11 18:48:44 util.go:25: [0]: 
 args.Entries: []
-Local: [{-1 0 0} {11 1 1}]
-2022/07/11 03:42:05 util.go:25: [2]: 
+Local: [{-1 0 0}]
+2022/07/11 18:48:44 util.go:25: [6]: 
 args.Entries: []
-Local: [{-1 0 0} {11 1 1}]
-2022/07/11 03:42:05 util.go:25: [3]: 
+Local: [{-1 0 0}]
+2022/07/11 18:48:44 util.go:25: [1]: 目前Term: 2，服务器 1 请求投票
+2022/07/11 18:48:44 util.go:25: [1]: Last Log is --> {2 1 0 0}
+2022/07/11 18:48:44 util.go:25: [2]: state --> Leader; nextIndex on server 0 is 1
+2022/07/11 18:48:44 util.go:25: [2]: state --> Leader; nextIndex on server 1 is 1
+2022/07/11 18:48:44 util.go:25: [2]: state --> Leader; nextIndex on server 3 is 1
+2022/07/11 18:48:44 util.go:25: [2]: state --> Leader; nextIndex on server 4 is 1
+2022/07/11 18:48:44 util.go:25: [2]: state --> Leader; nextIndex on server 5 is 1
+2022/07/11 18:48:44 util.go:25: [2]: state --> Leader; nextIndex on server 6 is 1
+2022/07/11 18:48:44 util.go:25: [3]: 目前Term: 2，服务器 3 请求投票
+2022/07/11 18:48:44 util.go:25: [3]: Last Log is --> {2 3 0 0}
+2022/07/11 18:48:44 util.go:25: [4]: 
 args.Entries: []
-Local: [{-1 0 0} {11 1 1}]
-2022/07/11 03:42:05 util.go:25: [1]: 
+Local: [{-1 0 0}]
+2022/07/11 18:48:44 util.go:25: [6]: 
 args.Entries: []
-Local: [{-1 0 0} {11 1 1}]
-2022/07/11 03:57:04 util.go:25: [0]: GET STATE; 目前Term: 1, 服务器状态： Follower
-2022/07/11 03:57:04 util.go:25: [1]: GET STATE; 目前Term: 1, 服务器状态： Follower
-2022/07/11 03:57:04 util.go:25: [2]: GET STATE; 目前Term: 1, 服务器状态： Follower
-2022/07/11 03:57:04 util.go:25: [3]: GET STATE; 目前Term: 1, 服务器状态： Follower
-2022/07/11 03:57:04 util.go:25: [4]: GET STATE; 目前Term: 1, 服务器状态： Leader
-2022/07/11 03:57:04 util.go:25: TEST: function one called
-2022/07/11 03:57:04 util.go:25: [4]: state --> Leader; nextIndex on server 0 is 2
-2022/07/11 03:57:04 util.go:25: [4]: state --> Leader; nextIndex on server 1 is 2
-2022/07/11 03:57:04 util.go:25: [4]: state --> Leader; nextIndex on server 2 is 2
-2022/07/11 03:57:04 util.go:25: [4]: state --> Leader; nextIndex on server 3 is 2
-2022/07/11 03:57:04 util.go:25: [0]: 目前Term: 2，服务器 0 请求投票
-2022/07/11 03:57:04 util.go:25: [0]: Last Log is --> {2 0 1 1}
-2022/07/11 03:57:04 util.go:25: [2]: 目前Term: 2，服务器 2 请求投票
-2022/07/11 03:57:04 util.go:25: [2]: Last Log is --> {2 2 1 1}
-2022/07/11 03:57:04 util.go:25: [4]: find new term, state --> follower
-2022/07/11 03:57:04 util.go:25: [4]: set term to 2
-2022/07/11 03:57:04 util.go:25: [1]: 目前Term: 2，服务器 1 请求投票
-2022/07/11 03:57:04 util.go:25: [1]: Last Log is --> {2 1 1 1}
-2022/07/11 03:57:04 util.go:25: [4]: 接收来自服务器 2 的投票请求; Term --> 2
-2022/07/11 03:57:04 util.go:25: [2]： 收到投票，目前票数： 2
-2022/07/11 03:57:04 util.go:25: [3]: 目前Term: 2，服务器 3 请求投票
-2022/07/11 03:57:04 util.go:25: [3]: Last Log is --> {2 3 1 1}
-2022/07/11 03:57:04 util.go:25: [2]: 目前Term: 3，服务器 2 请求投票
-2022/07/11 03:57:04 util.go:25: [2]: Last Log is --> {3 2 1 1}
-2022/07/11 03:57:04 util.go:25: [4]: set term to 3
-2022/07/11 03:57:04 util.go:25: [3]: set term to 3
-2022/07/11 03:57:04 util.go:25: [4]: 接收来自服务器 2 的投票请求; Term --> 3
-2022/07/11 03:57:04 util.go:25: [1]: 目前Term: 3，服务器 1 请求投票
-2022/07/11 03:57:04 util.go:25: [1]: Last Log is --> {3 1 1 1}
-2022/07/11 03:57:04 util.go:25: [2]： 收到投票，目前票数： 2
-2022/07/11 03:57:04 util.go:25: [3]: 接收来自服务器 2 的投票请求; Term --> 3
-2022/07/11 03:57:04 util.go:25: [2]： 收到投票，目前票数： 3
-2022/07/11 03:57:04 util.go:25: [2]：投票过半，提前结束
-2022/07/11 03:57:04 util.go:25: [2]: state --> Leader; nextIndex on server 0 is 2
-2022/07/11 03:57:04 util.go:25: [2]: state --> Leader; nextIndex on server 1 is 2
-2022/07/11 03:57:04 util.go:25: [2]: state --> Leader; nextIndex on server 3 is 2
-2022/07/11 03:57:04 util.go:25: [2]: state --> Leader; nextIndex on server 4 is 2
-2022/07/11 03:57:04 util.go:25: [3]: 
+Local: [{-1 0 0}]
+2022/07/11 18:48:44 util.go:25: [0]: 
 args.Entries: []
-Local: [{-1 0 0} {11 1 1}]
-2022/07/11 03:57:04 util.go:25: [4]: 
+Local: [{-1 0 0}]
+2022/07/11 18:48:44 util.go:25: [5]: 
 args.Entries: []
-Local: [{-1 0 0} {11 1 1}]
-2022/07/11 03:57:04 util.go:25: [2]: START ENTRY (cmd,term,index)--> {12 3 2}
-2022/07/11 03:57:04 util.go:25: [2]: state --> Leader; nextIndex on server 0 is 2
-2022/07/11 03:57:04 util.go:25: [2]: state --> Leader; nextIndex on server 1 is 2
-2022/07/11 03:57:04 util.go:25: [2]: state --> Leader; nextIndex on server 3 is 2
-2022/07/11 03:57:04 util.go:25: [2]: state --> Leader; nextIndex on server 4 is 2
-2022/07/11 03:57:04 util.go:25: TEST: raft start function called on server 2
-cmd is 12
-2022/07/11 03:57:04 util.go:25: TEST: server 0 --> index now is 2, cmd is <nil>
-2022/07/11 03:57:04 util.go:25: TEST: server 1 --> index now is 2, cmd is <nil>
-2022/07/11 03:57:04 util.go:25: TEST: server 2 --> index now is 2, cmd is <nil>
-2022/07/11 03:57:04 util.go:25: TEST: server 3 --> index now is 2, cmd is <nil>
-2022/07/11 03:57:04 util.go:25: TEST: server 4 --> index now is 2, cmd is <nil>
-2022/07/11 03:57:04 util.go:25: TEST: command --> <nil>, index --> 2, 承认commit数量 --> 0
-2022/07/11 03:57:04 util.go:25: [4]: 
-args.Entries: [{12 3 2}]
-Local: [{-1 0 0} {11 1 1}]
-2022/07/11 03:57:04 util.go:25: [4]: entry now is
- [{-1 0 0} {11 1 1} {12 3 2}]
-2022/07/11 03:57:04 util.go:25: [3]: 
-args.Entries: [{12 3 2}]
-Local: [{-1 0 0} {11 1 1}]
-2022/07/11 03:57:04 util.go:25: [3]: entry now is
- [{-1 0 0} {11 1 1} {12 3 2}]
-2022/07/11 03:57:04 util.go:25: [2]： Leader提交 日志：index 2
-2022/07/11 03:57:04 util.go:25: [2]: rf.applyCond.Broadcast()
-2022/07/11 03:57:04 util.go:25: [2]: applyCond wake up
-2022/07/11 03:57:04 util.go:25: [2]: commitIndex --> 2; logIndex --> 2; lastApplied --> 1
-2022/07/11 03:57:04 util.go:25: [2]: function LoopCommit start
-2022/07/11 03:57:04 util.go:25: [2]: commitIndex --> 2; logIndex --> 2; lastApplied --> 2
-2022/07/11 03:57:04 util.go:32: [2]: COMMIT 2:   -1|  11|  12
-2022/07/11 03:57:04 util.go:25: [2]: function LoopCommit start
-2022/07/11 03:57:04 util.go:25: [2]: function LoopCommit wait
-2022/07/11 03:57:04 util.go:25: TEST: server 0 --> index now is 2, cmd is <nil>
-2022/07/11 03:57:04 util.go:25: TEST: server 1 --> index now is 2, cmd is <nil>
-2022/07/11 03:57:04 util.go:25: TEST: server 2 --> index now is 2, cmd is 12
-2022/07/11 03:57:04 util.go:25: TEST: server 3 --> index now is 2, cmd is <nil>
-2022/07/11 03:57:04 util.go:25: TEST: server 4 --> index now is 2, cmd is <nil>
-2022/07/11 03:57:04 util.go:25: TEST: command --> 12, index --> 2, 承认commit数量 --> 1
-2022/07/11 03:57:04 util.go:25: TEST: server 0 --> index now is 2, cmd is <nil>
-2022/07/11 03:57:04 util.go:25: TEST: server 1 --> index now is 2, cmd is <nil>
-2022/07/11 03:57:04 util.go:25: TEST: server 2 --> index now is 2, cmd is 12
-2022/07/11 03:57:04 util.go:25: TEST: server 3 --> index now is 2, cmd is <nil>
-2022/07/11 03:57:04 util.go:25: TEST: server 4 --> index now is 2, cmd is <nil>
-2022/07/11 03:57:04 util.go:25: TEST: command --> 12, index --> 2, 承认commit数量 --> 1
-2022/07/11 03:57:05 util.go:25: TEST: server 0 --> index now is 2, cmd is <nil>
-2022/07/11 03:57:05 util.go:25: TEST: server 1 --> index now is 2, cmd is <nil>
-2022/07/11 03:57:05 util.go:25: TEST: server 2 --> index now is 2, cmd is 12
-2022/07/11 03:57:05 util.go:25: TEST: server 3 --> index now is 2, cmd is <nil>
-2022/07/11 03:57:05 util.go:25: TEST: server 4 --> index now is 2, cmd is <nil>
-2022/07/11 03:57:05 util.go:25: TEST: command --> 12, index --> 2, 承认commit数量 --> 1
-2022/07/11 03:57:05 util.go:25: TEST: server 0 --> index now is 2, cmd is <nil>
-2022/07/11 03:57:05 util.go:25: TEST: server 1 --> index now is 2, cmd is <nil>
-2022/07/11 03:57:05 util.go:25: TEST: server 2 --> index now is 2, cmd is 12
-2022/07/11 03:57:05 util.go:25: TEST: server 3 --> index now is 2, cmd is <nil>
-2022/07/11 03:57:05 util.go:25: TEST: server 4 --> index now is 2, cmd is <nil>
-2022/07/11 03:57:05 util.go:25: TEST: command --> 12, index --> 2, 承认commit数量 --> 1
-2022/07/11 03:57:05 util.go:25: [0]: 目前Term: 3，服务器 0 请求投票
-2022/07/11 03:57:05 util.go:25: [0]: Last Log is --> {3 0 1 1}
-2022/07/11 03:57:05 util.go:25: [2]: state --> Leader; nextIndex on server 0 is 2
-2022/07/11 03:57:05 util.go:25: [2]: state --> Leader; nextIndex on server 1 is 2
-2022/07/11 03:57:05 util.go:25: [2]: state --> Leader; nextIndex on server 3 is 3
-2022/07/11 03:57:05 util.go:25: [2]: state --> Leader; nextIndex on server 4 is 3
-2022/07/11 03:57:05 util.go:25: [3]: 
+Local: [{-1 0 0}]
+2022/07/11 18:48:44 util.go:25: [2]: state --> Leader; nextIndex on server 0 is 1
+2022/07/11 18:48:44 util.go:25: [2]: state --> Leader; nextIndex on server 1 is 1
+2022/07/11 18:48:44 util.go:25: [2]: state --> Leader; nextIndex on server 3 is 1
+2022/07/11 18:48:44 util.go:25: [2]: state --> Leader; nextIndex on server 4 is 1
+2022/07/11 18:48:44 util.go:25: [2]: state --> Leader; nextIndex on server 5 is 1
+2022/07/11 18:48:44 util.go:25: [2]: state --> Leader; nextIndex on server 6 is 1
+2022/07/11 18:48:44 util.go:25: [6]: 
 args.Entries: []
-Local: [{-1 0 0} {11 1 1} {12 3 2}]
-2022/07/11 03:57:05 util.go:25: [3]: rf.applyCond.Broadcast()
-2022/07/11 03:57:05 util.go:25: [3]: applyCond wake up
-2022/07/11 03:57:05 util.go:25: [3]: commitIndex --> 2; logIndex --> 2; lastApplied --> 1
-2022/07/11 03:57:05 util.go:25: [4]: 
+Local: [{-1 0 0}]
+2022/07/11 18:48:44 util.go:25: [0]: 
 args.Entries: []
-Local: [{-1 0 0} {11 1 1} {12 3 2}]
-2022/07/11 03:57:05 util.go:25: [4]: rf.applyCond.Broadcast()
-2022/07/11 03:57:05 util.go:25: [3]: function LoopCommit start
-2022/07/11 03:57:05 util.go:25: [4]: applyCond wake up
-2022/07/11 03:57:05 util.go:25: [4]: commitIndex --> 2; logIndex --> 2; lastApplied --> 1
-2022/07/11 03:57:05 util.go:25: [3]: commitIndex --> 2; logIndex --> 2; lastApplied --> 2
-2022/07/11 03:57:05 util.go:32: [3]: COMMIT 2:   -1|  11|  12
-2022/07/11 03:57:05 util.go:25: [4]: function LoopCommit start
-2022/07/11 03:57:05 util.go:25: [4]: commitIndex --> 2; logIndex --> 2; lastApplied --> 2
-2022/07/11 03:57:05 util.go:25: [3]: function LoopCommit start
-2022/07/11 03:57:05 util.go:25: [3]: function LoopCommit wait
-2022/07/11 03:57:05 util.go:32: [4]: COMMIT 2:   -1|  11|  12
-2022/07/11 03:57:05 util.go:25: [4]: function LoopCommit start
-2022/07/11 03:57:05 util.go:25: [4]: function LoopCommit wait
-2022/07/11 03:57:05 util.go:25: TEST: server 0 --> index now is 2, cmd is <nil>
-2022/07/11 03:57:05 util.go:25: TEST: server 1 --> index now is 2, cmd is <nil>
-2022/07/11 03:57:05 util.go:25: TEST: server 2 --> index now is 2, cmd is 12
-2022/07/11 03:57:05 util.go:25: TEST: server 3 --> index now is 2, cmd is 12
-2022/07/11 03:57:05 util.go:25: TEST: server 4 --> index now is 2, cmd is 12
-2022/07/11 03:57:05 util.go:25: TEST: command --> 12, index --> 2, 承认commit数量 --> 3
-2022/07/11 03:57:05 util.go:25: TEST: endnames[i] --> [    ]
-2022/07/11 03:57:05 util.go:25: [0]: function LoopCommit start
-2022/07/11 03:57:05 util.go:25: [0]: function LoopCommit wait
-2022/07/11 03:57:05 util.go:25: TEST: endnames[i] --> [    ]
-2022/07/11 03:57:05 util.go:25: [1]: function LoopCommit start
-2022/07/11 03:57:05 util.go:25: [1]: function LoopCommit wait
-2022/07/11 03:57:05 util.go:25: [2]: state --> Leader; nextIndex on server 0 is 2
-2022/07/11 03:57:05 util.go:25: [2]: state --> Leader; nextIndex on server 1 is 2
-2022/07/11 03:57:05 util.go:25: [2]: state --> Leader; nextIndex on server 3 is 3
-2022/07/11 03:57:05 util.go:25: [2]: state --> Leader; nextIndex on server 4 is 3
-2022/07/11 03:57:05 util.go:25: [2]: state --> Leader; nextIndex on server 0 is 2
-2022/07/11 03:57:05 util.go:25: [2]: state --> Leader; nextIndex on server 1 is 2
-2022/07/11 03:57:05 util.go:25: [2]: state --> Leader; nextIndex on server 3 is 3
-2022/07/11 03:57:05 util.go:25: [2]: state --> Leader; nextIndex on server 4 is 3
-2022/07/11 03:57:05 util.go:25: [3]: 目前Term: 4，服务器 3 请求投票
-2022/07/11 03:57:05 util.go:25: [3]: Last Log is --> {4 3 2 3}
-2022/07/11 03:57:05 util.go:25: [0]: 目前Term: 2，服务器 0 请求投票
-2022/07/11 03:57:05 util.go:25: [0]: Last Log is --> {2 0 1 1}
-2022/07/11 03:57:05 util.go:25: [1]: set term to 2
-2022/07/11 03:57:05 util.go:25: [1]: 接收来自服务器 0 的投票请求; Term --> 2
-2022/07/11 03:57:05 util.go:25: [0]： 收到投票，目前票数： 2
-2022/07/11 03:57:05 util.go:25: [4]: 目前Term: 4，服务器 4 请求投票
-2022/07/11 03:57:05 util.go:25: [4]: Last Log is --> {4 4 2 3}
-2022/07/11 03:57:05 util.go:25: [2]: state --> Leader; nextIndex on server 0 is 2
-2022/07/11 03:57:05 util.go:25: [2]: state --> Leader; nextIndex on server 1 is 2
-2022/07/11 03:57:05 util.go:25: [2]: state --> Leader; nextIndex on server 3 is 3
-2022/07/11 03:57:05 util.go:25: [2]: state --> Leader; nextIndex on server 4 is 3
-2022/07/11 03:57:05 util.go:25: [2]: state --> Leader; nextIndex on server 0 is 2
-2022/07/11 03:57:05 util.go:25: [2]: state --> Leader; nextIndex on server 1 is 2
-2022/07/11 03:57:05 util.go:25: [2]: state --> Leader; nextIndex on server 3 is 3
-2022/07/11 03:57:05 util.go:25: [2]: state --> Leader; nextIndex on server 4 is 3
-2022/07/11 03:57:05 util.go:25: [1]: 目前Term: 3，服务器 1 请求投票
-2022/07/11 03:57:05 util.go:25: [1]: Last Log is --> {3 1 1 1}
-2022/07/11 03:57:05 util.go:25: [0]: set term to 3
-2022/07/11 03:57:05 util.go:25: [0]: 接收来自服务器 1 的投票请求; Term --> 3
-2022/07/11 03:57:05 util.go:25: [1]： 收到投票，目前票数： 2
-2022/07/11 03:57:05 util.go:25: [4]: 目前Term: 5，服务器 4 请求投票
-2022/07/11 03:57:05 util.go:25: [4]: Last Log is --> {5 4 2 3}
-2022/07/11 03:57:05 util.go:25: [3]: 目前Term: 5，服务器 3 请求投票
-2022/07/11 03:57:05 util.go:25: [3]: Last Log is --> {5 3 2 3}
-2022/07/11 03:57:05 util.go:25: [2]: state --> Leader; nextIndex on server 0 is 2
-2022/07/11 03:57:05 util.go:25: [2]: state --> Leader; nextIndex on server 1 is 2
-2022/07/11 03:57:05 util.go:25: [2]: state --> Leader; nextIndex on server 3 is 3
-2022/07/11 03:57:05 util.go:25: [2]: state --> Leader; nextIndex on server 4 is 3
-2022/07/11 03:57:05 util.go:25: [2]: state --> Leader; nextIndex on server 0 is 2
-2022/07/11 03:57:05 util.go:25: [2]: state --> Leader; nextIndex on server 1 is 2
-2022/07/11 03:57:05 util.go:25: [2]: state --> Leader; nextIndex on server 3 is 3
-2022/07/11 03:57:05 util.go:25: [2]: state --> Leader; nextIndex on server 4 is 3
-2022/07/11 03:57:05 util.go:25: [1]: 目前Term: 4，服务器 1 请求投票
-2022/07/11 03:57:05 util.go:25: [1]: Last Log is --> {4 1 1 1}
-2022/07/11 03:57:05 util.go:25: [0]: set term to 4
-2022/07/11 03:57:05 util.go:25: [0]: 接收来自服务器 1 的投票请求; Term --> 4
-2022/07/11 03:57:05 util.go:25: [1]： 收到投票，目前票数： 2
-2022/07/11 03:57:05 util.go:25: [2]: state --> Leader; nextIndex on server 0 is 2
-2022/07/11 03:57:05 util.go:25: [2]: state --> Leader; nextIndex on server 1 is 2
-2022/07/11 03:57:05 util.go:25: [2]: state --> Leader; nextIndex on server 3 is 3
-2022/07/11 03:57:05 util.go:25: [2]: state --> Leader; nextIndex on server 4 is 3
-2022/07/11 03:57:05 util.go:25: [4]: 目前Term: 6，服务器 4 请求投票
-2022/07/11 03:57:05 util.go:25: [4]: Last Log is --> {6 4 2 3}
-2022/07/11 03:57:05 util.go:25: [3]: 目前Term: 6，服务器 3 请求投票
-2022/07/11 03:57:05 util.go:25: [2]: state --> Leader; nextIndex on server 0 is 2
-2022/07/11 03:57:05 util.go:25: [2]: state --> Leader; nextIndex on server 1 is 2
-2022/07/11 03:57:05 util.go:25: [2]: state --> Leader; nextIndex on server 3 is 3
-2022/07/11 03:57:05 util.go:25: [3]: Last Log is --> {6 3 2 3}
-2022/07/11 03:57:05 util.go:25: [2]: state --> Leader; nextIndex on server 4 is 3
-2022/07/11 03:57:05 util.go:25: [1]: 目前Term: 5，服务器 1 请求投票
-2022/07/11 03:57:05 util.go:25: [1]: Last Log is --> {5 1 1 1}
-2022/07/11 03:57:05 util.go:25: [0]: set term to 5
-2022/07/11 03:57:05 util.go:25: [0]: 接收来自服务器 1 的投票请求; Term --> 5
-2022/07/11 03:57:05 util.go:25: [1]： 收到投票，目前票数： 2
-2022/07/11 03:57:05 util.go:25: [2]: state --> Leader; nextIndex on server 0 is 2
-2022/07/11 03:57:05 util.go:25: [2]: state --> Leader; nextIndex on server 1 is 2
-2022/07/11 03:57:05 util.go:25: [2]: state --> Leader; nextIndex on server 3 is 3
-2022/07/11 03:57:05 util.go:25: [2]: state --> Leader; nextIndex on server 4 is 3
-2022/07/11 03:57:06 util.go:25: [4]: 目前Term: 7，服务器 4 请求投票
-2022/07/11 03:57:06 util.go:25: [2]: state --> Leader; nextIndex on server 0 is 2
-2022/07/11 03:57:06 util.go:25: [2]: state --> Leader; nextIndex on server 1 is 2
-2022/07/11 03:57:06 util.go:25: [2]: state --> Leader; nextIndex on server 3 is 3
-2022/07/11 03:57:06 util.go:25: [2]: state --> Leader; nextIndex on server 4 is 3
-2022/07/11 03:57:06 util.go:25: [3]: 目前Term: 7，服务器 3 请求投票
-2022/07/11 03:57:06 util.go:25: [3]: Last Log is --> {7 3 2 3}
-2022/07/11 03:57:06 util.go:25: [4]: Last Log is --> {7 4 2 3}
-2022/07/11 03:57:06 util.go:25: TEST: endnames[i] --> [    ]
-2022/07/11 03:57:06 util.go:25: TEST: function one called
-2022/07/11 03:57:06 util.go:25: [2]: function LoopCommit start
-2022/07/11 03:57:06 util.go:25: [2]: function LoopCommit wait
-2022/07/11 03:57:06 util.go:25: [2]: state --> Leader; nextIndex on server 0 is 2
-2022/07/11 03:57:06 util.go:25: [2]: state --> Leader; nextIndex on server 1 is 2
-2022/07/11 03:57:06 util.go:25: [2]: state --> Leader; nextIndex on server 3 is 3
-2022/07/11 03:57:06 util.go:25: [2]: state --> Leader; nextIndex on server 4 is 3
-2022/07/11 03:57:06 util.go:25: [0]: 目前Term: 6，服务器 0 请求投票
-2022/07/11 03:57:06 util.go:25: [0]: Last Log is --> {6 0 1 1}
-2022/07/11 03:57:06 util.go:25: [1]: 目前Term: 6，服务器 1 请求投票
-2022/07/11 03:57:06 util.go:25: [1]: Last Log is --> {6 1 1 1}
-2022/07/11 03:57:06 util.go:25: [2]: set term to 6
-2022/07/11 03:57:06 util.go:25: [2]: 接收来自服务器 0 的投票请求; Term --> 6
-2022/07/11 03:57:06 util.go:25: [0]： 收到投票，目前票数： 2
-2022/07/11 03:57:06 util.go:25: [3]: 目前Term: 8，服务器 3 请求投票
-2022/07/11 03:57:06 util.go:25: [4]: 目前Term: 8，服务器 4 请求投票
-2022/07/11 03:57:06 util.go:25: [4]: Last Log is --> {8 4 2 3}
-2022/07/11 03:57:06 util.go:25: [3]: Last Log is --> {8 3 2 3}
-2022/07/11 03:57:06 util.go:25: [0]: 目前Term: 7，服务器 0 请求投票
-2022/07/11 03:57:06 util.go:25: [0]: Last Log is --> {7 0 1 1}
-2022/07/11 03:57:06 util.go:25: [1]: 目前Term: 7，服务器 1 请求投票
-2022/07/11 03:57:06 util.go:25: [1]: Last Log is --> {7 1 1 1}
-2022/07/11 03:57:06 util.go:25: [2]: set term to 7
-2022/07/11 03:57:06 util.go:25: [2]: 接收来自服务器 0 的投票请求; Term --> 7
-2022/07/11 03:57:06 util.go:25: [0]： 收到投票，目前票数： 2
-2022/07/11 03:57:06 util.go:25: [2]: 目前Term: 8，服务器 2 请求投票
-2022/07/11 03:57:06 util.go:25: [2]: Last Log is --> {8 2 1 1}
-2022/07/11 03:57:06 util.go:25: [1]: set term to 8
-2022/07/11 03:57:06 util.go:25: [0]: set term to 8
-2022/07/11 03:57:06 util.go:25: [1]: 接收来自服务器 2 的投票请求; Term --> 8
-2022/07/11 03:57:06 util.go:25: [0]: 接收来自服务器 2 的投票请求; Term --> 8
-2022/07/11 03:57:06 util.go:25: [2]： 收到投票，目前票数： 2
-2022/07/11 03:57:06 util.go:25: [2]： 收到投票，目前票数： 3
-2022/07/11 03:57:06 util.go:25: [2]：投票过半，提前结束
-2022/07/11 03:57:06 util.go:25: [2]: state --> Leader; nextIndex on server 0 is 2
-2022/07/11 03:57:06 util.go:25: [2]: state --> Leader; nextIndex on server 1 is 2
-2022/07/11 03:57:06 util.go:25: [2]: state --> Leader; nextIndex on server 3 is 2
-2022/07/11 03:57:06 util.go:25: [2]: state --> Leader; nextIndex on server 4 is 2
-2022/07/11 03:57:06 util.go:25: [0]: 
+Local: [{-1 0 0}]
+2022/07/11 18:48:44 util.go:25: [4]: 
 args.Entries: []
-Local: [{-1 0 0} {11 1 1}]
-2022/07/11 03:57:06 util.go:25: [1]: 
+Local: [{-1 0 0}]
+2022/07/11 18:48:44 util.go:25: [5]: 
 args.Entries: []
-Local: [{-1 0 0} {11 1 1}]
-2022/07/11 03:57:06 util.go:25: [2]: START ENTRY (cmd,term,index)--> {13 8 2}
-2022/07/11 03:57:06 util.go:25: [2]: state --> Leader; nextIndex on server 0 is 2
-2022/07/11 03:57:06 util.go:25: [2]: state --> Leader; nextIndex on server 1 is 2
-2022/07/11 03:57:06 util.go:25: [2]: state --> Leader; nextIndex on server 3 is 2
-2022/07/11 03:57:06 util.go:25: [2]: state --> Leader; nextIndex on server 4 is 2
-2022/07/11 03:57:06 util.go:25: TEST: raft start function called on server 2
-cmd is 13
-2022/07/11 03:57:06 util.go:25: TEST: server 0 --> index now is 2, cmd is <nil>
-2022/07/11 03:57:06 util.go:25: TEST: server 1 --> index now is 2, cmd is <nil>
-2022/07/11 03:57:06 util.go:25: TEST: server 2 --> index now is 2, cmd is 12
-2022/07/11 03:57:06 util.go:25: TEST: server 3 --> index now is 2, cmd is 12
-2022/07/11 03:57:06 util.go:25: TEST: server 4 --> index now is 2, cmd is 12
-2022/07/11 03:57:06 util.go:25: TEST: command --> 12, index --> 2, 承认commit数量 --> 3
-2022/07/11 03:57:06 util.go:25: [0]: 
-args.Entries: [{13 8 2}]
-Local: [{-1 0 0} {11 1 1}]
-2022/07/11 03:57:06 util.go:25: [0]: entry now is
- [{-1 0 0} {11 1 1} {13 8 2}]
-2022/07/11 03:57:06 util.go:25: [1]: 
-args.Entries: [{13 8 2}]
-Local: [{-1 0 0} {11 1 1}]
-2022/07/11 03:57:06 util.go:25: [1]: entry now is
- [{-1 0 0} {11 1 1} {13 8 2}]
-2022/07/11 03:57:06 util.go:25: [2]： Leader提交 日志：index 2
-2022/07/11 03:57:06 util.go:25: [2]: rf.applyCond.Broadcast()
-2022/07/11 03:57:06 util.go:25: [2]: applyCond wake up
-2022/07/11 03:57:06 util.go:25: [2]: commitIndex --> 2; logIndex --> 2; lastApplied --> 0
-2022/07/11 03:57:06 util.go:25: [2]: function LoopCommit start
-2022/07/11 03:57:06 util.go:25: [2]: commitIndex --> 2; logIndex --> 2; lastApplied --> 1
-2022/07/11 03:57:06 util.go:32: [2]: COMMIT 1:   -1|  11
-2022/07/11 03:57:06 util.go:25: [2]: function LoopCommit start
-2022/07/11 03:57:06 util.go:25: [2]: commitIndex --> 2; logIndex --> 2; lastApplied --> 2
-2022/07/11 03:57:06 util.go:32: [2]: COMMIT 2:   -1|  11|  13
-2022/07/11 03:57:06 util.go:25: [2]: function LoopCommit start
-2022/07/11 03:57:06 util.go:25: [2]: function LoopCommit wait
+Local: [{-1 0 0}]
+2022/07/11 18:48:44 util.go:25: [2]: state --> Leader; nextIndex on server 0 is 1
+2022/07/11 18:48:44 util.go:25: [2]: state --> Leader; nextIndex on server 1 is 1
+2022/07/11 18:48:44 util.go:25: [2]: state --> Leader; nextIndex on server 3 is 1
+2022/07/11 18:48:44 util.go:25: [2]: state --> Leader; nextIndex on server 4 is 1
+2022/07/11 18:48:44 util.go:25: [2]: state --> Leader; nextIndex on server 5 is 1
+2022/07/11 18:48:44 util.go:25: [2]: state --> Leader; nextIndex on server 6 is 1
+2022/07/11 18:48:44 util.go:25: [5]: 
+args.Entries: []
+Local: [{-1 0 0}]
+2022/07/11 18:48:44 util.go:25: [0]: 
+args.Entries: []
+Local: [{-1 0 0}]
+2022/07/11 18:48:44 util.go:25: [6]: 
+args.Entries: []
+Local: [{-1 0 0}]
+2022/07/11 18:48:44 util.go:25: [4]: 
+args.Entries: []
+Local: [{-1 0 0}]
+2022/07/11 18:48:44 util.go:25: [0]: GET STATE; 目前Term: 1, 服务器状态： Follower
+2022/07/11 18:48:44 util.go:25: [2]: GET STATE; 目前Term: 1, 服务器状态： Leader
+2022/07/11 18:48:44 util.go:25: [4]: GET STATE; 目前Term: 1, 服务器状态： Follower
+2022/07/11 18:48:44 util.go:25: [5]: GET STATE; 目前Term: 1, 服务器状态： Follower
+2022/07/11 18:48:44 util.go:25: [6]: GET STATE; 目前Term: 1, 服务器状态： Follower
+2022/07/11 18:48:44 util.go:25: [2]: state --> Leader; nextIndex on server 0 is 1
+2022/07/11 18:48:44 util.go:25: [2]: state --> Leader; nextIndex on server 1 is 1
+2022/07/11 18:48:44 util.go:25: [2]: state --> Leader; nextIndex on server 3 is 1
+2022/07/11 18:48:44 util.go:25: [2]: state --> Leader; nextIndex on server 4 is 1
+2022/07/11 18:48:44 util.go:25: [2]: state --> Leader; nextIndex on server 5 is 1
+2022/07/11 18:48:44 util.go:25: [3]: 目前Term: 3，服务器 3 请求投票
+2022/07/11 18:48:44 util.go:25: [3]: Last Log is --> {3 3 0 0}
+2022/07/11 18:48:44 util.go:25: [1]: 目前Term: 3，服务器 1 请求投票
+2022/07/11 18:48:44 util.go:25: [1]: Last Log is --> {3 1 0 0}
+2022/07/11 18:48:44 util.go:25: [2]: state --> Leader; nextIndex on server 6 is 1
+2022/07/11 18:48:44 util.go:25: [6]: set term to 3
+2022/07/11 18:48:44 util.go:25: [6]: 接收来自服务器 1 的投票请求; Term --> 3
+2022/07/11 18:48:44 util.go:25: [4]: set term to 3
+2022/07/11 18:48:44 util.go:25: [0]: set term to 3
+2022/07/11 18:48:44 util.go:25: [4]: 接收来自服务器 1 的投票请求; Term --> 3
+2022/07/11 18:48:44 util.go:25: [0]: 接收来自服务器 1 的投票请求; Term --> 3
+2022/07/11 18:48:44 util.go:25: [1]： 收到投票，目前票数： 2
+2022/07/11 18:48:44 util.go:25: [5]: set term to 3
+2022/07/11 18:48:44 util.go:25: [5]: 接收来自服务器 1 的投票请求; Term --> 3
+2022/07/11 18:48:44 util.go:25: [1]： 收到投票，目前票数： 3
+2022/07/11 18:48:44 util.go:25: [1]： 收到投票，目前票数： 4
+2022/07/11 18:48:44 util.go:25: [1]：投票过半，提前结束
+2022/07/11 18:48:44 util.go:25: [1]: state --> Leader; nextIndex on server 0 is 1
+2022/07/11 18:48:44 util.go:25: [1]: state --> Leader; nextIndex on server 2 is 1
+2022/07/11 18:48:44 util.go:25: [1]: state --> Leader; nextIndex on server 3 is 1
+2022/07/11 18:48:44 util.go:25: [1]: state --> Leader; nextIndex on server 4 is 1
+2022/07/11 18:48:44 util.go:25: [1]: state --> Leader; nextIndex on server 5 is 1
+2022/07/11 18:48:44 util.go:25: [1]: state --> Leader; nextIndex on server 6 is 1
+2022/07/11 18:48:44 util.go:25: [1]： 收到投票，目前票数： 5
+2022/07/11 18:48:44 util.go:25: [4]: 
+args.Entries: []
+Local: [{-1 0 0}]
+2022/07/11 18:48:44 util.go:25: [6]: 
+args.Entries: []
+Local: [{-1 0 0}]
+2022/07/11 18:48:44 util.go:25: [0]: 
+args.Entries: []
+Local: [{-1 0 0}]
+2022/07/11 18:48:44 util.go:25: [5]: 
+args.Entries: []
+Local: [{-1 0 0}]
+2022/07/11 18:48:44 util.go:25: [1]: state --> Leader; nextIndex on server 0 is 1
+2022/07/11 18:48:44 util.go:25: [1]: state --> Leader; nextIndex on server 2 is 1
+2022/07/11 18:48:44 util.go:25: [1]: state --> Leader; nextIndex on server 3 is 1
+2022/07/11 18:48:44 util.go:25: [1]: state --> Leader; nextIndex on server 4 is 1
+2022/07/11 18:48:44 util.go:25: [1]: state --> Leader; nextIndex on server 5 is 1
+2022/07/11 18:48:44 util.go:25: [1]: state --> Leader; nextIndex on server 6 is 1
+2022/07/11 18:48:44 util.go:25: [2]: state --> Leader; nextIndex on server 0 is 1
+2022/07/11 18:48:44 util.go:25: [2]: state --> Leader; nextIndex on server 1 is 1
+2022/07/11 18:48:44 util.go:25: [2]: state --> Leader; nextIndex on server 3 is 1
+2022/07/11 18:48:44 util.go:25: [2]: state --> Leader; nextIndex on server 4 is 1
+2022/07/11 18:48:44 util.go:25: [2]: state --> Leader; nextIndex on server 5 is 1
+2022/07/11 18:48:44 util.go:25: [2]: state --> Leader; nextIndex on server 6 is 1
+2022/07/11 18:48:44 util.go:25: [6]: 
+args.Entries: []
+Local: [{-1 0 0}]
+2022/07/11 18:48:44 util.go:25: [4]: 
+args.Entries: []
+Local: [{-1 0 0}]
+2022/07/11 18:48:44 util.go:25: [5]: 
+args.Entries: []
+Local: [{-1 0 0}]
+2022/07/11 18:48:44 util.go:25: [0]: 
+args.Entries: []
+Local: [{-1 0 0}]
+2022/07/11 18:48:44 util.go:25: [2]: state --> Leader; nextIndex on server 0 is 1
+2022/07/11 18:48:44 util.go:25: [1]: state --> Leader; nextIndex on server 0 is 1
+2022/07/11 18:48:44 util.go:25: [1]: state --> Leader; nextIndex on server 2 is 1
+2022/07/11 18:48:44 util.go:25: [3]: 目前Term: 4，服务器 3 请求投票
+2022/07/11 18:48:44 util.go:25: [2]: state --> Leader; nextIndex on server 1 is 1
+2022/07/11 18:48:44 util.go:25: [2]: state --> Leader; nextIndex on server 3 is 1
+2022/07/11 18:48:44 util.go:25: [2]: state --> Leader; nextIndex on server 4 is 1
+2022/07/11 18:48:44 util.go:25: [2]: state --> Leader; nextIndex on server 5 is 1
+2022/07/11 18:48:44 util.go:25: [2]: state --> Leader; nextIndex on server 6 is 1
+2022/07/11 18:48:44 util.go:25: [1]: state --> Leader; nextIndex on server 3 is 1
+2022/07/11 18:48:44 util.go:25: [1]: state --> Leader; nextIndex on server 4 is 1
+2022/07/11 18:48:44 util.go:25: [1]: state --> Leader; nextIndex on server 5 is 1
+2022/07/11 18:48:44 util.go:25: [1]: state --> Leader; nextIndex on server 6 is 1
+2022/07/11 18:48:44 util.go:25: [3]: Last Log is --> {4 3 0 0}
+2022/07/11 18:48:44 util.go:25: [0]: 
+args.Entries: []
+Local: [{-1 0 0}]
+2022/07/11 18:48:44 util.go:25: [5]: 
+args.Entries: []
+Local: [{-1 0 0}]
+2022/07/11 18:48:44 util.go:25: [4]: 
+args.Entries: []
+Local: [{-1 0 0}]
+2022/07/11 18:48:44 util.go:25: [6]: 
+args.Entries: []
+Local: [{-1 0 0}]
+2022/07/11 18:48:44 util.go:25: [2]: state --> Leader; nextIndex on server 0 is 1
+2022/07/11 18:48:44 util.go:25: [2]: state --> Leader; nextIndex on server 1 is 1
+2022/07/11 18:48:44 util.go:25: [2]: state --> Leader; nextIndex on server 3 is 1
+2022/07/11 18:48:44 util.go:25: [2]: state --> Leader; nextIndex on server 4 is 1
+2022/07/11 18:48:44 util.go:25: [2]: state --> Leader; nextIndex on server 5 is 1
+2022/07/11 18:48:44 util.go:25: [2]: state --> Leader; nextIndex on server 6 is 1
+2022/07/11 18:48:44 util.go:25: [1]: state --> Leader; nextIndex on server 0 is 1
+2022/07/11 18:48:44 util.go:25: [1]: state --> Leader; nextIndex on server 2 is 1
+2022/07/11 18:48:44 util.go:25: [1]: state --> Leader; nextIndex on server 3 is 1
+2022/07/11 18:48:44 util.go:25: [1]: state --> Leader; nextIndex on server 4 is 1
+2022/07/11 18:48:44 util.go:25: [1]: state --> Leader; nextIndex on server 5 is 1
+2022/07/11 18:48:44 util.go:25: [1]: state --> Leader; nextIndex on server 6 is 1
+2022/07/11 18:48:44 util.go:25: [0]: 
+args.Entries: []
+Local: [{-1 0 0}]
+2022/07/11 18:48:44 util.go:25: [4]: 
+args.Entries: []
+Local: [{-1 0 0}]
+2022/07/11 18:48:44 util.go:25: [6]: 
+args.Entries: []
+Local: [{-1 0 0}]
+2022/07/11 18:48:44 util.go:25: [5]: 
+args.Entries: []
+Local: [{-1 0 0}]
+2022/07/11 18:48:44 util.go:25: [2]: state --> Leader; nextIndex on server 0 is 1
+2022/07/11 18:48:44 util.go:25: [3]: 目前Term: 5，服务器 3 请求投票
+2022/07/11 18:48:44 util.go:25: [3]: Last Log is --> {5 3 0 0}
+2022/07/11 18:48:44 util.go:25: [2]: state --> Leader; nextIndex on server 1 is 1
+2022/07/11 18:48:44 util.go:25: [2]: state --> Leader; nextIndex on server 3 is 1
+2022/07/11 18:48:44 util.go:25: [2]: state --> Leader; nextIndex on server 4 is 1
+2022/07/11 18:48:44 util.go:25: [2]: state --> Leader; nextIndex on server 5 is 1
+2022/07/11 18:48:44 util.go:25: [2]: state --> Leader; nextIndex on server 6 is 1
+2022/07/11 18:48:44 util.go:25: [1]: state --> Leader; nextIndex on server 0 is 1
+2022/07/11 18:48:44 util.go:25: [1]: state --> Leader; nextIndex on server 2 is 1
+2022/07/11 18:48:44 util.go:25: [1]: state --> Leader; nextIndex on server 3 is 1
+2022/07/11 18:48:44 util.go:25: [1]: state --> Leader; nextIndex on server 4 is 1
+2022/07/11 18:48:44 util.go:25: [1]: state --> Leader; nextIndex on server 5 is 1
+2022/07/11 18:48:44 util.go:25: [1]: state --> Leader; nextIndex on server 6 is 1
+2022/07/11 18:48:44 util.go:25: [0]: 
+args.Entries: []
+Local: [{-1 0 0}]
+2022/07/11 18:48:44 util.go:25: [6]: 
+args.Entries: []
+Local: [{-1 0 0}]
+2022/07/11 18:48:44 util.go:25: [4]: 
+args.Entries: []
+Local: [{-1 0 0}]
+2022/07/11 18:48:44 util.go:25: [5]: 
+args.Entries: []
+Local: [{-1 0 0}]
+2022/07/11 18:48:44 util.go:25: [0]: GET STATE; 目前Term: 3, 服务器状态： Follower
+2022/07/11 18:48:44 util.go:25: [1]: GET STATE; 目前Term: 3, 服务器状态： Leader
+2022/07/11 18:48:44 util.go:25: [4]: GET STATE; 目前Term: 3, 服务器状态： Follower
+2022/07/11 18:48:44 util.go:25: [5]: GET STATE; 目前Term: 3, 服务器状态： Follower
+2022/07/11 18:48:44 util.go:25: [6]: GET STATE; 目前Term: 3, 服务器状态： Follower
+2022/07/11 18:48:45 util.go:25: [2]: state --> Leader; nextIndex on server 0 is 1
+2022/07/11 18:48:45 util.go:25: [2]: state --> Leader; nextIndex on server 1 is 1
+2022/07/11 18:48:45 util.go:25: [2]: state --> Leader; nextIndex on server 3 is 1
+2022/07/11 18:48:45 util.go:25: [2]: state --> Leader; nextIndex on server 4 is 1
+2022/07/11 18:48:45 util.go:25: [2]: state --> Leader; nextIndex on server 5 is 1
+2022/07/11 18:48:45 util.go:25: [2]: state --> Leader; nextIndex on server 6 is 1
+2022/07/11 18:48:45 util.go:25: [1]: state --> Leader; nextIndex on server 0 is 1
+2022/07/11 18:48:45 util.go:25: [1]: state --> Leader; nextIndex on server 2 is 1
+2022/07/11 18:48:45 util.go:25: [1]: state --> Leader; nextIndex on server 3 is 1
+2022/07/11 18:48:45 util.go:25: [1]: state --> Leader; nextIndex on server 4 is 1
+2022/07/11 18:48:45 util.go:25: [1]: state --> Leader; nextIndex on server 5 is 1
+2022/07/11 18:48:45 util.go:25: [1]: state --> Leader; nextIndex on server 6 is 1
+2022/07/11 18:48:45 util.go:25: [2]: find new term, state --> follower
+2022/07/11 18:48:45 util.go:25: [2]: set term to 3
+2022/07/11 18:48:45 util.go:25: [6]: 
+args.Entries: []
+Local: [{-1 0 0}]
+2022/07/11 18:48:45 util.go:25: [2]: 
+args.Entries: []
+Local: [{-1 0 0}]
+2022/07/11 18:48:45 util.go:25: [4]: 
+args.Entries: []
+Local: [{-1 0 0}]
+2022/07/11 18:48:45 util.go:25: [2]: find new term, state --> follower
+2022/07/11 18:48:45 util.go:25: [2]: set term to 5
+2022/07/11 18:48:45 util.go:25: [1]: find new term, state --> follower
+2022/07/11 18:48:45 util.go:25: [1]: set term to 5
+2022/07/11 18:48:45 util.go:25: [3]: 目前Term: 6，服务器 3 请求投票
+2022/07/11 18:48:45 util.go:25: [3]: Last Log is --> {6 3 0 0}
+2022/07/11 18:48:45 util.go:25: [6]: set term to 6
+2022/07/11 18:48:45 util.go:25: [4]: set term to 6
+2022/07/11 18:48:45 util.go:25: [6]: 接收来自服务器 3 的投票请求; Term --> 6
+2022/07/11 18:48:45 util.go:25: [4]: 接收来自服务器 3 的投票请求; Term --> 6
+2022/07/11 18:48:45 util.go:25: [2]: set term to 6
+2022/07/11 18:48:45 util.go:25: [2]: 接收来自服务器 3 的投票请求; Term --> 6
+2022/07/11 18:48:45 util.go:25: [1]: set term to 6
+2022/07/11 18:48:45 util.go:25: [1]: 接收来自服务器 3 的投票请求; Term --> 6
+2022/07/11 18:48:45 util.go:25: [3]： 收到投票，目前票数： 2
+2022/07/11 18:48:45 util.go:25: [3]： 收到投票，目前票数： 3
+2022/07/11 18:48:45 util.go:25: [3]： 收到投票，目前票数： 4
+2022/07/11 18:48:45 util.go:25: [3]：投票过半，提前结束
+2022/07/11 18:48:45 util.go:25: [3]: state --> Leader; nextIndex on server 0 is 1
+2022/07/11 18:48:45 util.go:25: [3]: state --> Leader; nextIndex on server 1 is 1
+2022/07/11 18:48:45 util.go:25: [3]: state --> Leader; nextIndex on server 2 is 1
+2022/07/11 18:48:45 util.go:25: [3]: state --> Leader; nextIndex on server 4 is 1
+2022/07/11 18:48:45 util.go:25: [3]: state --> Leader; nextIndex on server 5 is 1
+2022/07/11 18:48:45 util.go:25: [3]: state --> Leader; nextIndex on server 6 is 1
+2022/07/11 18:48:45 util.go:25: [3]： 收到投票，目前票数： 5
+2022/07/11 18:48:45 util.go:25: [4]: 
+args.Entries: []
+Local: [{-1 0 0}]
+2022/07/11 18:48:45 util.go:25: [6]: 
+args.Entries: []
+Local: [{-1 0 0}]
+2022/07/11 18:48:45 util.go:25: [1]: 
+args.Entries: []
+Local: [{-1 0 0}]
+2022/07/11 18:48:45 util.go:25: [2]: 
+args.Entries: []
+Local: [{-1 0 0}]
+2022/07/11 18:48:45 util.go:25: [3]: state --> Leader; nextIndex on server 0 is 1
+2022/07/11 18:48:45 util.go:25: [3]: state --> Leader; nextIndex on server 1 is 1
+2022/07/11 18:48:45 util.go:25: [3]: state --> Leader; nextIndex on server 2 is 1
+2022/07/11 18:48:45 util.go:25: [3]: state --> Leader; nextIndex on server 4 is 1
+2022/07/11 18:48:45 util.go:25: [3]: state --> Leader; nextIndex on server 5 is 1
+2022/07/11 18:48:45 util.go:25: [3]: state --> Leader; nextIndex on server 6 is 1
+2022/07/11 18:48:45 util.go:25: [0]: 目前Term: 4，服务器 0 请求投票
+2022/07/11 18:48:45 util.go:25: [0]: Last Log is --> {4 0 0 0}
+2022/07/11 18:48:45 util.go:25: [5]: 目前Term: 4，服务器 5 请求投票
+2022/07/11 18:48:45 util.go:25: [5]: Last Log is --> {4 5 0 0}
+2022/07/11 18:48:45 util.go:25: [4]: 
+args.Entries: []
+Local: [{-1 0 0}]
+2022/07/11 18:48:45 util.go:25: [2]: 
+args.Entries: []
+Local: [{-1 0 0}]
+2022/07/11 18:48:45 util.go:25: [1]: 
+args.Entries: []
+Local: [{-1 0 0}]
+2022/07/11 18:48:45 util.go:25: [6]: 
+args.Entries: []
+Local: [{-1 0 0}]
+2022/07/11 18:48:45 util.go:25: [3]: state --> Leader; nextIndex on server 0 is 1
+2022/07/11 18:48:45 util.go:25: [3]: state --> Leader; nextIndex on server 1 is 1
+2022/07/11 18:48:45 util.go:25: [3]: state --> Leader; nextIndex on server 2 is 1
+2022/07/11 18:48:45 util.go:25: [3]: state --> Leader; nextIndex on server 4 is 1
+2022/07/11 18:48:45 util.go:25: [3]: state --> Leader; nextIndex on server 5 is 1
+2022/07/11 18:48:45 util.go:25: [3]: state --> Leader; nextIndex on server 6 is 1
+2022/07/11 18:48:45 util.go:25: [6]: 
+args.Entries: []
+Local: [{-1 0 0}]
+2022/07/11 18:48:45 util.go:25: [4]: 
+args.Entries: []
+Local: [{-1 0 0}]
+2022/07/11 18:48:45 util.go:25: [1]: 
+args.Entries: []
+Local: [{-1 0 0}]
+2022/07/11 18:48:45 util.go:25: [2]: 
+args.Entries: []
+Local: [{-1 0 0}]
+2022/07/11 18:48:45 util.go:25: [1]: GET STATE; 目前Term: 6, 服务器状态： Follower
+2022/07/11 18:48:45 util.go:25: [2]: GET STATE; 目前Term: 6, 服务器状态： Follower
+2022/07/11 18:48:45 util.go:25: [3]: GET STATE; 目前Term: 6, 服务器状态： Leader
+2022/07/11 18:48:45 util.go:25: [4]: GET STATE; 目前Term: 6, 服务器状态： Follower
+2022/07/11 18:48:45 util.go:25: [6]: GET STATE; 目前Term: 6, 服务器状态： Follower
+2022/07/11 18:48:45 util.go:25: [5]: 目前Term: 5，服务器 5 请求投票
+2022/07/11 18:48:45 util.go:25: [5]: Last Log is --> {5 5 0 0}
+2022/07/11 18:48:45 util.go:25: [3]: state --> Leader; nextIndex on server 0 is 1
+2022/07/11 18:48:45 util.go:25: [3]: state --> Leader; nextIndex on server 1 is 1
+2022/07/11 18:48:45 util.go:25: [3]: state --> Leader; nextIndex on server 2 is 1
+2022/07/11 18:48:45 util.go:25: [3]: state --> Leader; nextIndex on server 4 is 1
+2022/07/11 18:48:45 util.go:25: [3]: state --> Leader; nextIndex on server 5 is 1
+2022/07/11 18:48:45 util.go:25: [3]: state --> Leader; nextIndex on server 6 is 1
+2022/07/11 18:48:45 util.go:25: [4]: 拒绝来自服务器 5 的投票请求
+2022/07/11 18:48:45 util.go:25: [0]: set term to 5
+2022/07/11 18:48:45 util.go:25: [2]: 拒绝来自服务器 5 的投票请求
+2022/07/11 18:48:45 util.go:25: [0]: 接收来自服务器 5 的投票请求; Term --> 5
+2022/07/11 18:48:45 util.go:25: [5]: 有新的Term存在：6
+2022/07/11 18:48:45 util.go:25: [5]: set term to 6
+2022/07/11 18:48:45 util.go:25: [5]： 收到投票，目前票数： 2
+2022/07/11 18:48:45 util.go:25: [3]: state --> Leader; nextIndex on server 0 is 1
+2022/07/11 18:48:45 util.go:25: [3]: state --> Leader; nextIndex on server 1 is 1
+2022/07/11 18:48:45 util.go:25: [3]: state --> Leader; nextIndex on server 2 is 1
+2022/07/11 18:48:45 util.go:25: [3]: state --> Leader; nextIndex on server 4 is 1
+2022/07/11 18:48:45 util.go:25: [3]: state --> Leader; nextIndex on server 5 is 1
+2022/07/11 18:48:45 util.go:25: [3]: state --> Leader; nextIndex on server 6 is 1
+2022/07/11 18:48:45 util.go:25: [4]: 目前Term: 7，服务器 4 请求投票
+2022/07/11 18:48:45 util.go:25: [4]: Last Log is --> {7 4 0 0}
+2022/07/11 18:48:45 util.go:25: [6]: 目前Term: 7，服务器 6 请求投票
+2022/07/11 18:48:45 util.go:25: [2]: 目前Term: 7，服务器 2 请求投票
+2022/07/11 18:48:45 util.go:25: [2]: Last Log is --> {7 2 0 0}
+2022/07/11 18:48:45 util.go:25: [6]: Last Log is --> {7 6 0 0}
+2022/07/11 18:48:45 util.go:25: [0]: set term to 7
+2022/07/11 18:48:45 util.go:25: [5]: set term to 7
+2022/07/11 18:48:45 util.go:25: [5]: 接收来自服务器 4 的投票请求; Term --> 7
+2022/07/11 18:48:45 util.go:25: [0]: 接收来自服务器 4 的投票请求; Term --> 7
+2022/07/11 18:48:45 util.go:25: [4]： 收到投票，目前票数： 2
+2022/07/11 18:48:45 util.go:25: [4]： 收到投票，目前票数： 3
+2022/07/11 18:48:45 util.go:25: [3]: state --> Leader; nextIndex on server 0 is 1
+2022/07/11 18:48:45 util.go:25: [3]: state --> Leader; nextIndex on server 1 is 1
+2022/07/11 18:48:45 util.go:25: [3]: state --> Leader; nextIndex on server 2 is 1
+2022/07/11 18:48:45 util.go:25: [1]: 目前Term: 7，服务器 1 请求投票
+2022/07/11 18:48:45 util.go:25: [1]: Last Log is --> {7 1 0 0}
+2022/07/11 18:48:45 util.go:25: [3]: state --> Leader; nextIndex on server 4 is 1
+2022/07/11 18:48:45 util.go:25: [3]: state --> Leader; nextIndex on server 5 is 1
+2022/07/11 18:48:45 util.go:25: [3]: state --> Leader; nextIndex on server 6 is 1
+2022/07/11 18:48:45 util.go:25: [6]: 目前Term: 8，服务器 6 请求投票
+2022/07/11 18:48:45 util.go:25: [6]: Last Log is --> {8 6 0 0}
+2022/07/11 18:48:45 util.go:25: [3]: state --> Leader; nextIndex on server 0 is 1
+2022/07/11 18:48:45 util.go:25: [3]: state --> Leader; nextIndex on server 1 is 1
+2022/07/11 18:48:45 util.go:25: [3]: state --> Leader; nextIndex on server 2 is 1
+2022/07/11 18:48:45 util.go:25: [3]: state --> Leader; nextIndex on server 4 is 1
+2022/07/11 18:48:45 util.go:25: [3]: state --> Leader; nextIndex on server 5 is 1
+2022/07/11 18:48:45 util.go:25: [3]: state --> Leader; nextIndex on server 6 is 1
+2022/07/11 18:48:45 util.go:25: [5]: 目前Term: 8，服务器 5 请求投票
+2022/07/11 18:48:45 util.go:25: [5]: Last Log is --> {8 5 0 0}
+2022/07/11 18:48:45 util.go:25: [2]: set term to 8
+2022/07/11 18:48:45 util.go:25: [2]: 接收来自服务器 5 的投票请求; Term --> 8
+2022/07/11 18:48:45 util.go:25: [4]: set term to 8
+2022/07/11 18:48:45 util.go:25: [0]: set term to 8
+2022/07/11 18:48:45 util.go:25: [0]: 接收来自服务器 5 的投票请求; Term --> 8
+2022/07/11 18:48:45 util.go:25: [5]： 收到投票，目前票数： 2
+2022/07/11 18:48:45 util.go:25: [4]: 接收来自服务器 5 的投票请求; Term --> 8
+2022/07/11 18:48:45 util.go:25: [5]： 收到投票，目前票数： 3
+2022/07/11 18:48:45 util.go:25: [5]： 收到投票，目前票数： 4
+2022/07/11 18:48:45 util.go:25: [5]：投票过半，提前结束
+2022/07/11 18:48:45 util.go:25: [5]: state --> Leader; nextIndex on server 0 is 1
+2022/07/11 18:48:45 util.go:25: [5]: state --> Leader; nextIndex on server 1 is 1
+2022/07/11 18:48:45 util.go:25: [5]: state --> Leader; nextIndex on server 2 is 1
+2022/07/11 18:48:45 util.go:25: [5]: state --> Leader; nextIndex on server 3 is 1
+2022/07/11 18:48:45 util.go:25: [5]: state --> Leader; nextIndex on server 4 is 1
+2022/07/11 18:48:45 util.go:25: [5]: state --> Leader; nextIndex on server 6 is 1
+2022/07/11 18:48:45 util.go:25: [4]: 
+args.Entries: []
+Local: [{-1 0 0}]
+2022/07/11 18:48:45 util.go:25: [2]: 
+args.Entries: []
+Local: [{-1 0 0}]
+2022/07/11 18:48:45 util.go:25: [0]: 
+args.Entries: []
+Local: [{-1 0 0}]
+2022/07/11 18:48:45 util.go:25: [3]: state --> Leader; nextIndex on server 0 is 1
+2022/07/11 18:48:45 util.go:25: [3]: state --> Leader; nextIndex on server 1 is 1
+2022/07/11 18:48:45 util.go:25: [3]: state --> Leader; nextIndex on server 2 is 1
+2022/07/11 18:48:45 util.go:25: [3]: state --> Leader; nextIndex on server 4 is 1
+2022/07/11 18:48:45 util.go:25: [3]: state --> Leader; nextIndex on server 5 is 1
+2022/07/11 18:48:45 util.go:25: [3]: state --> Leader; nextIndex on server 6 is 1
+2022/07/11 18:48:45 util.go:25: [5]: state --> Leader; nextIndex on server 0 is 1
+2022/07/11 18:48:45 util.go:25: [5]: state --> Leader; nextIndex on server 1 is 1
+2022/07/11 18:48:45 util.go:25: [5]: state --> Leader; nextIndex on server 2 is 1
+2022/07/11 18:48:45 util.go:25: [5]: state --> Leader; nextIndex on server 3 is 1
+2022/07/11 18:48:45 util.go:25: [5]: state --> Leader; nextIndex on server 4 is 1
+2022/07/11 18:48:45 util.go:25: [5]: state --> Leader; nextIndex on server 6 is 1
+2022/07/11 18:48:45 util.go:25: [0]: 
+args.Entries: []
+Local: [{-1 0 0}]
+2022/07/11 18:48:45 util.go:25: [4]: 
+args.Entries: []
+Local: [{-1 0 0}]
+2022/07/11 18:48:45 util.go:25: [2]: 
+args.Entries: []
+Local: [{-1 0 0}]
+2022/07/11 18:48:45 util.go:25: [3]: state --> Leader; nextIndex on server 0 is 1
+2022/07/11 18:48:45 util.go:25: [3]: state --> Leader; nextIndex on server 1 is 1
+2022/07/11 18:48:45 util.go:25: [3]: state --> Leader; nextIndex on server 2 is 1
+2022/07/11 18:48:45 util.go:25: [1]: 目前Term: 8，服务器 1 请求投票
+2022/07/11 18:48:45 util.go:25: [1]: Last Log is --> {8 1 0 0}
+2022/07/11 18:48:45 util.go:25: [5]: state --> Leader; nextIndex on server 0 is 1
+2022/07/11 18:48:45 util.go:25: [5]: state --> Leader; nextIndex on server 1 is 1
+2022/07/11 18:48:45 util.go:25: [5]: state --> Leader; nextIndex on server 2 is 1
+2022/07/11 18:48:45 util.go:25: [5]: state --> Leader; nextIndex on server 3 is 1
+2022/07/11 18:48:45 util.go:25: [5]: state --> Leader; nextIndex on server 4 is 1
+2022/07/11 18:48:45 util.go:25: [5]: state --> Leader; nextIndex on server 6 is 1
+2022/07/11 18:48:45 util.go:25: [6]: 目前Term: 9，服务器 6 请求投票
+2022/07/11 18:48:45 util.go:25: [6]: Last Log is --> {9 6 0 0}
+2022/07/11 18:48:45 util.go:25: [2]: 
+args.Entries: []
+Local: [{-1 0 0}]
+2022/07/11 18:48:45 util.go:25: [3]: state --> Leader; nextIndex on server 4 is 1
+2022/07/11 18:48:45 util.go:25: [3]: state --> Leader; nextIndex on server 5 is 1
+2022/07/11 18:48:45 util.go:25: [3]: state --> Leader; nextIndex on server 6 is 1
+2022/07/11 18:48:45 util.go:25: [4]: 
+args.Entries: []
+Local: [{-1 0 0}]
+2022/07/11 18:48:45 util.go:25: [0]: 
+args.Entries: []
+Local: [{-1 0 0}]
+2022/07/11 18:48:45 util.go:25: [0]: GET STATE; 目前Term: 8, 服务器状态： Follower
+2022/07/11 18:48:45 util.go:25: [2]: GET STATE; 目前Term: 8, 服务器状态： Follower
+2022/07/11 18:48:45 util.go:25: [4]: GET STATE; 目前Term: 8, 服务器状态： Follower
+2022/07/11 18:48:45 util.go:25: [5]: GET STATE; 目前Term: 8, 服务器状态： Leader
+2022/07/11 18:48:46 util.go:25: [5]: state --> Leader; nextIndex on server 0 is 1
+2022/07/11 18:48:46 util.go:25: [5]: state --> Leader; nextIndex on server 1 is 1
+2022/07/11 18:48:46 util.go:25: [5]: state --> Leader; nextIndex on server 2 is 1
+2022/07/11 18:48:46 util.go:25: [5]: state --> Leader; nextIndex on server 3 is 1
+2022/07/11 18:48:46 util.go:25: [5]: state --> Leader; nextIndex on server 4 is 1
+2022/07/11 18:48:46 util.go:25: [5]: state --> Leader; nextIndex on server 6 is 1
+2022/07/11 18:48:46 util.go:25: [3]: state --> Leader; nextIndex on server 0 is 1
+2022/07/11 18:48:46 util.go:25: [3]: state --> Leader; nextIndex on server 1 is 1
+2022/07/11 18:48:46 util.go:25: [3]: state --> Leader; nextIndex on server 2 is 1
+2022/07/11 18:48:46 util.go:25: [3]: state --> Leader; nextIndex on server 4 is 1
+2022/07/11 18:48:46 util.go:25: [3]: state --> Leader; nextIndex on server 5 is 1
+2022/07/11 18:48:46 util.go:25: [3]: state --> Leader; nextIndex on server 6 is 1
+2022/07/11 18:48:46 util.go:25: [3]: set term to 8
+2022/07/11 18:48:46 util.go:25: [3]: 
+args.Entries: []
+Local: [{-1 0 0}]
+2022/07/11 18:48:46 util.go:25: [5]: find new term, state --> follower
+2022/07/11 18:48:46 util.go:25: [5]: set term to 9
+2022/07/11 18:48:46 util.go:25: [2]: 
+args.Entries: []
+Local: [{-1 0 0}]
+2022/07/11 18:48:46 util.go:25: [0]: 
+args.Entries: []
+Local: [{-1 0 0}]
+2022/07/11 18:48:46 util.go:25: [3]: find new term, state --> follower
+2022/07/11 18:48:46 util.go:25: [3]: set term to 9
+2022/07/11 18:48:46 util.go:25: [3]: 目前Term: 10，服务器 3 请求投票
+2022/07/11 18:48:46 util.go:25: [3]: Last Log is --> {10 3 0 0}
+2022/07/11 18:48:46 util.go:25: [2]: 目前Term: 9，服务器 2 请求投票
+2022/07/11 18:48:46 util.go:25: [2]: Last Log is --> {9 2 0 0}
+2022/07/11 18:48:46 util.go:25: [5]: 目前Term: 10，服务器 5 请求投票
+2022/07/11 18:48:46 util.go:25: [5]: Last Log is --> {10 5 0 0}
+2022/07/11 18:48:46 util.go:25: [6]: 目前Term: 10，服务器 6 请求投票
+2022/07/11 18:48:46 util.go:25: [6]: Last Log is --> {10 6 0 0}
+2022/07/11 18:48:46 util.go:25: [2]: set term to 10
+2022/07/11 18:48:46 util.go:25: [5]: 拒绝来自服务器 2 的投票请求
+2022/07/11 18:48:46 util.go:25: [6]: 拒绝来自服务器 2 的投票请求
+2022/07/11 18:48:46 util.go:25: [3]: 拒绝来自服务器 2 的投票请求
+2022/07/11 18:48:46 util.go:25: [2]: 接收来自服务器 3 的投票请求; Term --> 10
+2022/07/11 18:48:46 util.go:25: [1]: 目前Term: 9，服务器 1 请求投票
+2022/07/11 18:48:46 util.go:25: [1]: Last Log is --> {9 1 0 0}
+2022/07/11 18:48:46 util.go:25: [3]： 收到投票，目前票数： 2
+2022/07/11 18:48:46 util.go:25: [4]: 目前Term: 9，服务器 4 请求投票
+2022/07/11 18:48:46 util.go:25: [4]: Last Log is --> {9 4 0 0}
+2022/07/11 18:48:46 util.go:25: [0]: 目前Term: 9，服务器 0 请求投票
+2022/07/11 18:48:46 util.go:25: [0]: Last Log is --> {9 0 0 0}
+2022/07/11 18:48:46 util.go:25: [0]: set term to 10
+2022/07/11 18:48:46 util.go:25: [0]: 接收来自服务器 5 的投票请求; Term --> 10
+2022/07/11 18:48:46 util.go:25: [3]: 拒绝来自服务器 0 的投票请求
+2022/07/11 18:48:46 util.go:25: [5]： 收到投票，目前票数： 2
+2022/07/11 18:48:46 util.go:25: [5]: 拒绝来自服务器 0 的投票请求
+2022/07/11 18:48:46 util.go:25: [2]: 拒绝来自服务器 0 的投票请求
+2022/07/11 18:48:46 util.go:25: [6]: 拒绝来自服务器 0 的投票请求
+2022/07/11 18:48:46 util.go:25: [5]: 目前Term: 11，服务器 5 请求投票
+2022/07/11 18:48:46 util.go:25: [5]: Last Log is --> {11 5 0 0}
+2022/07/11 18:48:46 util.go:25: [6]: 目前Term: 11，服务器 6 请求投票
+2022/07/11 18:48:46 util.go:25: [6]: Last Log is --> {11 6 0 0}
+2022/07/11 18:48:46 util.go:25: [4]: 目前Term: 10，服务器 4 请求投票
+2022/07/11 18:48:46 util.go:25: [4]: Last Log is --> {10 4 0 0}
+2022/07/11 18:48:46 util.go:25: [0]: set term to 11
+2022/07/11 18:48:46 util.go:25: [3]: set term to 11
+2022/07/11 18:48:46 util.go:25: [3]: 接收来自服务器 5 的投票请求; Term --> 11
+2022/07/11 18:48:46 util.go:25: [2]: set term to 11
+2022/07/11 18:48:46 util.go:25: [2]: 接收来自服务器 5 的投票请求; Term --> 11
+2022/07/11 18:48:46 util.go:25: [0]: 接收来自服务器 5 的投票请求; Term --> 11
+2022/07/11 18:48:46 util.go:25: [5]： 收到投票，目前票数： 2
+2022/07/11 18:48:46 util.go:25: [5]： 收到投票，目前票数： 3
+2022/07/11 18:48:46 util.go:25: [5]： 收到投票，目前票数： 4
+2022/07/11 18:48:46 util.go:25: [5]：投票过半，提前结束
+2022/07/11 18:48:46 util.go:25: [5]: state --> Leader; nextIndex on server 0 is 1
+2022/07/11 18:48:46 util.go:25: [5]: state --> Leader; nextIndex on server 1 is 1
+2022/07/11 18:48:46 util.go:25: [5]: state --> Leader; nextIndex on server 2 is 1
+2022/07/11 18:48:46 util.go:25: [5]: state --> Leader; nextIndex on server 3 is 1
+2022/07/11 18:48:46 util.go:25: [5]: state --> Leader; nextIndex on server 4 is 1
+2022/07/11 18:48:46 util.go:25: [5]: state --> Leader; nextIndex on server 6 is 1
+2022/07/11 18:48:46 util.go:25: [0]: 
+args.Entries: []
+Local: [{-1 0 0}]
+2022/07/11 18:48:46 util.go:25: [6]: 
+args.Entries: []
+Local: [{-1 0 0}]
+2022/07/11 18:48:46 util.go:25: [2]: 
+args.Entries: []
+Local: [{-1 0 0}]
+2022/07/11 18:48:46 util.go:25: [3]: 
+args.Entries: []
+Local: [{-1 0 0}]
+2022/07/11 18:48:46 util.go:25: [0]: GET STATE; 目前Term: 11, 服务器状态： Follower
+2022/07/11 18:48:46 util.go:25: [2]: GET STATE; 目前Term: 11, 服务器状态： Follower
+2022/07/11 18:48:46 util.go:25: [3]: GET STATE; 目前Term: 11, 服务器状态： Follower
+2022/07/11 18:48:46 util.go:25: [5]: GET STATE; 目前Term: 11, 服务器状态： Leader
+2022/07/11 18:48:46 util.go:25: [6]: GET STATE; 目前Term: 11, 服务器状态： Follower
+2022/07/11 18:48:46 util.go:25: [1]: 目前Term: 10，服务器 1 请求投票
+2022/07/11 18:48:46 util.go:25: [1]: Last Log is --> {10 1 0 0}
+2022/07/11 18:48:46 util.go:25: [5]: state --> Leader; nextIndex on server 0 is 1
+2022/07/11 18:48:46 util.go:25: [5]: state --> Leader; nextIndex on server 1 is 1
+2022/07/11 18:48:46 util.go:25: [5]: state --> Leader; nextIndex on server 2 is 1
+2022/07/11 18:48:46 util.go:25: [5]: state --> Leader; nextIndex on server 3 is 1
+2022/07/11 18:48:46 util.go:25: [5]: state --> Leader; nextIndex on server 4 is 1
+2022/07/11 18:48:46 util.go:25: [5]: state --> Leader; nextIndex on server 6 is 1
+2022/07/11 18:48:46 util.go:25: [0]: 
+args.Entries: []
+Local: [{-1 0 0}]
+2022/07/11 18:48:46 util.go:25: [6]: 
+args.Entries: []
+Local: [{-1 0 0}]
+2022/07/11 18:48:46 util.go:25: [2]: 
+args.Entries: []
+Local: [{-1 0 0}]
+2022/07/11 18:48:46 util.go:25: [4]: set term to 11
+2022/07/11 18:48:46 util.go:25: [4]: 
+args.Entries: []
+Local: [{-1 0 0}]
+2022/07/11 18:48:46 util.go:25: [5]: state --> Leader; nextIndex on server 0 is 1
+2022/07/11 18:48:46 util.go:25: [5]: state --> Leader; nextIndex on server 1 is 1
+2022/07/11 18:48:46 util.go:25: [5]: state --> Leader; nextIndex on server 2 is 1
+2022/07/11 18:48:46 util.go:25: [5]: state --> Leader; nextIndex on server 3 is 1
+2022/07/11 18:48:46 util.go:25: [5]: state --> Leader; nextIndex on server 4 is 1
+2022/07/11 18:48:46 util.go:25: [5]: state --> Leader; nextIndex on server 6 is 1
+2022/07/11 18:48:46 util.go:25: [6]: 
+args.Entries: []
+Local: [{-1 0 0}]
+2022/07/11 18:48:46 util.go:25: [4]: 
+args.Entries: []
+Local: [{-1 0 0}]
+2022/07/11 18:48:46 util.go:25: [0]: 
+args.Entries: []
+Local: [{-1 0 0}]
+2022/07/11 18:48:46 util.go:25: [2]: 
+args.Entries: []
+Local: [{-1 0 0}]
+2022/07/11 18:48:46 util.go:25: [3]: 目前Term: 12，服务器 3 请求投票
+2022/07/11 18:48:46 util.go:25: [3]: Last Log is --> {12 3 0 0}
+2022/07/11 18:48:46 util.go:25: [5]: state --> Leader; nextIndex on server 0 is 1
+2022/07/11 18:48:46 util.go:25: [5]: state --> Leader; nextIndex on server 1 is 1
+2022/07/11 18:48:46 util.go:25: [5]: state --> Leader; nextIndex on server 2 is 1
+2022/07/11 18:48:46 util.go:25: [5]: state --> Leader; nextIndex on server 3 is 1
+2022/07/11 18:48:46 util.go:25: [5]: state --> Leader; nextIndex on server 4 is 1
+2022/07/11 18:48:46 util.go:25: [5]: state --> Leader; nextIndex on server 6 is 1
+2022/07/11 18:48:46 util.go:25: [6]: 
+args.Entries: []
+Local: [{-1 0 0}]
+2022/07/11 18:48:46 util.go:25: [0]: 
+args.Entries: []
+Local: [{-1 0 0}]
+2022/07/11 18:48:46 util.go:25: [4]: 
+args.Entries: []
+Local: [{-1 0 0}]
+2022/07/11 18:48:46 util.go:25: [2]: 
+args.Entries: []
+Local: [{-1 0 0}]
+2022/07/11 18:48:46 util.go:25: [5]: state --> Leader; nextIndex on server 0 is 1
+2022/07/11 18:48:46 util.go:25: [5]: state --> Leader; nextIndex on server 1 is 1
+2022/07/11 18:48:46 util.go:25: [5]: state --> Leader; nextIndex on server 2 is 1
+2022/07/11 18:48:46 util.go:25: [5]: state --> Leader; nextIndex on server 3 is 1
+2022/07/11 18:48:46 util.go:25: [5]: state --> Leader; nextIndex on server 4 is 1
+2022/07/11 18:48:46 util.go:25: [5]: state --> Leader; nextIndex on server 6 is 1
+2022/07/11 18:48:46 util.go:25: [1]: 目前Term: 11，服务器 1 请求投票
+2022/07/11 18:48:46 util.go:25: [1]: Last Log is --> {11 1 0 0}
+2022/07/11 18:48:46 util.go:25: [6]: 
+args.Entries: []
+Local: [{-1 0 0}]
+2022/07/11 18:48:46 util.go:25: [2]: 
+args.Entries: []
+Local: [{-1 0 0}]
+2022/07/11 18:48:46 util.go:25: [4]: 
+args.Entries: []
+Local: [{-1 0 0}]
+2022/07/11 18:48:46 util.go:25: [0]: 
+args.Entries: []
+Local: [{-1 0 0}]
+2022/07/11 18:48:46 util.go:25: [5]: state --> Leader; nextIndex on server 0 is 1
+2022/07/11 18:48:46 util.go:25: [5]: state --> Leader; nextIndex on server 1 is 1
+2022/07/11 18:48:46 util.go:25: [5]: state --> Leader; nextIndex on server 2 is 1
+2022/07/11 18:48:46 util.go:25: [5]: state --> Leader; nextIndex on server 3 is 1
+2022/07/11 18:48:46 util.go:25: [5]: state --> Leader; nextIndex on server 4 is 1
+2022/07/11 18:48:46 util.go:25: [5]: state --> Leader; nextIndex on server 6 is 1
+2022/07/11 18:48:46 util.go:25: [6]: 
+args.Entries: []
+Local: [{-1 0 0}]
+2022/07/11 18:48:46 util.go:25: [0]: 
+args.Entries: []
+Local: [{-1 0 0}]
+2022/07/11 18:48:46 util.go:25: [2]: 
+args.Entries: []
+Local: [{-1 0 0}]
+2022/07/11 18:48:46 util.go:25: [4]: 
+args.Entries: []
+Local: [{-1 0 0}]
+2022/07/11 18:48:46 util.go:25: [0]: GET STATE; 目前Term: 11, 服务器状态： Follower
+2022/07/11 18:48:46 util.go:25: [2]: GET STATE; 目前Term: 11, 服务器状态： Follower
+2022/07/11 18:48:46 util.go:25: [4]: GET STATE; 目前Term: 11, 服务器状态： Follower
+2022/07/11 18:48:46 util.go:25: [5]: GET STATE; 目前Term: 11, 服务器状态： Leader
+2022/07/11 18:48:46 util.go:25: [6]: GET STATE; 目前Term: 11, 服务器状态： Follower
+2022/07/11 18:48:47 util.go:25: [3]: 目前Term: 13，服务器 3 请求投票
+2022/07/11 18:48:47 util.go:25: [3]: Last Log is --> {13 3 0 0}
+2022/07/11 18:48:47 util.go:25: [5]: state --> Leader; nextIndex on server 0 is 1
+2022/07/11 18:48:47 util.go:25: [5]: state --> Leader; nextIndex on server 1 is 1
+2022/07/11 18:48:47 util.go:25: [5]: state --> Leader; nextIndex on server 2 is 1
+2022/07/11 18:48:47 util.go:25: [5]: state --> Leader; nextIndex on server 3 is 1
+2022/07/11 18:48:47 util.go:25: [5]: state --> Leader; nextIndex on server 4 is 1
+2022/07/11 18:48:47 util.go:25: [5]: state --> Leader; nextIndex on server 6 is 1
+2022/07/11 18:48:47 util.go:25: [6]: set term to 13
+2022/07/11 18:48:47 util.go:25: [1]: set term to 13
+2022/07/11 18:48:47 util.go:25: [0]: set term to 13
+2022/07/11 18:48:47 util.go:25: [0]: 接收来自服务器 3 的投票请求; Term --> 13
+2022/07/11 18:48:47 util.go:25: [1]: 接收来自服务器 3 的投票请求; Term --> 13
+2022/07/11 18:48:47 util.go:25: [4]: set term to 13
+2022/07/11 18:48:47 util.go:25: [4]: 接收来自服务器 3 的投票请求; Term --> 13
+2022/07/11 18:48:47 util.go:25: [3]： 收到投票，目前票数： 2
+2022/07/11 18:48:47 util.go:25: [6]: 接收来自服务器 3 的投票请求; Term --> 13
+2022/07/11 18:48:47 util.go:25: [3]： 收到投票，目前票数： 3
+2022/07/11 18:48:47 util.go:25: [3]： 收到投票，目前票数： 4
+2022/07/11 18:48:47 util.go:25: [3]：投票过半，提前结束
+2022/07/11 18:48:47 util.go:25: [3]: state --> Leader; nextIndex on server 0 is 1
+2022/07/11 18:48:47 util.go:25: [3]: state --> Leader; nextIndex on server 1 is 1
+2022/07/11 18:48:47 util.go:25: [3]: state --> Leader; nextIndex on server 2 is 1
+2022/07/11 18:48:47 util.go:25: [3]: state --> Leader; nextIndex on server 4 is 1
+2022/07/11 18:48:47 util.go:25: [3]: state --> Leader; nextIndex on server 5 is 1
+2022/07/11 18:48:47 util.go:25: [3]: state --> Leader; nextIndex on server 6 is 1
+2022/07/11 18:48:47 util.go:25: [3]： 收到投票，目前票数： 5
+2022/07/11 18:48:47 util.go:25: [0]: 
+args.Entries: []
+Local: [{-1 0 0}]
+2022/07/11 18:48:47 util.go:25: [4]: 
+args.Entries: []
+Local: [{-1 0 0}]
+2022/07/11 18:48:47 util.go:25: [1]: 
+args.Entries: []
+Local: [{-1 0 0}]
+2022/07/11 18:48:47 util.go:25: [6]: 
+args.Entries: []
+Local: [{-1 0 0}]
+2022/07/11 18:48:47 util.go:25: [5]: state --> Leader; nextIndex on server 0 is 1
+2022/07/11 18:48:47 util.go:25: [5]: state --> Leader; nextIndex on server 1 is 1
+2022/07/11 18:48:47 util.go:25: [5]: state --> Leader; nextIndex on server 2 is 1
+2022/07/11 18:48:47 util.go:25: [5]: state --> Leader; nextIndex on server 3 is 1
+2022/07/11 18:48:47 util.go:25: [5]: state --> Leader; nextIndex on server 4 is 1
+2022/07/11 18:48:47 util.go:25: [5]: state --> Leader; nextIndex on server 6 is 1
+2022/07/11 18:48:47 util.go:25: [3]: state --> Leader; nextIndex on server 0 is 1
+2022/07/11 18:48:47 util.go:25: [3]: state --> Leader; nextIndex on server 1 is 1
+2022/07/11 18:48:47 util.go:25: [3]: state --> Leader; nextIndex on server 2 is 1
+2022/07/11 18:48:47 util.go:25: [3]: state --> Leader; nextIndex on server 4 is 1
+2022/07/11 18:48:47 util.go:25: [3]: state --> Leader; nextIndex on server 5 is 1
+2022/07/11 18:48:47 util.go:25: [3]: state --> Leader; nextIndex on server 6 is 1
+2022/07/11 18:48:47 util.go:25: [1]: 
+args.Entries: []
+Local: [{-1 0 0}]
+2022/07/11 18:48:47 util.go:25: [4]: 
+args.Entries: []
+Local: [{-1 0 0}]
+2022/07/11 18:48:47 util.go:25: [6]: 
+args.Entries: []
+Local: [{-1 0 0}]
+2022/07/11 18:48:47 util.go:25: [0]: 
+args.Entries: []
+Local: [{-1 0 0}]
+2022/07/11 18:48:47 util.go:25: [5]: state --> Leader; nextIndex on server 0 is 1
+2022/07/11 18:48:47 util.go:25: [5]: state --> Leader; nextIndex on server 1 is 1
+2022/07/11 18:48:47 util.go:25: [5]: state --> Leader; nextIndex on server 2 is 1
+2022/07/11 18:48:47 util.go:25: [5]: state --> Leader; nextIndex on server 3 is 1
+2022/07/11 18:48:47 util.go:25: [3]: state --> Leader; nextIndex on server 0 is 1
+2022/07/11 18:48:47 util.go:25: [3]: state --> Leader; nextIndex on server 1 is 1
+2022/07/11 18:48:47 util.go:25: [3]: state --> Leader; nextIndex on server 2 is 1
+2022/07/11 18:48:47 util.go:25: [2]: 目前Term: 12，服务器 2 请求投票
+2022/07/11 18:48:47 util.go:25: [2]: Last Log is --> {12 2 0 0}
+2022/07/11 18:48:47 util.go:25: [5]: state --> Leader; nextIndex on server 4 is 1
+2022/07/11 18:48:47 util.go:25: [5]: state --> Leader; nextIndex on server 6 is 1
+2022/07/11 18:48:47 util.go:25: [3]: state --> Leader; nextIndex on server 4 is 1
+2022/07/11 18:48:47 util.go:25: [3]: state --> Leader; nextIndex on server 5 is 1
+2022/07/11 18:48:47 util.go:25: [3]: state --> Leader; nextIndex on server 6 is 1
+2022/07/11 18:48:47 util.go:25: [1]: 
+args.Entries: []
+Local: [{-1 0 0}]
+2022/07/11 18:48:47 util.go:25: [4]: 
+args.Entries: []
+Local: [{-1 0 0}]
+2022/07/11 18:48:47 util.go:25: [6]: 
+args.Entries: []
+Local: [{-1 0 0}]
+2022/07/11 18:48:47 util.go:25: [0]: 
+args.Entries: []
+Local: [{-1 0 0}]
+2022/07/11 18:48:47 util.go:25: [3]: state --> Leader; nextIndex on server 0 is 1
+2022/07/11 18:48:47 util.go:25: [3]: state --> Leader; nextIndex on server 1 is 1
+2022/07/11 18:48:47 util.go:25: [3]: state --> Leader; nextIndex on server 2 is 1
+2022/07/11 18:48:47 util.go:25: [5]: state --> Leader; nextIndex on server 0 is 1
+2022/07/11 18:48:47 util.go:25: [5]: state --> Leader; nextIndex on server 1 is 1
+2022/07/11 18:48:47 util.go:25: [5]: state --> Leader; nextIndex on server 2 is 1
+2022/07/11 18:48:47 util.go:25: [5]: state --> Leader; nextIndex on server 3 is 1
+2022/07/11 18:48:47 util.go:25: [5]: state --> Leader; nextIndex on server 4 is 1
+2022/07/11 18:48:47 util.go:25: [5]: state --> Leader; nextIndex on server 6 is 1
+2022/07/11 18:48:47 util.go:25: [3]: state --> Leader; nextIndex on server 4 is 1
+2022/07/11 18:48:47 util.go:25: [3]: state --> Leader; nextIndex on server 5 is 1
+2022/07/11 18:48:47 util.go:25: [3]: state --> Leader; nextIndex on server 6 is 1
+2022/07/11 18:48:47 util.go:25: [1]: 
+args.Entries: []
+Local: [{-1 0 0}]
+2022/07/11 18:48:47 util.go:25: [0]: 
+args.Entries: []
+Local: [{-1 0 0}]
+2022/07/11 18:48:47 util.go:25: [4]: 
+args.Entries: []
+Local: [{-1 0 0}]
+2022/07/11 18:48:47 util.go:25: [6]: 
+args.Entries: []
+Local: [{-1 0 0}]
+2022/07/11 18:48:47 util.go:25: [5]: state --> Leader; nextIndex on server 0 is 1
+2022/07/11 18:48:47 util.go:25: [5]: state --> Leader; nextIndex on server 1 is 1
+2022/07/11 18:48:47 util.go:25: [5]: state --> Leader; nextIndex on server 2 is 1
+2022/07/11 18:48:47 util.go:25: [5]: state --> Leader; nextIndex on server 3 is 1
+2022/07/11 18:48:47 util.go:25: [5]: state --> Leader; nextIndex on server 4 is 1
+2022/07/11 18:48:47 util.go:25: [5]: state --> Leader; nextIndex on server 6 is 1
+2022/07/11 18:48:47 util.go:25: [3]: state --> Leader; nextIndex on server 0 is 1
+2022/07/11 18:48:47 util.go:25: [3]: state --> Leader; nextIndex on server 1 is 1
+2022/07/11 18:48:47 util.go:25: [3]: state --> Leader; nextIndex on server 2 is 1
+2022/07/11 18:48:47 util.go:25: [3]: state --> Leader; nextIndex on server 4 is 1
+2022/07/11 18:48:47 util.go:25: [3]: state --> Leader; nextIndex on server 5 is 1
+2022/07/11 18:48:47 util.go:25: [3]: state --> Leader; nextIndex on server 6 is 1
+2022/07/11 18:48:47 util.go:25: [0]: 
+args.Entries: []
+Local: [{-1 0 0}]
+2022/07/11 18:48:47 util.go:25: [6]: 
+args.Entries: []
+Local: [{-1 0 0}]
+2022/07/11 18:48:47 util.go:25: [4]: 
+args.Entries: []
+Local: [{-1 0 0}]
+2022/07/11 18:48:47 util.go:25: [1]: 
+args.Entries: []
+Local: [{-1 0 0}]
+2022/07/11 18:48:47 util.go:25: [0]: GET STATE; 目前Term: 13, 服务器状态： Follower
+2022/07/11 18:48:47 util.go:25: [1]: GET STATE; 目前Term: 13, 服务器状态： Follower
+2022/07/11 18:48:47 util.go:25: [3]: GET STATE; 目前Term: 13, 服务器状态： Leader
+2022/07/11 18:48:47 util.go:25: [4]: GET STATE; 目前Term: 13, 服务器状态： Follower
+2022/07/11 18:48:47 util.go:25: [6]: GET STATE; 目前Term: 13, 服务器状态： Follower
+2022/07/11 18:48:47 util.go:25: [5]: state --> Leader; nextIndex on server 0 is 1
+2022/07/11 18:48:47 util.go:25: [5]: state --> Leader; nextIndex on server 1 is 1
+2022/07/11 18:48:47 util.go:25: [5]: state --> Leader; nextIndex on server 2 is 1
+2022/07/11 18:48:47 util.go:25: [5]: state --> Leader; nextIndex on server 3 is 1
+2022/07/11 18:48:47 util.go:25: [5]: state --> Leader; nextIndex on server 4 is 1
+2022/07/11 18:48:47 util.go:25: [5]: state --> Leader; nextIndex on server 6 is 1
+2022/07/11 18:48:47 util.go:25: [2]: 目前Term: 13，服务器 2 请求投票
+2022/07/11 18:48:47 util.go:25: [3]: state --> Leader; nextIndex on server 0 is 1
+2022/07/11 18:48:47 util.go:25: [3]: state --> Leader; nextIndex on server 1 is 1
+2022/07/11 18:48:47 util.go:25: [3]: state --> Leader; nextIndex on server 2 is 1
+2022/07/11 18:48:47 util.go:25: [3]: state --> Leader; nextIndex on server 4 is 1
+2022/07/11 18:48:47 util.go:25: [3]: state --> Leader; nextIndex on server 5 is 1
+2022/07/11 18:48:47 util.go:25: [3]: state --> Leader; nextIndex on server 6 is 1
+2022/07/11 18:48:47 util.go:25: [2]: Last Log is --> {13 2 0 0}
+2022/07/11 18:48:47 util.go:25: [5]: find new term, state --> follower
+2022/07/11 18:48:47 util.go:25: [5]: set term to 13
+2022/07/11 18:48:47 util.go:25: [1]: 
+args.Entries: []
+Local: [{-1 0 0}]
+2022/07/11 18:48:47 util.go:25: [4]: 
+args.Entries: []
+Local: [{-1 0 0}]
+2022/07/11 18:48:47 util.go:25: [0]: 
+args.Entries: []
+Local: [{-1 0 0}]
+2022/07/11 18:48:47 util.go:25: [5]: 
+args.Entries: []
+Local: [{-1 0 0}]
+2022/07/11 18:48:47 util.go:25: [3]: state --> Leader; nextIndex on server 0 is 1
+2022/07/11 18:48:47 util.go:25: [3]: state --> Leader; nextIndex on server 1 is 1
+2022/07/11 18:48:47 util.go:25: [3]: state --> Leader; nextIndex on server 2 is 1
+2022/07/11 18:48:47 util.go:25: [3]: state --> Leader; nextIndex on server 4 is 1
+2022/07/11 18:48:47 util.go:25: [3]: state --> Leader; nextIndex on server 5 is 1
+2022/07/11 18:48:47 util.go:25: [3]: state --> Leader; nextIndex on server 6 is 1
+2022/07/11 18:48:47 util.go:25: [0]: 
+args.Entries: []
+Local: [{-1 0 0}]
+2022/07/11 18:48:47 util.go:25: [1]: 
+args.Entries: []
+Local: [{-1 0 0}]
+2022/07/11 18:48:47 util.go:25: [4]: 
+args.Entries: []
+Local: [{-1 0 0}]
+2022/07/11 18:48:47 util.go:25: [5]: 
+args.Entries: []
+Local: [{-1 0 0}]
+2022/07/11 18:48:47 util.go:25: [6]: 目前Term: 14，服务器 6 请求投票
+2022/07/11 18:48:47 util.go:25: [6]: Last Log is --> {14 6 0 0}
+2022/07/11 18:48:47 util.go:25: [3]: state --> Leader; nextIndex on server 0 is 1
+2022/07/11 18:48:47 util.go:25: [3]: state --> Leader; nextIndex on server 1 is 1
+2022/07/11 18:48:47 util.go:25: [3]: state --> Leader; nextIndex on server 2 is 1
+2022/07/11 18:48:47 util.go:25: [3]: state --> Leader; nextIndex on server 4 is 1
+2022/07/11 18:48:47 util.go:25: [3]: state --> Leader; nextIndex on server 5 is 1
+2022/07/11 18:48:47 util.go:25: [3]: state --> Leader; nextIndex on server 6 is 1
+2022/07/11 18:48:47 util.go:25: [5]: 
+args.Entries: []
+Local: [{-1 0 0}]
+2022/07/11 18:48:47 util.go:25: [4]: 
+args.Entries: []
+Local: [{-1 0 0}]
+2022/07/11 18:48:47 util.go:25: [1]: 
+args.Entries: []
+Local: [{-1 0 0}]
+2022/07/11 18:48:47 util.go:25: [0]: 
+args.Entries: []
+Local: [{-1 0 0}]
+2022/07/11 18:48:47 util.go:25: [2]: 目前Term: 14，服务器 2 请求投票
+2022/07/11 18:48:47 util.go:25: [2]: Last Log is --> {14 2 0 0}
+2022/07/11 18:48:47 util.go:25: [3]: state --> Leader; nextIndex on server 0 is 1
+2022/07/11 18:48:47 util.go:25: [3]: state --> Leader; nextIndex on server 1 is 1
+2022/07/11 18:48:47 util.go:25: [3]: state --> Leader; nextIndex on server 2 is 1
+2022/07/11 18:48:47 util.go:25: [3]: state --> Leader; nextIndex on server 4 is 1
+2022/07/11 18:48:47 util.go:25: [3]: state --> Leader; nextIndex on server 5 is 1
+2022/07/11 18:48:47 util.go:25: [3]: state --> Leader; nextIndex on server 6 is 1
+2022/07/11 18:48:47 util.go:25: [0]: 
+args.Entries: []
+Local: [{-1 0 0}]
+2022/07/11 18:48:47 util.go:25: [4]: 
+args.Entries: []
+Local: [{-1 0 0}]
+2022/07/11 18:48:47 util.go:25: [5]: 
+args.Entries: []
+Local: [{-1 0 0}]
+2022/07/11 18:48:47 util.go:25: [1]: 
+args.Entries: []
+Local: [{-1 0 0}]
+2022/07/11 18:48:47 util.go:25: [3]: state --> Leader; nextIndex on server 0 is 1
+2022/07/11 18:48:47 util.go:25: [3]: state --> Leader; nextIndex on server 1 is 1
+2022/07/11 18:48:47 util.go:25: [3]: state --> Leader; nextIndex on server 2 is 1
+2022/07/11 18:48:47 util.go:25: [3]: state --> Leader; nextIndex on server 4 is 1
+2022/07/11 18:48:47 util.go:25: [3]: state --> Leader; nextIndex on server 5 is 1
+2022/07/11 18:48:47 util.go:25: [3]: state --> Leader; nextIndex on server 6 is 1
+2022/07/11 18:48:47 util.go:25: [6]: 目前Term: 15，服务器 6 请求投票
+2022/07/11 18:48:47 util.go:25: [6]: Last Log is --> {15 6 0 0}
+2022/07/11 18:48:47 util.go:25: [1]: 
+args.Entries: []
+Local: [{-1 0 0}]
+2022/07/11 18:48:47 util.go:25: [4]: 
+args.Entries: []
+Local: [{-1 0 0}]
+2022/07/11 18:48:47 util.go:25: [5]: 
+args.Entries: []
+Local: [{-1 0 0}]
+2022/07/11 18:48:47 util.go:25: [0]: 
+args.Entries: []
+Local: [{-1 0 0}]
+2022/07/11 18:48:48 util.go:25: [0]: GET STATE; 目前Term: 13, 服务器状态： Follower
+2022/07/11 18:48:48 util.go:25: [1]: GET STATE; 目前Term: 13, 服务器状态： Follower
+2022/07/11 18:48:48 util.go:25: [3]: GET STATE; 目前Term: 13, 服务器状态： Leader
+2022/07/11 18:48:48 util.go:25: [4]: GET STATE; 目前Term: 13, 服务器状态： Follower
+2022/07/11 18:48:48 util.go:25: [5]: GET STATE; 目前Term: 13, 服务器状态： Follower
+2022/07/11 18:48:48 util.go:25: [3]: state --> Leader; nextIndex on server 0 is 1
+2022/07/11 18:48:48 util.go:25: [3]: state --> Leader; nextIndex on server 1 is 1
+2022/07/11 18:48:48 util.go:25: [3]: state --> Leader; nextIndex on server 2 is 1
+2022/07/11 18:48:48 util.go:25: [3]: state --> Leader; nextIndex on server 4 is 1
+2022/07/11 18:48:48 util.go:25: [3]: state --> Leader; nextIndex on server 5 is 1
+2022/07/11 18:48:48 util.go:25: [3]: state --> Leader; nextIndex on server 6 is 1
+2022/07/11 18:48:48 util.go:25: [2]: 目前Term: 15，服务器 2 请求投票
+2022/07/11 18:48:48 util.go:25: [2]: Last Log is --> {15 2 0 0}
+2022/07/11 18:48:48 util.go:25: [4]: 
+args.Entries: []
+Local: [{-1 0 0}]
+2022/07/11 18:48:48 util.go:25: [5]: 
+args.Entries: []
+Local: [{-1 0 0}]
+2022/07/11 18:48:48 util.go:25: [3]: find new term, state --> follower
+2022/07/11 18:48:48 util.go:25: [3]: set term to 15
+2022/07/11 18:48:48 util.go:25: [3]: 接收来自服务器 2 的投票请求; Term --> 15
+2022/07/11 18:48:48 util.go:25: [4]: set term to 15
+2022/07/11 18:48:48 util.go:25: [5]: set term to 15
+2022/07/11 18:48:48 util.go:25: [5]: 接收来自服务器 2 的投票请求; Term --> 15
+2022/07/11 18:48:48 util.go:25: [4]: 接收来自服务器 2 的投票请求; Term --> 15
+2022/07/11 18:48:48 util.go:25: [2]： 收到投票，目前票数： 2
+2022/07/11 18:48:48 util.go:25: [2]： 收到投票，目前票数： 3
+2022/07/11 18:48:48 util.go:25: [2]： 收到投票，目前票数： 4
+2022/07/11 18:48:48 util.go:25: [2]：投票过半，提前结束
+2022/07/11 18:48:48 util.go:25: [2]: state --> Leader; nextIndex on server 0 is 1
+2022/07/11 18:48:48 util.go:25: [2]: state --> Leader; nextIndex on server 1 is 1
+2022/07/11 18:48:48 util.go:25: [2]: state --> Leader; nextIndex on server 3 is 1
+2022/07/11 18:48:48 util.go:25: [2]: state --> Leader; nextIndex on server 4 is 1
+2022/07/11 18:48:48 util.go:25: [2]: state --> Leader; nextIndex on server 5 is 1
+2022/07/11 18:48:48 util.go:25: [2]: state --> Leader; nextIndex on server 6 is 1
+2022/07/11 18:48:48 util.go:25: [4]: 
+args.Entries: []
+Local: [{-1 0 0}]
+2022/07/11 18:48:48 util.go:25: [5]: 
+args.Entries: []
+Local: [{-1 0 0}]
+2022/07/11 18:48:48 util.go:25: [3]: 
+args.Entries: []
+Local: [{-1 0 0}]
+2022/07/11 18:48:48 util.go:25: [2]: state --> Leader; nextIndex on server 0 is 1
+2022/07/11 18:48:48 util.go:25: [2]: state --> Leader; nextIndex on server 1 is 1
+2022/07/11 18:48:48 util.go:25: [2]: state --> Leader; nextIndex on server 3 is 1
+2022/07/11 18:48:48 util.go:25: [2]: state --> Leader; nextIndex on server 4 is 1
+2022/07/11 18:48:48 util.go:25: [2]: state --> Leader; nextIndex on server 5 is 1
+2022/07/11 18:48:48 util.go:25: [2]: state --> Leader; nextIndex on server 6 is 1
+2022/07/11 18:48:48 util.go:25: [5]: 
+args.Entries: []
+Local: [{-1 0 0}]
+2022/07/11 18:48:48 util.go:25: [3]: 
+args.Entries: []
+Local: [{-1 0 0}]
+2022/07/11 18:48:48 util.go:25: [4]: 
+args.Entries: []
+Local: [{-1 0 0}]
+2022/07/11 18:48:48 util.go:25: [0]: 目前Term: 14，服务器 0 请求投票
+2022/07/11 18:48:48 util.go:25: [0]: Last Log is --> {14 0 0 0}
+2022/07/11 18:48:48 util.go:25: [1]: 目前Term: 14，服务器 1 请求投票
+2022/07/11 18:48:48 util.go:25: [6]: 目前Term: 16，服务器 6 请求投票
+2022/07/11 18:48:48 util.go:25: [6]: Last Log is --> {16 6 0 0}
+2022/07/11 18:48:48 util.go:25: [2]: state --> Leader; nextIndex on server 0 is 1
+2022/07/11 18:48:48 util.go:25: [2]: state --> Leader; nextIndex on server 1 is 1
+2022/07/11 18:48:48 util.go:25: [1]: Last Log is --> {14 1 0 0}
+2022/07/11 18:48:48 util.go:25: [2]: state --> Leader; nextIndex on server 3 is 1
+2022/07/11 18:48:48 util.go:25: [2]: state --> Leader; nextIndex on server 4 is 1
+2022/07/11 18:48:48 util.go:25: [2]: state --> Leader; nextIndex on server 5 is 1
+2022/07/11 18:48:48 util.go:25: [2]: state --> Leader; nextIndex on server 6 is 1
+2022/07/11 18:48:48 util.go:25: [4]: 
+args.Entries: []
+Local: [{-1 0 0}]
+2022/07/11 18:48:48 util.go:25: [5]: 
+args.Entries: []
+Local: [{-1 0 0}]
+2022/07/11 18:48:48 util.go:25: [3]: 
+args.Entries: []
+Local: [{-1 0 0}]
+2022/07/11 18:48:48 util.go:25: [2]: state --> Leader; nextIndex on server 0 is 1
+2022/07/11 18:48:48 util.go:25: [2]: state --> Leader; nextIndex on server 1 is 1
+2022/07/11 18:48:48 util.go:25: [2]: state --> Leader; nextIndex on server 3 is 1
+2022/07/11 18:48:48 util.go:25: [2]: state --> Leader; nextIndex on server 4 is 1
+2022/07/11 18:48:48 util.go:25: [2]: state --> Leader; nextIndex on server 5 is 1
+2022/07/11 18:48:48 util.go:25: [2]: state --> Leader; nextIndex on server 6 is 1
+2022/07/11 18:48:48 util.go:25: [5]: 
+args.Entries: []
+Local: [{-1 0 0}]
+2022/07/11 18:48:48 util.go:25: [4]: 
+args.Entries: []
+Local: [{-1 0 0}]
+2022/07/11 18:48:48 util.go:25: [3]: 
+args.Entries: []
+Local: [{-1 0 0}]
+2022/07/11 18:48:48 util.go:25: [1]: 目前Term: 15，服务器 1 请求投票
+2022/07/11 18:48:48 util.go:25: [1]: Last Log is --> {15 1 0 0}
+2022/07/11 18:48:48 util.go:25: [2]: state --> Leader; nextIndex on server 0 is 1
+2022/07/11 18:48:48 util.go:25: [2]: state --> Leader; nextIndex on server 1 is 1
+2022/07/11 18:48:48 util.go:25: [2]: state --> Leader; nextIndex on server 3 is 1
+2022/07/11 18:48:48 util.go:25: [2]: state --> Leader; nextIndex on server 4 is 1
+2022/07/11 18:48:48 util.go:25: [2]: state --> Leader; nextIndex on server 5 is 1
+2022/07/11 18:48:48 util.go:25: [2]: state --> Leader; nextIndex on server 6 is 1
+2022/07/11 18:48:48 util.go:25: [5]: 
+args.Entries: []
+Local: [{-1 0 0}]
+2022/07/11 18:48:48 util.go:25: [3]: 
+args.Entries: []
+Local: [{-1 0 0}]
+2022/07/11 18:48:48 util.go:25: [4]: 
+args.Entries: []
+Local: [{-1 0 0}]
+2022/07/11 18:48:48 util.go:25: [0]: 目前Term: 15，服务器 0 请求投票
+2022/07/11 18:48:48 util.go:25: [0]: Last Log is --> {15 0 0 0}
+2022/07/11 18:48:48 util.go:25: [6]: 目前Term: 17，服务器 6 请求投票
+2022/07/11 18:48:48 util.go:25: [6]: Last Log is --> {17 6 0 0}
+2022/07/11 18:48:48 util.go:25: [2]: state --> Leader; nextIndex on server 0 is 1
+2022/07/11 18:48:48 util.go:25: [2]: state --> Leader; nextIndex on server 1 is 1
+2022/07/11 18:48:48 util.go:25: [2]: state --> Leader; nextIndex on server 3 is 1
+2022/07/11 18:48:48 util.go:25: [2]: state --> Leader; nextIndex on server 4 is 1
+2022/07/11 18:48:48 util.go:25: [2]: state --> Leader; nextIndex on server 5 is 1
+2022/07/11 18:48:48 util.go:25: [2]: state --> Leader; nextIndex on server 6 is 1
+2022/07/11 18:48:48 util.go:25: [3]: 
+args.Entries: []
+Local: [{-1 0 0}]
+2022/07/11 18:48:48 util.go:25: [5]: 
+args.Entries: []
+Local: [{-1 0 0}]
+2022/07/11 18:48:48 util.go:25: [4]: 
+args.Entries: []
+Local: [{-1 0 0}]
+2022/07/11 18:48:48 util.go:25: [2]: GET STATE; 目前Term: 15, 服务器状态： Leader
+2022/07/11 18:48:48 util.go:25: [3]: GET STATE; 目前Term: 15, 服务器状态： Follower
+2022/07/11 18:48:48 util.go:25: [4]: GET STATE; 目前Term: 15, 服务器状态： Follower
+2022/07/11 18:48:48 util.go:25: [5]: GET STATE; 目前Term: 15, 服务器状态： Follower
+2022/07/11 18:48:48 util.go:25: [2]: state --> Leader; nextIndex on server 0 is 1
+2022/07/11 18:48:48 util.go:25: [2]: state --> Leader; nextIndex on server 1 is 1
+2022/07/11 18:48:48 util.go:25: [2]: state --> Leader; nextIndex on server 3 is 1
+2022/07/11 18:48:48 util.go:25: [2]: state --> Leader; nextIndex on server 4 is 1
+2022/07/11 18:48:48 util.go:25: [2]: state --> Leader; nextIndex on server 5 is 1
+2022/07/11 18:48:48 util.go:25: [2]: state --> Leader; nextIndex on server 6 is 1
+2022/07/11 18:48:48 util.go:25: [0]: 
+args.Entries: []
+Local: [{-1 0 0}]
+2022/07/11 18:48:48 util.go:25: [3]: 
+args.Entries: []
+Local: [{-1 0 0}]
+2022/07/11 18:48:48 util.go:25: [4]: 
+args.Entries: []
+Local: [{-1 0 0}]
+2022/07/11 18:48:48 util.go:25: [1]: 
+args.Entries: []
+Local: [{-1 0 0}]
+2022/07/11 18:48:48 util.go:25: [5]: 
+args.Entries: []
+Local: [{-1 0 0}]
+2022/07/11 18:48:48 util.go:25: [2]: find new term, state --> follower
+2022/07/11 18:48:48 util.go:25: [2]: set term to 17
+2022/07/11 18:48:48 util.go:25: [2]: 目前Term: 18，服务器 2 请求投票
+2022/07/11 18:48:48 util.go:25: [2]: Last Log is --> {18 2 0 0}
+2022/07/11 18:48:48 util.go:25: [1]: 目前Term: 16，服务器 1 请求投票
+2022/07/11 18:48:48 util.go:25: [1]: Last Log is --> {16 1 0 0}
+2022/07/11 18:48:48 util.go:25: [6]: 目前Term: 18，服务器 6 请求投票
+2022/07/11 18:48:48 util.go:25: [5]: 目前Term: 16，服务器 5 请求投票
+2022/07/11 18:48:48 util.go:25: [5]: Last Log is --> {16 5 0 0}
+2022/07/11 18:48:48 util.go:25: [6]: Last Log is --> {18 6 0 0}
+2022/07/11 18:48:48 util.go:25: [0]: set term to 18
+2022/07/11 18:48:48 util.go:25: [6]: 拒绝来自服务器 5 的投票请求
+2022/07/11 18:48:48 util.go:25: [5]: set term to 18
+2022/07/11 18:48:48 util.go:25: [5]: 接收来自服务器 6 的投票请求; Term --> 18
+2022/07/11 18:48:48 util.go:25: [2]: 拒绝来自服务器 1 的投票请求
+2022/07/11 18:48:48 util.go:25: [3]: set term to 18
+2022/07/11 18:48:48 util.go:25: [1]: 有新的Term存在：18
+2022/07/11 18:48:48 util.go:25: [1]: set term to 18
+2022/07/11 18:48:48 util.go:25: [3]: 接收来自服务器 2 的投票请求; Term --> 18
+2022/07/11 18:48:48 util.go:25: [6]： 收到投票，目前票数： 2
+2022/07/11 18:48:48 util.go:25: [1]: 拒绝来自服务器 5 的投票请求
+2022/07/11 18:48:48 util.go:25: [2]： 收到投票，目前票数： 2
+2022/07/11 18:48:48 util.go:25: [0]: 接收来自服务器 2 的投票请求; Term --> 18
+2022/07/11 18:48:48 util.go:25: [6]: 拒绝来自服务器 1 的投票请求
+2022/07/11 18:48:48 util.go:25: [2]: 拒绝来自服务器 5 的投票请求
+2022/07/11 18:48:48 util.go:25: [0]: 拒绝来自服务器 1 的投票请求
+2022/07/11 18:48:48 util.go:25: [4]: set term to 16
+2022/07/11 18:48:48 util.go:25: [5]: 拒绝来自服务器 1 的投票请求
+2022/07/11 18:48:48 util.go:25: [0]: 拒绝来自服务器 5 的投票请求
+2022/07/11 18:48:48 util.go:25: [3]: 拒绝来自服务器 5 的投票请求
+2022/07/11 18:48:48 util.go:25: [4]: 接收来自服务器 1 的投票请求; Term --> 16
+2022/07/11 18:48:48 util.go:25: [1]: 接收来自服务器 6 的投票请求; Term --> 18
+2022/07/11 18:48:48 util.go:25: [2]： 收到投票，目前票数： 3
+2022/07/11 18:48:48 util.go:25: [4]: set term to 18
+2022/07/11 18:48:48 util.go:25: [4]: 接收来自服务器 6 的投票请求; Term --> 18
+2022/07/11 18:48:48 util.go:25: [3]: 拒绝来自服务器 1 的投票请求
+2022/07/11 18:48:48 util.go:25: [4]: 拒绝来自服务器 5 的投票请求
+2022/07/11 18:48:48 util.go:25: [6]： 收到投票，目前票数： 3
+2022/07/11 18:48:48 util.go:25: [1]： 收到投票，目前票数： 2
+2022/07/11 18:48:48 util.go:25: [1]: 没收到足够的选票，转为 follower
+2022/07/11 18:48:48 util.go:25: [1]: 接收来自服务器 2 的投票请求; Term --> 18
+2022/07/11 18:48:48 util.go:25: [6]： 收到投票，目前票数： 4
+2022/07/11 18:48:48 util.go:25: [6]：投票过半，提前结束
+2022/07/11 18:48:48 util.go:25: [6]: state --> Leader; nextIndex on server 0 is 1
+2022/07/11 18:48:48 util.go:25: [6]: state --> Leader; nextIndex on server 1 is 1
+2022/07/11 18:48:48 util.go:25: [5]: 没收到足够的选票，转为 follower
+2022/07/11 18:48:48 util.go:25: [6]: state --> Leader; nextIndex on server 2 is 1
+2022/07/11 18:48:48 util.go:25: [6]: state --> Leader; nextIndex on server 3 is 1
+2022/07/11 18:48:48 util.go:25: [6]: state --> Leader; nextIndex on server 4 is 1
+2022/07/11 18:48:48 util.go:25: [6]: state --> Leader; nextIndex on server 5 is 1
+2022/07/11 18:48:48 util.go:25: [2]： 收到投票，目前票数： 4
+2022/07/11 18:48:48 util.go:25: [2]：投票过半，提前结束
+2022/07/11 18:48:48 util.go:25: [2]: state --> Leader; nextIndex on server 0 is 1
+2022/07/11 18:48:48 util.go:25: [2]: state --> Leader; nextIndex on server 1 is 1
+2022/07/11 18:48:48 util.go:25: [2]: state --> Leader; nextIndex on server 3 is 1
+2022/07/11 18:48:48 util.go:25: [2]: state --> Leader; nextIndex on server 4 is 1
+2022/07/11 18:48:48 util.go:25: [2]: state --> Leader; nextIndex on server 5 is 1
+2022/07/11 18:48:48 util.go:25: [2]: state --> Leader; nextIndex on server 6 is 1
+2022/07/11 18:48:48 util.go:25: [0]: 
+args.Entries: []
+Local: [{-1 0 0}]
+2022/07/11 18:48:48 util.go:25: [5]: 
+args.Entries: []
+Local: [{-1 0 0}]
+2022/07/11 18:48:48 util.go:25: [6]: 
+args.Entries: []
+Local: [{-1 0 0}]
+2022/07/11 18:48:48 util.go:25: [3]: 
+args.Entries: []
+Local: [{-1 0 0}]
+2022/07/11 18:48:48 util.go:25: [4]: 
+args.Entries: []
+Local: [{-1 0 0}]
+2022/07/11 18:48:48 util.go:25: [3]: 
+args.Entries: []
+Local: [{-1 0 0}]
+2022/07/11 18:48:48 util.go:25: [4]: 
+args.Entries: []
+Local: [{-1 0 0}]
+2022/07/11 18:48:48 util.go:25: [2]: 
+args.Entries: []
+Local: [{-1 0 0}]
+2022/07/11 18:48:48 util.go:25: [1]: 没收到足够的选票，转为 follower
+2022/07/11 18:48:48 util.go:25: [1]: 没收到足够的选票，转为 follower
+2022/07/11 18:48:48 util.go:25: [5]: 
+args.Entries: []
+Local: [{-1 0 0}]
+2022/07/11 18:48:48 util.go:25: [1]: 
+args.Entries: []
+Local: [{-1 0 0}]
+2022/07/11 18:48:48 util.go:25: [0]: 
+args.Entries: []
+Local: [{-1 0 0}]
+2022/07/11 18:48:48 util.go:25: [1]: 
+args.Entries: []
+Local: [{-1 0 0}]
+2022/07/11 18:48:48 util.go:25: [6]: state --> Leader; nextIndex on server 0 is 1
+2022/07/11 18:48:48 util.go:25: [6]: state --> Leader; nextIndex on server 1 is 1
+2022/07/11 18:48:48 util.go:25: [6]: state --> Leader; nextIndex on server 2 is 1
+2022/07/11 18:48:48 util.go:25: [6]: state --> Leader; nextIndex on server 3 is 1
+2022/07/11 18:48:48 util.go:25: [6]: state --> Leader; nextIndex on server 4 is 1
+2022/07/11 18:48:48 util.go:25: [6]: state --> Leader; nextIndex on server 5 is 1
+2022/07/11 18:48:48 util.go:25: [2]: state --> Leader; nextIndex on server 0 is 1
+2022/07/11 18:48:48 util.go:25: [2]: state --> Leader; nextIndex on server 1 is 1
+2022/07/11 18:48:48 util.go:25: [2]: state --> Leader; nextIndex on server 3 is 1
+2022/07/11 18:48:48 util.go:25: [2]: state --> Leader; nextIndex on server 4 is 1
+2022/07/11 18:48:48 util.go:25: [2]: state --> Leader; nextIndex on server 5 is 1
+2022/07/11 18:48:48 util.go:25: [2]: state --> Leader; nextIndex on server 6 is 1
+2022/07/11 18:48:48 util.go:25: [0]: 
+args.Entries: []
+Local: [{-1 0 0}]
+2022/07/11 18:48:48 util.go:25: [2]: 
+args.Entries: []
+Local: [{-1 0 0}]
+2022/07/11 18:48:48 util.go:25: [1]: 
+args.Entries: []
+Local: [{-1 0 0}]
+2022/07/11 18:48:48 util.go:25: [6]: 
+args.Entries: []
+Local: [{-1 0 0}]
+2022/07/11 18:48:48 util.go:25: [5]: 
+args.Entries: []
+Local: [{-1 0 0}]
+2022/07/11 18:48:48 util.go:25: [3]: 
+args.Entries: []
+Local: [{-1 0 0}]
+2022/07/11 18:48:48 util.go:25: [4]: 
+args.Entries: []
+Local: [{-1 0 0}]
+2022/07/11 18:48:48 util.go:25: [0]: 
+args.Entries: []
+Local: [{-1 0 0}]
+2022/07/11 18:48:48 util.go:25: [3]: 
+args.Entries: []
+Local: [{-1 0 0}]
+2022/07/11 18:48:48 util.go:25: [4]: 
+args.Entries: []
+Local: [{-1 0 0}]
+2022/07/11 18:48:48 util.go:25: [1]: 
+args.Entries: []
+Local: [{-1 0 0}]
+2022/07/11 18:48:48 util.go:25: [5]: 
+args.Entries: []
+Local: [{-1 0 0}]
+2022/07/11 18:48:49 util.go:25: [0]: GET STATE; 目前Term: 18, 服务器状态： Follower
+2022/07/11 18:48:49 util.go:25: [1]: GET STATE; 目前Term: 18, 服务器状态： Follower
+2022/07/11 18:48:49 util.go:25: [2]: GET STATE; 目前Term: 18, 服务器状态： Leader
+2022/07/11 18:48:49 util.go:25: [3]: GET STATE; 目前Term: 18, 服务器状态： Follower
+2022/07/11 18:48:49 util.go:25: [4]: GET STATE; 目前Term: 18, 服务器状态： Follower
+2022/07/11 18:48:49 util.go:25: [5]: GET STATE; 目前Term: 18, 服务器状态： Follower
+2022/07/11 18:48:49 util.go:25: [6]: GET STATE; 目前Term: 18, 服务器状态： Leader
+    config.go:450: term 18 has 2 (>1) leaders
+--- FAIL: TestManyElections2A (5.51s)
+FAIL

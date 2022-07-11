@@ -65,7 +65,7 @@ func (rf *Raft) leaderSendEntries(peer int, args *AppendEntriesArgs) {
 	rf.mu.Lock()
 	defer rf.mu.Unlock()
 	if reply.Term > rf.currentTerm {
-		DPrintf("[%d]: find new term, state --> follower", rf.me)
+		DPrintf("[%d]: 存在更高的term，转变为Follower", rf.me)
 		rf.setNewTerm(reply.Term)
 		return
 	}

@@ -14,7 +14,7 @@ func init() {
 	if err != nil {
 		log.Fatalf("create file log.txt failed: %v", err)
 	}
-	logger = log.New(io.MultiWriter(writerCmd, writerFile), "", log.Lshortfile|log.LstdFlags)
+	logger = log.New(io.MultiWriter(writerCmd, writerFile), "", log.LstdFlags)
 }
 
 // Debugging
