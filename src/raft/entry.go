@@ -79,7 +79,12 @@ func (rf *Raft) leaderSendEntries(peer int, args *AppendEntriesArgs) {
 			DPrintf("[%v]: 冲突Index --> %v ，服务器标号 --> %v", rf.me, reply.XIndex, peer)
 			if reply.XTerm == -1 { // 日志缺失情况，把next 的开头改为reply.XLen开头。
 				rf.nextIndex[peer] = reply.XLen
-			} else {
+			} else { // 日志不匹配的情况
+				//   leader: 4 4 6 6 6
+				// follower: 4 4 5 5
+
+				//   leader: 4 4 6 6 6
+				// follower: 4 4 4
 				lastLogInXTerm := rf.findLastLogInTerm(reply.XTerm)
 				if lastLogInXTerm > 0 {
 					rf.nextIndex[peer] = lastLogInXTerm
@@ -238,6 +243,7 @@ func (rf *Raft) AppendEntries(args *AppendEntriesArgs, reply *AppendEntriesReply
 	rf.resetElectionTimer()
 }
 
+// 4 4 6 6 6
 func (rf *Raft) findLastLogInTerm(x int) int {
 	for i := rf.log.LastLog().Index; i > 0; i-- {
 		term := rf.log.at(i).Term

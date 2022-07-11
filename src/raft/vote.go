@@ -70,6 +70,7 @@ func (rf *Raft) RequestVote(args *RequestVoteArgs, reply *RequestVoteReply) {
 		reply.VoteGranted = true
 		DPrintf("[%d]: 接收来自服务器 %d 的投票请求; Term --> %d", rf.me, args.CandidateId, rf.currentTerm)
 		rf.resetElectionTimer()
+		rf.persist()
 	} else {
 		reply.VoteGranted = false
 		reply.Term = rf.currentTerm
@@ -111,8 +112,7 @@ func (rf *Raft) candidateRequest(Id int, count *int, args *RequestVoteArgs, beco
 			}
 			rf.appendEntries(true)
 		})
-	}
-	if *server == len(rf.peers) && rf.state == Candidate {
+	} else if *server == len(rf.peers) && 2*(*count) < len(rf.peers) {
 		rf.state = Follower
 		rf.votedFor = -1
 		rf.resetElectionTimer()

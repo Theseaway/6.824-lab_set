@@ -1,0 +1,516 @@
+=== RUN   TestPersist22C
+2022/07/11 03:42:05 util.go:25: TEST: endnames[i] --> [    ]
+2022/07/11 03:42:05 util.go:25: TEST: endnames[i] --> [    ]
+2022/07/11 03:42:05 util.go:25: [0]: function LoopCommit start
+2022/07/11 03:42:05 util.go:25: [1]: function LoopCommit start
+2022/07/11 03:42:05 util.go:25: [1]: function LoopCommit wait
+2022/07/11 03:42:05 util.go:25: TEST: endnames[i] --> [    ]
+2022/07/11 03:42:05 util.go:25: [0]: function LoopCommit wait
+2022/07/11 03:42:05 util.go:25: TEST: endnames[i] --> [    ]
+2022/07/11 03:42:05 util.go:25: [2]: function LoopCommit start
+2022/07/11 03:42:05 util.go:25: TEST: endnames[i] --> [    ]
+2022/07/11 03:42:05 util.go:25: [2]: function LoopCommit wait
+Test (2C): more persistence ...
+2022/07/11 03:42:05 util.go:25: [4]: function LoopCommit start
+2022/07/11 03:42:05 util.go:25: [4]: function LoopCommit wait
+2022/07/11 03:42:05 util.go:25: [3]: function LoopCommit start
+2022/07/11 03:42:05 util.go:25: [3]: function LoopCommit wait
+2022/07/11 03:42:05 util.go:25: TEST: function one called
+2022/07/11 03:42:05 util.go:25: [4]: 目前Term: 1，服务器 4 请求投票
+2022/07/11 03:42:05 util.go:25: [4]: Last Log is --> {1 4 0 0}
+2022/07/11 03:42:05 util.go:25: [0]: 目前Term: 1，服务器 0 请求投票
+2022/07/11 03:42:05 util.go:25: [0]: Last Log is --> {1 0 0 0}
+2022/07/11 03:42:05 util.go:25: [3]: set term to 1
+2022/07/11 03:42:05 util.go:25: [2]: set term to 1
+2022/07/11 03:42:05 util.go:25: [2]: 接收来自服务器 4 的投票请求; Term --> 1
+2022/07/11 03:42:05 util.go:25: [3]: 接收来自服务器 4 的投票请求; Term --> 1
+2022/07/11 03:42:05 util.go:25: [1]: set term to 1
+2022/07/11 03:42:05 util.go:25: [1]: 接收来自服务器 4 的投票请求; Term --> 1
+2022/07/11 03:42:05 util.go:25: [4]： 收到投票，目前票数： 2
+2022/07/11 03:42:05 util.go:25: [4]： 收到投票，目前票数： 3
+2022/07/11 03:42:05 util.go:25: [4]：投票过半，提前结束
+2022/07/11 03:42:05 util.go:25: [0]: 没收到足够的选票，转为 follower
+2022/07/11 03:42:05 util.go:25: [4]: state --> Leader; nextIndex on server 0 is 1
+2022/07/11 03:42:05 util.go:25: [4]: state --> Leader; nextIndex on server 1 is 1
+2022/07/11 03:42:05 util.go:25: [4]: state --> Leader; nextIndex on server 2 is 1
+2022/07/11 03:42:05 util.go:25: [4]: state --> Leader; nextIndex on server 3 is 1
+2022/07/11 03:42:05 util.go:25: [4]： 收到投票，目前票数： 4
+2022/07/11 03:42:05 util.go:25: [0]: 
+args.Entries: []
+Local: [{-1 0 0}]
+2022/07/11 03:42:05 util.go:25: [2]: 
+args.Entries: []
+Local: [{-1 0 0}]
+2022/07/11 03:42:05 util.go:25: [1]: 
+args.Entries: []
+Local: [{-1 0 0}]
+2022/07/11 03:42:05 util.go:25: [3]: 
+args.Entries: []
+Local: [{-1 0 0}]
+2022/07/11 03:42:05 util.go:25: [4]: START ENTRY (cmd,term,index)--> {11 1 1}
+2022/07/11 03:42:05 util.go:25: [4]: state --> Leader; nextIndex on server 0 is 1
+2022/07/11 03:42:05 util.go:25: [4]: state --> Leader; nextIndex on server 1 is 1
+2022/07/11 03:42:05 util.go:25: [4]: state --> Leader; nextIndex on server 2 is 1
+2022/07/11 03:42:05 util.go:25: [4]: state --> Leader; nextIndex on server 3 is 1
+2022/07/11 03:42:05 util.go:25: TEST: raft start function called on server 4
+cmd is 11
+2022/07/11 03:42:05 util.go:25: [1]: 
+args.Entries: [{11 1 1}]
+Local: [{-1 0 0}]
+2022/07/11 03:42:05 util.go:25: [1]: entry now is
+ [{-1 0 0} {11 1 1}]
+2022/07/11 03:42:05 util.go:25: TEST: server 0 --> index now is 1, cmd is <nil>
+2022/07/11 03:42:05 util.go:25: TEST: server 1 --> index now is 1, cmd is <nil>
+2022/07/11 03:42:05 util.go:25: TEST: server 2 --> index now is 1, cmd is <nil>
+2022/07/11 03:42:05 util.go:25: TEST: server 3 --> index now is 1, cmd is <nil>
+2022/07/11 03:42:05 util.go:25: TEST: server 4 --> index now is 1, cmd is <nil>
+2022/07/11 03:42:05 util.go:25: TEST: command --> <nil>, index --> 1, 承认commit数量 --> 0
+2022/07/11 03:42:05 util.go:25: [2]: 
+args.Entries: [{11 1 1}]
+Local: [{-1 0 0}]
+2022/07/11 03:42:05 util.go:25: [2]: entry now is
+ [{-1 0 0} {11 1 1}]
+2022/07/11 03:42:05 util.go:25: [0]: 
+args.Entries: [{11 1 1}]
+Local: [{-1 0 0}]
+2022/07/11 03:42:05 util.go:25: [0]: entry now is
+ [{-1 0 0} {11 1 1}]
+2022/07/11 03:42:05 util.go:25: [4]： Leader提交 日志：index 1
+2022/07/11 03:42:05 util.go:25: [4]: rf.applyCond.Broadcast()
+2022/07/11 03:42:05 util.go:25: [3]: 
+args.Entries: [{11 1 1}]
+Local: [{-1 0 0}]
+2022/07/11 03:42:05 util.go:25: [3]: entry now is
+ [{-1 0 0} {11 1 1}]
+2022/07/11 03:42:05 util.go:25: [4]: applyCond wake up
+2022/07/11 03:42:05 util.go:25: [4]: commitIndex --> 1; logIndex --> 1; lastApplied --> 0
+2022/07/11 03:42:05 util.go:25: [4]: function LoopCommit start
+2022/07/11 03:42:05 util.go:25: [4]: commitIndex --> 1; logIndex --> 1; lastApplied --> 1
+2022/07/11 03:42:05 util.go:32: [4]: COMMIT 1:   -1|  11
+2022/07/11 03:42:05 util.go:25: [4]: function LoopCommit start
+2022/07/11 03:42:05 util.go:25: [4]: function LoopCommit wait
+2022/07/11 03:42:05 util.go:25: TEST: server 0 --> index now is 1, cmd is <nil>
+2022/07/11 03:42:05 util.go:25: TEST: server 1 --> index now is 1, cmd is <nil>
+2022/07/11 03:42:05 util.go:25: TEST: server 2 --> index now is 1, cmd is <nil>
+2022/07/11 03:42:05 util.go:25: TEST: server 3 --> index now is 1, cmd is <nil>
+2022/07/11 03:42:05 util.go:25: TEST: server 4 --> index now is 1, cmd is 11
+2022/07/11 03:42:05 util.go:25: TEST: command --> 11, index --> 1, 承认commit数量 --> 1
+2022/07/11 03:42:05 util.go:25: TEST: server 0 --> index now is 1, cmd is <nil>
+2022/07/11 03:42:05 util.go:25: TEST: server 1 --> index now is 1, cmd is <nil>
+2022/07/11 03:42:05 util.go:25: TEST: server 2 --> index now is 1, cmd is <nil>
+2022/07/11 03:42:05 util.go:25: TEST: server 3 --> index now is 1, cmd is <nil>
+2022/07/11 03:42:05 util.go:25: TEST: server 4 --> index now is 1, cmd is 11
+2022/07/11 03:42:05 util.go:25: TEST: command --> 11, index --> 1, 承认commit数量 --> 1
+2022/07/11 03:42:05 util.go:25: [4]: state --> Leader; nextIndex on server 0 is 2
+2022/07/11 03:42:05 util.go:25: [4]: state --> Leader; nextIndex on server 1 is 2
+2022/07/11 03:42:05 util.go:25: [4]: state --> Leader; nextIndex on server 2 is 2
+2022/07/11 03:42:05 util.go:25: [4]: state --> Leader; nextIndex on server 3 is 2
+2022/07/11 03:42:05 util.go:25: [0]: 
+args.Entries: []
+Local: [{-1 0 0} {11 1 1}]
+2022/07/11 03:42:05 util.go:25: [3]: 
+args.Entries: []
+Local: [{-1 0 0} {11 1 1}]
+2022/07/11 03:42:05 util.go:25: [3]: rf.applyCond.Broadcast()
+2022/07/11 03:42:05 util.go:25: [0]: rf.applyCond.Broadcast()
+2022/07/11 03:42:05 util.go:25: [2]: 
+args.Entries: []
+Local: [{-1 0 0} {11 1 1}]
+2022/07/11 03:42:05 util.go:25: [2]: rf.applyCond.Broadcast()
+2022/07/11 03:42:05 util.go:25: [1]: 
+args.Entries: []
+Local: [{-1 0 0} {11 1 1}]
+2022/07/11 03:42:05 util.go:25: [1]: rf.applyCond.Broadcast()
+2022/07/11 03:42:05 util.go:25: [3]: applyCond wake up
+2022/07/11 03:42:05 util.go:25: [3]: commitIndex --> 1; logIndex --> 1; lastApplied --> 0
+2022/07/11 03:42:05 util.go:25: [0]: applyCond wake up
+2022/07/11 03:42:05 util.go:25: [0]: commitIndex --> 1; logIndex --> 1; lastApplied --> 0
+2022/07/11 03:42:05 util.go:25: [0]: function LoopCommit start
+2022/07/11 03:42:05 util.go:25: [0]: commitIndex --> 1; logIndex --> 1; lastApplied --> 1
+2022/07/11 03:42:05 util.go:32: [0]: COMMIT 1:   -1|  11
+2022/07/11 03:42:05 util.go:25: [2]: applyCond wake up
+2022/07/11 03:42:05 util.go:25: [2]: commitIndex --> 1; logIndex --> 1; lastApplied --> 0
+2022/07/11 03:42:05 util.go:25: [2]: function LoopCommit start
+2022/07/11 03:42:05 util.go:25: [2]: commitIndex --> 1; logIndex --> 1; lastApplied --> 1
+2022/07/11 03:42:05 util.go:25: [1]: applyCond wake up
+2022/07/11 03:42:05 util.go:25: [1]: commitIndex --> 1; logIndex --> 1; lastApplied --> 0
+2022/07/11 03:42:05 util.go:25: [1]: function LoopCommit start
+2022/07/11 03:42:05 util.go:25: [0]: function LoopCommit start
+2022/07/11 03:42:05 util.go:25: [0]: function LoopCommit wait
+2022/07/11 03:42:05 util.go:25: [1]: commitIndex --> 1; logIndex --> 1; lastApplied --> 1
+2022/07/11 03:42:05 util.go:32: [1]: COMMIT 1:   -1|  11
+2022/07/11 03:42:05 util.go:25: [3]: function LoopCommit start
+2022/07/11 03:42:05 util.go:25: [3]: commitIndex --> 1; logIndex --> 1; lastApplied --> 1
+2022/07/11 03:42:05 util.go:32: [3]: COMMIT 1:   -1|  11
+2022/07/11 03:42:05 util.go:25: [3]: function LoopCommit start
+2022/07/11 03:42:05 util.go:25: [3]: function LoopCommit wait
+2022/07/11 03:42:05 util.go:32: [2]: COMMIT 1:   -1|  11
+2022/07/11 03:42:05 util.go:25: [2]: function LoopCommit start
+2022/07/11 03:42:05 util.go:25: [2]: function LoopCommit wait
+2022/07/11 03:42:05 util.go:25: [1]: function LoopCommit start
+2022/07/11 03:42:05 util.go:25: [1]: function LoopCommit wait
+2022/07/11 03:42:05 util.go:25: TEST: server 0 --> index now is 1, cmd is 11
+2022/07/11 03:42:05 util.go:25: TEST: server 1 --> index now is 1, cmd is 11
+2022/07/11 03:42:05 util.go:25: TEST: server 2 --> index now is 1, cmd is 11
+2022/07/11 03:42:05 util.go:25: TEST: server 3 --> index now is 1, cmd is 11
+2022/07/11 03:42:05 util.go:25: TEST: server 4 --> index now is 1, cmd is 11
+2022/07/11 03:42:05 util.go:25: TEST: command --> 11, index --> 1, 承认commit数量 --> 5
+2022/07/11 03:42:05 util.go:25: [4]: state --> Leader; nextIndex on server 0 is 2
+2022/07/11 03:42:05 util.go:25: [4]: state --> Leader; nextIndex on server 1 is 2
+2022/07/11 03:42:05 util.go:25: [4]: state --> Leader; nextIndex on server 2 is 2
+2022/07/11 03:42:05 util.go:25: [4]: state --> Leader; nextIndex on server 3 is 2
+2022/07/11 03:42:05 util.go:25: [0]: 
+args.Entries: []
+Local: [{-1 0 0} {11 1 1}]
+2022/07/11 03:42:05 util.go:25: [1]: 
+args.Entries: []
+Local: [{-1 0 0} {11 1 1}]
+2022/07/11 03:42:05 util.go:25: [2]: 
+args.Entries: []
+Local: [{-1 0 0} {11 1 1}]
+2022/07/11 03:42:05 util.go:25: [3]: 
+args.Entries: []
+Local: [{-1 0 0} {11 1 1}]
+2022/07/11 03:42:05 util.go:25: [4]: state --> Leader; nextIndex on server 0 is 2
+2022/07/11 03:42:05 util.go:25: [4]: state --> Leader; nextIndex on server 1 is 2
+2022/07/11 03:42:05 util.go:25: [4]: state --> Leader; nextIndex on server 2 is 2
+2022/07/11 03:42:05 util.go:25: [4]: state --> Leader; nextIndex on server 3 is 2
+2022/07/11 03:42:05 util.go:25: [0]: 
+args.Entries: []
+Local: [{-1 0 0} {11 1 1}]
+2022/07/11 03:42:05 util.go:25: [1]: 
+args.Entries: []
+Local: [{-1 0 0} {11 1 1}]
+2022/07/11 03:42:05 util.go:25: [2]: 
+args.Entries: []
+Local: [{-1 0 0} {11 1 1}]
+2022/07/11 03:42:05 util.go:25: [3]: 
+args.Entries: []
+Local: [{-1 0 0} {11 1 1}]
+2022/07/11 03:42:05 util.go:25: [4]: state --> Leader; nextIndex on server 0 is 2
+2022/07/11 03:42:05 util.go:25: [4]: state --> Leader; nextIndex on server 1 is 2
+2022/07/11 03:42:05 util.go:25: [4]: state --> Leader; nextIndex on server 2 is 2
+2022/07/11 03:42:05 util.go:25: [4]: state --> Leader; nextIndex on server 3 is 2
+2022/07/11 03:42:05 util.go:25: [0]: 
+args.Entries: []
+Local: [{-1 0 0} {11 1 1}]
+2022/07/11 03:42:05 util.go:25: [2]: 
+args.Entries: []
+Local: [{-1 0 0} {11 1 1}]
+2022/07/11 03:42:05 util.go:25: [1]: 
+args.Entries: []
+Local: [{-1 0 0} {11 1 1}]
+2022/07/11 03:42:05 util.go:25: [3]: 
+args.Entries: []
+Local: [{-1 0 0} {11 1 1}]
+2022/07/11 03:42:05 util.go:25: [4]: state --> Leader; nextIndex on server 0 is 2
+2022/07/11 03:42:05 util.go:25: [4]: state --> Leader; nextIndex on server 1 is 2
+2022/07/11 03:42:05 util.go:25: [4]: state --> Leader; nextIndex on server 2 is 2
+2022/07/11 03:42:05 util.go:25: [4]: state --> Leader; nextIndex on server 3 is 2
+2022/07/11 03:42:05 util.go:25: [0]: 
+args.Entries: []
+Local: [{-1 0 0} {11 1 1}]
+2022/07/11 03:42:05 util.go:25: [2]: 
+args.Entries: []
+Local: [{-1 0 0} {11 1 1}]
+2022/07/11 03:42:05 util.go:25: [3]: 
+args.Entries: []
+Local: [{-1 0 0} {11 1 1}]
+2022/07/11 03:42:05 util.go:25: [1]: 
+args.Entries: []
+Local: [{-1 0 0} {11 1 1}]
+2022/07/11 03:57:04 util.go:25: [0]: GET STATE; 目前Term: 1, 服务器状态： Follower
+2022/07/11 03:57:04 util.go:25: [1]: GET STATE; 目前Term: 1, 服务器状态： Follower
+2022/07/11 03:57:04 util.go:25: [2]: GET STATE; 目前Term: 1, 服务器状态： Follower
+2022/07/11 03:57:04 util.go:25: [3]: GET STATE; 目前Term: 1, 服务器状态： Follower
+2022/07/11 03:57:04 util.go:25: [4]: GET STATE; 目前Term: 1, 服务器状态： Leader
+2022/07/11 03:57:04 util.go:25: TEST: function one called
+2022/07/11 03:57:04 util.go:25: [4]: state --> Leader; nextIndex on server 0 is 2
+2022/07/11 03:57:04 util.go:25: [4]: state --> Leader; nextIndex on server 1 is 2
+2022/07/11 03:57:04 util.go:25: [4]: state --> Leader; nextIndex on server 2 is 2
+2022/07/11 03:57:04 util.go:25: [4]: state --> Leader; nextIndex on server 3 is 2
+2022/07/11 03:57:04 util.go:25: [0]: 目前Term: 2，服务器 0 请求投票
+2022/07/11 03:57:04 util.go:25: [0]: Last Log is --> {2 0 1 1}
+2022/07/11 03:57:04 util.go:25: [2]: 目前Term: 2，服务器 2 请求投票
+2022/07/11 03:57:04 util.go:25: [2]: Last Log is --> {2 2 1 1}
+2022/07/11 03:57:04 util.go:25: [4]: find new term, state --> follower
+2022/07/11 03:57:04 util.go:25: [4]: set term to 2
+2022/07/11 03:57:04 util.go:25: [1]: 目前Term: 2，服务器 1 请求投票
+2022/07/11 03:57:04 util.go:25: [1]: Last Log is --> {2 1 1 1}
+2022/07/11 03:57:04 util.go:25: [4]: 接收来自服务器 2 的投票请求; Term --> 2
+2022/07/11 03:57:04 util.go:25: [2]： 收到投票，目前票数： 2
+2022/07/11 03:57:04 util.go:25: [3]: 目前Term: 2，服务器 3 请求投票
+2022/07/11 03:57:04 util.go:25: [3]: Last Log is --> {2 3 1 1}
+2022/07/11 03:57:04 util.go:25: [2]: 目前Term: 3，服务器 2 请求投票
+2022/07/11 03:57:04 util.go:25: [2]: Last Log is --> {3 2 1 1}
+2022/07/11 03:57:04 util.go:25: [4]: set term to 3
+2022/07/11 03:57:04 util.go:25: [3]: set term to 3
+2022/07/11 03:57:04 util.go:25: [4]: 接收来自服务器 2 的投票请求; Term --> 3
+2022/07/11 03:57:04 util.go:25: [1]: 目前Term: 3，服务器 1 请求投票
+2022/07/11 03:57:04 util.go:25: [1]: Last Log is --> {3 1 1 1}
+2022/07/11 03:57:04 util.go:25: [2]： 收到投票，目前票数： 2
+2022/07/11 03:57:04 util.go:25: [3]: 接收来自服务器 2 的投票请求; Term --> 3
+2022/07/11 03:57:04 util.go:25: [2]： 收到投票，目前票数： 3
+2022/07/11 03:57:04 util.go:25: [2]：投票过半，提前结束
+2022/07/11 03:57:04 util.go:25: [2]: state --> Leader; nextIndex on server 0 is 2
+2022/07/11 03:57:04 util.go:25: [2]: state --> Leader; nextIndex on server 1 is 2
+2022/07/11 03:57:04 util.go:25: [2]: state --> Leader; nextIndex on server 3 is 2
+2022/07/11 03:57:04 util.go:25: [2]: state --> Leader; nextIndex on server 4 is 2
+2022/07/11 03:57:04 util.go:25: [3]: 
+args.Entries: []
+Local: [{-1 0 0} {11 1 1}]
+2022/07/11 03:57:04 util.go:25: [4]: 
+args.Entries: []
+Local: [{-1 0 0} {11 1 1}]
+2022/07/11 03:57:04 util.go:25: [2]: START ENTRY (cmd,term,index)--> {12 3 2}
+2022/07/11 03:57:04 util.go:25: [2]: state --> Leader; nextIndex on server 0 is 2
+2022/07/11 03:57:04 util.go:25: [2]: state --> Leader; nextIndex on server 1 is 2
+2022/07/11 03:57:04 util.go:25: [2]: state --> Leader; nextIndex on server 3 is 2
+2022/07/11 03:57:04 util.go:25: [2]: state --> Leader; nextIndex on server 4 is 2
+2022/07/11 03:57:04 util.go:25: TEST: raft start function called on server 2
+cmd is 12
+2022/07/11 03:57:04 util.go:25: TEST: server 0 --> index now is 2, cmd is <nil>
+2022/07/11 03:57:04 util.go:25: TEST: server 1 --> index now is 2, cmd is <nil>
+2022/07/11 03:57:04 util.go:25: TEST: server 2 --> index now is 2, cmd is <nil>
+2022/07/11 03:57:04 util.go:25: TEST: server 3 --> index now is 2, cmd is <nil>
+2022/07/11 03:57:04 util.go:25: TEST: server 4 --> index now is 2, cmd is <nil>
+2022/07/11 03:57:04 util.go:25: TEST: command --> <nil>, index --> 2, 承认commit数量 --> 0
+2022/07/11 03:57:04 util.go:25: [4]: 
+args.Entries: [{12 3 2}]
+Local: [{-1 0 0} {11 1 1}]
+2022/07/11 03:57:04 util.go:25: [4]: entry now is
+ [{-1 0 0} {11 1 1} {12 3 2}]
+2022/07/11 03:57:04 util.go:25: [3]: 
+args.Entries: [{12 3 2}]
+Local: [{-1 0 0} {11 1 1}]
+2022/07/11 03:57:04 util.go:25: [3]: entry now is
+ [{-1 0 0} {11 1 1} {12 3 2}]
+2022/07/11 03:57:04 util.go:25: [2]： Leader提交 日志：index 2
+2022/07/11 03:57:04 util.go:25: [2]: rf.applyCond.Broadcast()
+2022/07/11 03:57:04 util.go:25: [2]: applyCond wake up
+2022/07/11 03:57:04 util.go:25: [2]: commitIndex --> 2; logIndex --> 2; lastApplied --> 1
+2022/07/11 03:57:04 util.go:25: [2]: function LoopCommit start
+2022/07/11 03:57:04 util.go:25: [2]: commitIndex --> 2; logIndex --> 2; lastApplied --> 2
+2022/07/11 03:57:04 util.go:32: [2]: COMMIT 2:   -1|  11|  12
+2022/07/11 03:57:04 util.go:25: [2]: function LoopCommit start
+2022/07/11 03:57:04 util.go:25: [2]: function LoopCommit wait
+2022/07/11 03:57:04 util.go:25: TEST: server 0 --> index now is 2, cmd is <nil>
+2022/07/11 03:57:04 util.go:25: TEST: server 1 --> index now is 2, cmd is <nil>
+2022/07/11 03:57:04 util.go:25: TEST: server 2 --> index now is 2, cmd is 12
+2022/07/11 03:57:04 util.go:25: TEST: server 3 --> index now is 2, cmd is <nil>
+2022/07/11 03:57:04 util.go:25: TEST: server 4 --> index now is 2, cmd is <nil>
+2022/07/11 03:57:04 util.go:25: TEST: command --> 12, index --> 2, 承认commit数量 --> 1
+2022/07/11 03:57:04 util.go:25: TEST: server 0 --> index now is 2, cmd is <nil>
+2022/07/11 03:57:04 util.go:25: TEST: server 1 --> index now is 2, cmd is <nil>
+2022/07/11 03:57:04 util.go:25: TEST: server 2 --> index now is 2, cmd is 12
+2022/07/11 03:57:04 util.go:25: TEST: server 3 --> index now is 2, cmd is <nil>
+2022/07/11 03:57:04 util.go:25: TEST: server 4 --> index now is 2, cmd is <nil>
+2022/07/11 03:57:04 util.go:25: TEST: command --> 12, index --> 2, 承认commit数量 --> 1
+2022/07/11 03:57:05 util.go:25: TEST: server 0 --> index now is 2, cmd is <nil>
+2022/07/11 03:57:05 util.go:25: TEST: server 1 --> index now is 2, cmd is <nil>
+2022/07/11 03:57:05 util.go:25: TEST: server 2 --> index now is 2, cmd is 12
+2022/07/11 03:57:05 util.go:25: TEST: server 3 --> index now is 2, cmd is <nil>
+2022/07/11 03:57:05 util.go:25: TEST: server 4 --> index now is 2, cmd is <nil>
+2022/07/11 03:57:05 util.go:25: TEST: command --> 12, index --> 2, 承认commit数量 --> 1
+2022/07/11 03:57:05 util.go:25: TEST: server 0 --> index now is 2, cmd is <nil>
+2022/07/11 03:57:05 util.go:25: TEST: server 1 --> index now is 2, cmd is <nil>
+2022/07/11 03:57:05 util.go:25: TEST: server 2 --> index now is 2, cmd is 12
+2022/07/11 03:57:05 util.go:25: TEST: server 3 --> index now is 2, cmd is <nil>
+2022/07/11 03:57:05 util.go:25: TEST: server 4 --> index now is 2, cmd is <nil>
+2022/07/11 03:57:05 util.go:25: TEST: command --> 12, index --> 2, 承认commit数量 --> 1
+2022/07/11 03:57:05 util.go:25: [0]: 目前Term: 3，服务器 0 请求投票
+2022/07/11 03:57:05 util.go:25: [0]: Last Log is --> {3 0 1 1}
+2022/07/11 03:57:05 util.go:25: [2]: state --> Leader; nextIndex on server 0 is 2
+2022/07/11 03:57:05 util.go:25: [2]: state --> Leader; nextIndex on server 1 is 2
+2022/07/11 03:57:05 util.go:25: [2]: state --> Leader; nextIndex on server 3 is 3
+2022/07/11 03:57:05 util.go:25: [2]: state --> Leader; nextIndex on server 4 is 3
+2022/07/11 03:57:05 util.go:25: [3]: 
+args.Entries: []
+Local: [{-1 0 0} {11 1 1} {12 3 2}]
+2022/07/11 03:57:05 util.go:25: [3]: rf.applyCond.Broadcast()
+2022/07/11 03:57:05 util.go:25: [3]: applyCond wake up
+2022/07/11 03:57:05 util.go:25: [3]: commitIndex --> 2; logIndex --> 2; lastApplied --> 1
+2022/07/11 03:57:05 util.go:25: [4]: 
+args.Entries: []
+Local: [{-1 0 0} {11 1 1} {12 3 2}]
+2022/07/11 03:57:05 util.go:25: [4]: rf.applyCond.Broadcast()
+2022/07/11 03:57:05 util.go:25: [3]: function LoopCommit start
+2022/07/11 03:57:05 util.go:25: [4]: applyCond wake up
+2022/07/11 03:57:05 util.go:25: [4]: commitIndex --> 2; logIndex --> 2; lastApplied --> 1
+2022/07/11 03:57:05 util.go:25: [3]: commitIndex --> 2; logIndex --> 2; lastApplied --> 2
+2022/07/11 03:57:05 util.go:32: [3]: COMMIT 2:   -1|  11|  12
+2022/07/11 03:57:05 util.go:25: [4]: function LoopCommit start
+2022/07/11 03:57:05 util.go:25: [4]: commitIndex --> 2; logIndex --> 2; lastApplied --> 2
+2022/07/11 03:57:05 util.go:25: [3]: function LoopCommit start
+2022/07/11 03:57:05 util.go:25: [3]: function LoopCommit wait
+2022/07/11 03:57:05 util.go:32: [4]: COMMIT 2:   -1|  11|  12
+2022/07/11 03:57:05 util.go:25: [4]: function LoopCommit start
+2022/07/11 03:57:05 util.go:25: [4]: function LoopCommit wait
+2022/07/11 03:57:05 util.go:25: TEST: server 0 --> index now is 2, cmd is <nil>
+2022/07/11 03:57:05 util.go:25: TEST: server 1 --> index now is 2, cmd is <nil>
+2022/07/11 03:57:05 util.go:25: TEST: server 2 --> index now is 2, cmd is 12
+2022/07/11 03:57:05 util.go:25: TEST: server 3 --> index now is 2, cmd is 12
+2022/07/11 03:57:05 util.go:25: TEST: server 4 --> index now is 2, cmd is 12
+2022/07/11 03:57:05 util.go:25: TEST: command --> 12, index --> 2, 承认commit数量 --> 3
+2022/07/11 03:57:05 util.go:25: TEST: endnames[i] --> [    ]
+2022/07/11 03:57:05 util.go:25: [0]: function LoopCommit start
+2022/07/11 03:57:05 util.go:25: [0]: function LoopCommit wait
+2022/07/11 03:57:05 util.go:25: TEST: endnames[i] --> [    ]
+2022/07/11 03:57:05 util.go:25: [1]: function LoopCommit start
+2022/07/11 03:57:05 util.go:25: [1]: function LoopCommit wait
+2022/07/11 03:57:05 util.go:25: [2]: state --> Leader; nextIndex on server 0 is 2
+2022/07/11 03:57:05 util.go:25: [2]: state --> Leader; nextIndex on server 1 is 2
+2022/07/11 03:57:05 util.go:25: [2]: state --> Leader; nextIndex on server 3 is 3
+2022/07/11 03:57:05 util.go:25: [2]: state --> Leader; nextIndex on server 4 is 3
+2022/07/11 03:57:05 util.go:25: [2]: state --> Leader; nextIndex on server 0 is 2
+2022/07/11 03:57:05 util.go:25: [2]: state --> Leader; nextIndex on server 1 is 2
+2022/07/11 03:57:05 util.go:25: [2]: state --> Leader; nextIndex on server 3 is 3
+2022/07/11 03:57:05 util.go:25: [2]: state --> Leader; nextIndex on server 4 is 3
+2022/07/11 03:57:05 util.go:25: [3]: 目前Term: 4，服务器 3 请求投票
+2022/07/11 03:57:05 util.go:25: [3]: Last Log is --> {4 3 2 3}
+2022/07/11 03:57:05 util.go:25: [0]: 目前Term: 2，服务器 0 请求投票
+2022/07/11 03:57:05 util.go:25: [0]: Last Log is --> {2 0 1 1}
+2022/07/11 03:57:05 util.go:25: [1]: set term to 2
+2022/07/11 03:57:05 util.go:25: [1]: 接收来自服务器 0 的投票请求; Term --> 2
+2022/07/11 03:57:05 util.go:25: [0]： 收到投票，目前票数： 2
+2022/07/11 03:57:05 util.go:25: [4]: 目前Term: 4，服务器 4 请求投票
+2022/07/11 03:57:05 util.go:25: [4]: Last Log is --> {4 4 2 3}
+2022/07/11 03:57:05 util.go:25: [2]: state --> Leader; nextIndex on server 0 is 2
+2022/07/11 03:57:05 util.go:25: [2]: state --> Leader; nextIndex on server 1 is 2
+2022/07/11 03:57:05 util.go:25: [2]: state --> Leader; nextIndex on server 3 is 3
+2022/07/11 03:57:05 util.go:25: [2]: state --> Leader; nextIndex on server 4 is 3
+2022/07/11 03:57:05 util.go:25: [2]: state --> Leader; nextIndex on server 0 is 2
+2022/07/11 03:57:05 util.go:25: [2]: state --> Leader; nextIndex on server 1 is 2
+2022/07/11 03:57:05 util.go:25: [2]: state --> Leader; nextIndex on server 3 is 3
+2022/07/11 03:57:05 util.go:25: [2]: state --> Leader; nextIndex on server 4 is 3
+2022/07/11 03:57:05 util.go:25: [1]: 目前Term: 3，服务器 1 请求投票
+2022/07/11 03:57:05 util.go:25: [1]: Last Log is --> {3 1 1 1}
+2022/07/11 03:57:05 util.go:25: [0]: set term to 3
+2022/07/11 03:57:05 util.go:25: [0]: 接收来自服务器 1 的投票请求; Term --> 3
+2022/07/11 03:57:05 util.go:25: [1]： 收到投票，目前票数： 2
+2022/07/11 03:57:05 util.go:25: [4]: 目前Term: 5，服务器 4 请求投票
+2022/07/11 03:57:05 util.go:25: [4]: Last Log is --> {5 4 2 3}
+2022/07/11 03:57:05 util.go:25: [3]: 目前Term: 5，服务器 3 请求投票
+2022/07/11 03:57:05 util.go:25: [3]: Last Log is --> {5 3 2 3}
+2022/07/11 03:57:05 util.go:25: [2]: state --> Leader; nextIndex on server 0 is 2
+2022/07/11 03:57:05 util.go:25: [2]: state --> Leader; nextIndex on server 1 is 2
+2022/07/11 03:57:05 util.go:25: [2]: state --> Leader; nextIndex on server 3 is 3
+2022/07/11 03:57:05 util.go:25: [2]: state --> Leader; nextIndex on server 4 is 3
+2022/07/11 03:57:05 util.go:25: [2]: state --> Leader; nextIndex on server 0 is 2
+2022/07/11 03:57:05 util.go:25: [2]: state --> Leader; nextIndex on server 1 is 2
+2022/07/11 03:57:05 util.go:25: [2]: state --> Leader; nextIndex on server 3 is 3
+2022/07/11 03:57:05 util.go:25: [2]: state --> Leader; nextIndex on server 4 is 3
+2022/07/11 03:57:05 util.go:25: [1]: 目前Term: 4，服务器 1 请求投票
+2022/07/11 03:57:05 util.go:25: [1]: Last Log is --> {4 1 1 1}
+2022/07/11 03:57:05 util.go:25: [0]: set term to 4
+2022/07/11 03:57:05 util.go:25: [0]: 接收来自服务器 1 的投票请求; Term --> 4
+2022/07/11 03:57:05 util.go:25: [1]： 收到投票，目前票数： 2
+2022/07/11 03:57:05 util.go:25: [2]: state --> Leader; nextIndex on server 0 is 2
+2022/07/11 03:57:05 util.go:25: [2]: state --> Leader; nextIndex on server 1 is 2
+2022/07/11 03:57:05 util.go:25: [2]: state --> Leader; nextIndex on server 3 is 3
+2022/07/11 03:57:05 util.go:25: [2]: state --> Leader; nextIndex on server 4 is 3
+2022/07/11 03:57:05 util.go:25: [4]: 目前Term: 6，服务器 4 请求投票
+2022/07/11 03:57:05 util.go:25: [4]: Last Log is --> {6 4 2 3}
+2022/07/11 03:57:05 util.go:25: [3]: 目前Term: 6，服务器 3 请求投票
+2022/07/11 03:57:05 util.go:25: [2]: state --> Leader; nextIndex on server 0 is 2
+2022/07/11 03:57:05 util.go:25: [2]: state --> Leader; nextIndex on server 1 is 2
+2022/07/11 03:57:05 util.go:25: [2]: state --> Leader; nextIndex on server 3 is 3
+2022/07/11 03:57:05 util.go:25: [3]: Last Log is --> {6 3 2 3}
+2022/07/11 03:57:05 util.go:25: [2]: state --> Leader; nextIndex on server 4 is 3
+2022/07/11 03:57:05 util.go:25: [1]: 目前Term: 5，服务器 1 请求投票
+2022/07/11 03:57:05 util.go:25: [1]: Last Log is --> {5 1 1 1}
+2022/07/11 03:57:05 util.go:25: [0]: set term to 5
+2022/07/11 03:57:05 util.go:25: [0]: 接收来自服务器 1 的投票请求; Term --> 5
+2022/07/11 03:57:05 util.go:25: [1]： 收到投票，目前票数： 2
+2022/07/11 03:57:05 util.go:25: [2]: state --> Leader; nextIndex on server 0 is 2
+2022/07/11 03:57:05 util.go:25: [2]: state --> Leader; nextIndex on server 1 is 2
+2022/07/11 03:57:05 util.go:25: [2]: state --> Leader; nextIndex on server 3 is 3
+2022/07/11 03:57:05 util.go:25: [2]: state --> Leader; nextIndex on server 4 is 3
+2022/07/11 03:57:06 util.go:25: [4]: 目前Term: 7，服务器 4 请求投票
+2022/07/11 03:57:06 util.go:25: [2]: state --> Leader; nextIndex on server 0 is 2
+2022/07/11 03:57:06 util.go:25: [2]: state --> Leader; nextIndex on server 1 is 2
+2022/07/11 03:57:06 util.go:25: [2]: state --> Leader; nextIndex on server 3 is 3
+2022/07/11 03:57:06 util.go:25: [2]: state --> Leader; nextIndex on server 4 is 3
+2022/07/11 03:57:06 util.go:25: [3]: 目前Term: 7，服务器 3 请求投票
+2022/07/11 03:57:06 util.go:25: [3]: Last Log is --> {7 3 2 3}
+2022/07/11 03:57:06 util.go:25: [4]: Last Log is --> {7 4 2 3}
+2022/07/11 03:57:06 util.go:25: TEST: endnames[i] --> [    ]
+2022/07/11 03:57:06 util.go:25: TEST: function one called
+2022/07/11 03:57:06 util.go:25: [2]: function LoopCommit start
+2022/07/11 03:57:06 util.go:25: [2]: function LoopCommit wait
+2022/07/11 03:57:06 util.go:25: [2]: state --> Leader; nextIndex on server 0 is 2
+2022/07/11 03:57:06 util.go:25: [2]: state --> Leader; nextIndex on server 1 is 2
+2022/07/11 03:57:06 util.go:25: [2]: state --> Leader; nextIndex on server 3 is 3
+2022/07/11 03:57:06 util.go:25: [2]: state --> Leader; nextIndex on server 4 is 3
+2022/07/11 03:57:06 util.go:25: [0]: 目前Term: 6，服务器 0 请求投票
+2022/07/11 03:57:06 util.go:25: [0]: Last Log is --> {6 0 1 1}
+2022/07/11 03:57:06 util.go:25: [1]: 目前Term: 6，服务器 1 请求投票
+2022/07/11 03:57:06 util.go:25: [1]: Last Log is --> {6 1 1 1}
+2022/07/11 03:57:06 util.go:25: [2]: set term to 6
+2022/07/11 03:57:06 util.go:25: [2]: 接收来自服务器 0 的投票请求; Term --> 6
+2022/07/11 03:57:06 util.go:25: [0]： 收到投票，目前票数： 2
+2022/07/11 03:57:06 util.go:25: [3]: 目前Term: 8，服务器 3 请求投票
+2022/07/11 03:57:06 util.go:25: [4]: 目前Term: 8，服务器 4 请求投票
+2022/07/11 03:57:06 util.go:25: [4]: Last Log is --> {8 4 2 3}
+2022/07/11 03:57:06 util.go:25: [3]: Last Log is --> {8 3 2 3}
+2022/07/11 03:57:06 util.go:25: [0]: 目前Term: 7，服务器 0 请求投票
+2022/07/11 03:57:06 util.go:25: [0]: Last Log is --> {7 0 1 1}
+2022/07/11 03:57:06 util.go:25: [1]: 目前Term: 7，服务器 1 请求投票
+2022/07/11 03:57:06 util.go:25: [1]: Last Log is --> {7 1 1 1}
+2022/07/11 03:57:06 util.go:25: [2]: set term to 7
+2022/07/11 03:57:06 util.go:25: [2]: 接收来自服务器 0 的投票请求; Term --> 7
+2022/07/11 03:57:06 util.go:25: [0]： 收到投票，目前票数： 2
+2022/07/11 03:57:06 util.go:25: [2]: 目前Term: 8，服务器 2 请求投票
+2022/07/11 03:57:06 util.go:25: [2]: Last Log is --> {8 2 1 1}
+2022/07/11 03:57:06 util.go:25: [1]: set term to 8
+2022/07/11 03:57:06 util.go:25: [0]: set term to 8
+2022/07/11 03:57:06 util.go:25: [1]: 接收来自服务器 2 的投票请求; Term --> 8
+2022/07/11 03:57:06 util.go:25: [0]: 接收来自服务器 2 的投票请求; Term --> 8
+2022/07/11 03:57:06 util.go:25: [2]： 收到投票，目前票数： 2
+2022/07/11 03:57:06 util.go:25: [2]： 收到投票，目前票数： 3
+2022/07/11 03:57:06 util.go:25: [2]：投票过半，提前结束
+2022/07/11 03:57:06 util.go:25: [2]: state --> Leader; nextIndex on server 0 is 2
+2022/07/11 03:57:06 util.go:25: [2]: state --> Leader; nextIndex on server 1 is 2
+2022/07/11 03:57:06 util.go:25: [2]: state --> Leader; nextIndex on server 3 is 2
+2022/07/11 03:57:06 util.go:25: [2]: state --> Leader; nextIndex on server 4 is 2
+2022/07/11 03:57:06 util.go:25: [0]: 
+args.Entries: []
+Local: [{-1 0 0} {11 1 1}]
+2022/07/11 03:57:06 util.go:25: [1]: 
+args.Entries: []
+Local: [{-1 0 0} {11 1 1}]
+2022/07/11 03:57:06 util.go:25: [2]: START ENTRY (cmd,term,index)--> {13 8 2}
+2022/07/11 03:57:06 util.go:25: [2]: state --> Leader; nextIndex on server 0 is 2
+2022/07/11 03:57:06 util.go:25: [2]: state --> Leader; nextIndex on server 1 is 2
+2022/07/11 03:57:06 util.go:25: [2]: state --> Leader; nextIndex on server 3 is 2
+2022/07/11 03:57:06 util.go:25: [2]: state --> Leader; nextIndex on server 4 is 2
+2022/07/11 03:57:06 util.go:25: TEST: raft start function called on server 2
+cmd is 13
+2022/07/11 03:57:06 util.go:25: TEST: server 0 --> index now is 2, cmd is <nil>
+2022/07/11 03:57:06 util.go:25: TEST: server 1 --> index now is 2, cmd is <nil>
+2022/07/11 03:57:06 util.go:25: TEST: server 2 --> index now is 2, cmd is 12
+2022/07/11 03:57:06 util.go:25: TEST: server 3 --> index now is 2, cmd is 12
+2022/07/11 03:57:06 util.go:25: TEST: server 4 --> index now is 2, cmd is 12
+2022/07/11 03:57:06 util.go:25: TEST: command --> 12, index --> 2, 承认commit数量 --> 3
+2022/07/11 03:57:06 util.go:25: [0]: 
+args.Entries: [{13 8 2}]
+Local: [{-1 0 0} {11 1 1}]
+2022/07/11 03:57:06 util.go:25: [0]: entry now is
+ [{-1 0 0} {11 1 1} {13 8 2}]
+2022/07/11 03:57:06 util.go:25: [1]: 
+args.Entries: [{13 8 2}]
+Local: [{-1 0 0} {11 1 1}]
+2022/07/11 03:57:06 util.go:25: [1]: entry now is
+ [{-1 0 0} {11 1 1} {13 8 2}]
+2022/07/11 03:57:06 util.go:25: [2]： Leader提交 日志：index 2
+2022/07/11 03:57:06 util.go:25: [2]: rf.applyCond.Broadcast()
+2022/07/11 03:57:06 util.go:25: [2]: applyCond wake up
+2022/07/11 03:57:06 util.go:25: [2]: commitIndex --> 2; logIndex --> 2; lastApplied --> 0
+2022/07/11 03:57:06 util.go:25: [2]: function LoopCommit start
+2022/07/11 03:57:06 util.go:25: [2]: commitIndex --> 2; logIndex --> 2; lastApplied --> 1
+2022/07/11 03:57:06 util.go:32: [2]: COMMIT 1:   -1|  11
+2022/07/11 03:57:06 util.go:25: [2]: function LoopCommit start
+2022/07/11 03:57:06 util.go:25: [2]: commitIndex --> 2; logIndex --> 2; lastApplied --> 2
+2022/07/11 03:57:06 util.go:32: [2]: COMMIT 2:   -1|  11|  13
+2022/07/11 03:57:06 util.go:25: [2]: function LoopCommit start
+2022/07/11 03:57:06 util.go:25: [2]: function LoopCommit wait
