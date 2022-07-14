@@ -1,6 +1,7 @@
 package raft
 
 import (
+	"fmt"
 	"io"
 	"log"
 	"os"
@@ -22,14 +23,14 @@ const Debug = true
 
 func DPrintf(format string, a ...interface{}) (n int, err error) {
 	if Debug {
-		logger.Printf(format, a...)
+		fmt.Printf(format+"\n", a...)
 	}
 	return
 }
 
 func DPrintVerbose(format string, a ...interface{}) (n int, err error) {
 	if Debug {
-		logger.Printf(format, a...)
+		fmt.Printf(format+"\n", a...)
 	}
 	return
 }

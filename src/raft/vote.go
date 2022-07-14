@@ -29,6 +29,7 @@ type RequestVoteReply struct {
 func (rf *Raft) resetElectionTimer() {
 	t := time.Now()
 	electionTimeout := time.Duration(150+rand.Intn(150)) * time.Millisecond
+	//DPrintf("[%d]: 等待时间为 --> %v", rf.me, electionTimeout)
 	rf.electionTime = t.Add(electionTimeout)
 }
 

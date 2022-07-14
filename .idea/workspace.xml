@@ -6,8 +6,10 @@
   <component name="ChangeListManager">
     <list default="true" id="b9689d2a-9add-414c-bc71-f73c14f133e7" name="变更" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/raft/entry.go" beforeDir="false" afterPath="$PROJECT_DIR$/src/raft/entry.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/raft/test.log" beforeDir="false" afterPath="$PROJECT_DIR$/src/raft/test.log" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/raft/log.txt" beforeDir="false" afterPath="$PROJECT_DIR$/src/raft/log.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/raft/raft.go" beforeDir="false" afterPath="$PROJECT_DIR$/src/raft/raft.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/raft/test_test.go" beforeDir="false" afterPath="$PROJECT_DIR$/src/raft/test_test.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/raft/tester" beforeDir="false" afterPath="$PROJECT_DIR$/src/raft/tester" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/raft/util.go" beforeDir="false" afterPath="$PROJECT_DIR$/src/raft/util.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/raft/vote.go" beforeDir="false" afterPath="$PROJECT_DIR$/src/raft/vote.go" afterDir="false" />
     </list>
@@ -44,7 +46,7 @@
     &quot;last_opened_file_path&quot;: &quot;/Users/seaway/Share/6.824-lab_set&quot;
   }
 }</component>
-  <component name="RunManager" selected="Go 测试.6.824/raft 中的 TestPersist12C">
+  <component name="RunManager" selected="Go 测试.test_test.go">
     <configuration name="6.824/raft 中的 TestBackup2B" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
       <module name="6.824-lab_set" />
       <working_directory value="$PROJECT_DIR$/src/raft" />
@@ -55,18 +57,6 @@
       <filePath value="$PROJECT_DIR$" />
       <framework value="gotest" />
       <pattern value="^\QTestBackup2B\E$" />
-      <method v="2" />
-    </configuration>
-    <configuration name="6.824/raft 中的 TestConcurrentStarts2B" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
-      <module name="6.824-lab_set" />
-      <working_directory value="$PROJECT_DIR$/src/raft" />
-      <root_directory value="$PROJECT_DIR$/src" />
-      <kind value="PACKAGE" />
-      <package value="6.824/raft" />
-      <directory value="$PROJECT_DIR$" />
-      <filePath value="$PROJECT_DIR$" />
-      <framework value="gotest" />
-      <pattern value="^\QTestConcurrentStarts2B\E$" />
       <method v="2" />
     </configuration>
     <configuration name="6.824/raft 中的 TestFailNoAgree2B" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
@@ -105,13 +95,23 @@
       <pattern value="^\QTestPersist12C\E$" />
       <method v="2" />
     </configuration>
+    <configuration name="test_test.go" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
+      <module name="6.824-lab_set" />
+      <working_directory value="$PROJECT_DIR$/src/raft" />
+      <root_directory value="$PROJECT_DIR$/src" />
+      <kind value="FILE" />
+      <directory value="$PROJECT_DIR$" />
+      <filePath value="$PROJECT_DIR$/src/raft/test_test.go" />
+      <framework value="gotest" />
+      <method v="2" />
+    </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Go 测试.test_test.go" />
+        <item itemvalue="Go 测试.6.824/raft 中的 TestBackup2B" />
         <item itemvalue="Go 测试.6.824/raft 中的 TestPersist12C" />
         <item itemvalue="Go 测试.6.824/raft 中的 TestManyElections2A" />
         <item itemvalue="Go 测试.6.824/raft 中的 TestFailNoAgree2B" />
-        <item itemvalue="Go 测试.6.824/raft 中的 TestConcurrentStarts2B" />
-        <item itemvalue="Go 测试.6.824/raft 中的 TestBackup2B" />
       </list>
     </recent_temporary>
   </component>

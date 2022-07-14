@@ -15,6 +15,10 @@ import "math/rand"
 import "sync/atomic"
 import "sync"
 
+func init() {
+	rand.Seed(5555)
+}
+
 // The tester generously allows solutions to complete elections in one second
 // (much more than the paper's range of timeouts).
 const RaftElectionTimeout = 1000 * time.Millisecond
@@ -512,32 +516,40 @@ func TestBackup2B(t *testing.T) {
 
 	cfg.begin("Test (2B): leader backs up quickly over incorrect follower logs")
 
-	cfg.one(rand.Int(), servers, true)
+	cfg.one(rand.Int()%2000, servers, true) //4
 
 	// put leader and one follower in a partition
 	leader1 := cfg.checkOneLeader()
 	cfg.disconnect((leader1 + 2) % servers)
+	DPrintf("TEST: server --> %d disconnect", (leader1+2)%servers)
 	cfg.disconnect((leader1 + 3) % servers)
+	DPrintf("TEST: server --> %d disconnect", (leader1+3)%servers)
 	cfg.disconnect((leader1 + 4) % servers)
+	DPrintf("TEST: server --> %d disconnect", (leader1+4)%servers)
 
 	// submit lots of commands that won't commit
 	for i := 0; i < 50; i++ {
-		cfg.rafts[leader1].Start(rand.Int())
+		cfg.rafts[leader1].Start(rand.Int() % 2000)
 	}
 
 	time.Sleep(RaftElectionTimeout / 2)
 
 	cfg.disconnect((leader1 + 0) % servers)
+	DPrintf("TEST: server --> %d disconnect", (leader1+0)%servers)
 	cfg.disconnect((leader1 + 1) % servers)
+	DPrintf("TEST: server --> %d disconnect", (leader1+1)%servers)
 
 	// allow other partition to recover
 	cfg.connect((leader1 + 2) % servers)
+	DPrintf("TEST: server --> %d Online", (leader1+2)%servers)
 	cfg.connect((leader1 + 3) % servers)
+	DPrintf("TEST: server --> %d Online", (leader1+3)%servers)
 	cfg.connect((leader1 + 4) % servers)
+	DPrintf("TEST: server --> %d Online", (leader1+4)%servers)
 
 	// lots of successful commands to new group.
 	for i := 0; i < 50; i++ {
-		cfg.one(rand.Int(), 3, true)
+		cfg.one(rand.Int()%2000, 3, true)
 	}
 
 	// now another partitioned leader and one follower
@@ -547,10 +559,11 @@ func TestBackup2B(t *testing.T) {
 		other = (leader2 + 1) % servers
 	}
 	cfg.disconnect(other)
+	DPrintf("TEST: server --> %d disconnect", other)
 
 	// lots more commands that won't commit
 	for i := 0; i < 50; i++ {
-		cfg.rafts[leader2].Start(rand.Int())
+		cfg.rafts[leader2].Start(rand.Int() % 2000)
 	}
 
 	time.Sleep(RaftElectionTimeout / 2)
@@ -559,20 +572,24 @@ func TestBackup2B(t *testing.T) {
 	for i := 0; i < servers; i++ {
 		cfg.disconnect(i)
 	}
+	DPrintf("TEST: ALL SERVER DISCONNECT")
 	cfg.connect((leader1 + 0) % servers)
+	DPrintf("TEST: server --> %d Online", (leader1+0)%servers)
 	cfg.connect((leader1 + 1) % servers)
+	DPrintf("TEST: server --> %d Online", (leader1+1)%servers)
 	cfg.connect(other)
+	DPrintf("TEST: server --> %d Online", other)
 
 	// lots of successful commands to new group.
 	for i := 0; i < 50; i++ {
-		cfg.one(rand.Int(), 3, true)
+		cfg.one(rand.Int()%2000, 3, true)
 	}
 
 	// now everyone
 	for i := 0; i < servers; i++ {
 		cfg.connect(i)
 	}
-	cfg.one(rand.Int(), servers, true)
+	cfg.one(rand.Int()%2000, servers, true)
 
 	cfg.end()
 }
@@ -910,8 +927,8 @@ func TestFigure8Unreliable2C(t *testing.T) {
 	defer cfg.cleanup()
 
 	cfg.begin("Test (2C): Figure 8 (unreliable)")
-
-	cfg.one(rand.Int()%10000, 1, true)
+	cmd := rand.Int() % 10000
+	cfg.one(cmd, 1, true)
 
 	nup := servers
 	for iters := 0; iters < 1000; iters++ {

@@ -21,6 +21,7 @@ import (
 	"6.824/labgob"
 	"bytes"
 	"fmt"
+	"math/rand"
 	"strings"
 
 	//	"bytes"
@@ -212,6 +213,7 @@ func (rf *Raft) Start(command interface{}) (int, int, bool) {
 	}
 	DPrintf("[%d]: START ENTRY (cmd,term,index)--> %v", rf.me, entry)
 	rf.log.append(entry)
+	rf.persist()
 	rf.appendEntries(false)
 	return entry.Index, entry.Term, true
 }
@@ -285,11 +287,11 @@ func Make(peers []*labrpc.ClientEnd, me int,
 	rf.commitIndex = 0
 	rf.lastApplied = 0
 	rf.state = Follower
-	rf.heartBeat = 100 * time.Millisecond
+	rf.heartBeat = 120 * time.Millisecond
 
 	rf.applyCh = applyCh
 	rf.applyCond = sync.NewCond(&rf.mu)
-
+	rand.Seed(int64(rf.me * 99))
 	// initialize from state persisted before a crash
 	rf.readPersist(persister.ReadRaftState())
 	// start ticker goroutine to start elections
