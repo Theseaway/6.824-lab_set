@@ -6,11 +6,27 @@
   <component name="ChangeListManager">
     <list default="true" id="b9689d2a-9add-414c-bc71-f73c14f133e7" name="变更" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/raft/log.txt" beforeDir="false" afterPath="$PROJECT_DIR$/src/raft/log.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/raft/entry.go" beforeDir="false" afterPath="$PROJECT_DIR$/src/raft/entry.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/raft/leaderElection.go" beforeDir="false" afterPath="$PROJECT_DIR$/src/raft/leaderElection.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/raft/log.txt" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/raft/raft.go" beforeDir="false" afterPath="$PROJECT_DIR$/src/raft/raft.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/raft/test-1.log" beforeDir="false" afterPath="$PROJECT_DIR$/src/raft/test-1.log" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/raft/test-2.err" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/raft/test-2.log" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/raft/test-3.err" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/raft/test-3.log" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/raft/test-4.err" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/raft/test-4.log" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/raft/test-5.err" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/raft/test-5.log" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/raft/test-6.err" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/raft/test-6.log" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/raft/test-7.err" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/raft/test-7.log" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/raft/test-8.err" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/raft/test-8.log" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/raft/test_test.go" beforeDir="false" afterPath="$PROJECT_DIR$/src/raft/test_test.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/raft/tester" beforeDir="false" afterPath="$PROJECT_DIR$/src/raft/tester" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/raft/util.go" beforeDir="false" afterPath="$PROJECT_DIR$/src/raft/util.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/raft/vote.go" beforeDir="false" afterPath="$PROJECT_DIR$/src/raft/vote.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -46,7 +62,7 @@
     &quot;last_opened_file_path&quot;: &quot;/Users/seaway/Share/6.824-lab_set&quot;
   }
 }</component>
-  <component name="RunManager" selected="Go 测试.test_test.go">
+  <component name="RunManager" selected="Go 测试.6.824/raft 中的 TestFigure8Unreliable2C">
     <configuration name="6.824/raft 中的 TestBackup2B" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
       <module name="6.824-lab_set" />
       <working_directory value="$PROJECT_DIR$/src/raft" />
@@ -59,7 +75,7 @@
       <pattern value="^\QTestBackup2B\E$" />
       <method v="2" />
     </configuration>
-    <configuration name="6.824/raft 中的 TestFailNoAgree2B" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
+    <configuration name="6.824/raft 中的 TestFigure8Unreliable2C" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
       <module name="6.824-lab_set" />
       <working_directory value="$PROJECT_DIR$/src/raft" />
       <root_directory value="$PROJECT_DIR$/src" />
@@ -68,7 +84,7 @@
       <directory value="$PROJECT_DIR$" />
       <filePath value="$PROJECT_DIR$" />
       <framework value="gotest" />
-      <pattern value="^\QTestFailNoAgree2B\E$" />
+      <pattern value="^\QTestFigure8Unreliable2C\E$" />
       <method v="2" />
     </configuration>
     <configuration name="6.824/raft 中的 TestManyElections2A" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
@@ -107,11 +123,11 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Go 测试.6.824/raft 中的 TestFigure8Unreliable2C" />
         <item itemvalue="Go 测试.test_test.go" />
         <item itemvalue="Go 测试.6.824/raft 中的 TestBackup2B" />
         <item itemvalue="Go 测试.6.824/raft 中的 TestPersist12C" />
         <item itemvalue="Go 测试.6.824/raft 中的 TestManyElections2A" />
-        <item itemvalue="Go 测试.6.824/raft 中的 TestFailNoAgree2B" />
       </list>
     </recent_temporary>
   </component>

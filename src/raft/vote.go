@@ -38,8 +38,8 @@ func (rf *Raft) setNewTerm(term int) {
 		rf.state = Follower
 		rf.currentTerm = term
 		rf.votedFor = -1
-		DPrintf("[%d]: 设置term为 --> %v\n", rf.me, rf.currentTerm)
 		rf.persist()
+		DPrintf("[%d]: 设置term为 --> %v\n", rf.me, rf.currentTerm)
 		rf.resetElectionTimer()
 	}
 }
@@ -50,7 +50,7 @@ func (rf *Raft) setNewTerm(term int) {
 func (rf *Raft) RequestVote(args *RequestVoteArgs, reply *RequestVoteReply) {
 	rf.mu.Lock()
 	defer rf.mu.Unlock()
-
+	reply.VoteGranted = false
 	// 本服务器term比候选者大，拒绝
 	if args.Term < rf.currentTerm {
 		reply.Term = rf.currentTerm
@@ -68,14 +68,12 @@ func (rf *Raft) RequestVote(args *RequestVoteArgs, reply *RequestVoteReply) {
 	//if (rf.votedFor == -1 || rf.votedFor == args.CandidateId) && valid {
 	if (rf.votedFor == -1 || rf.votedFor == args.CandidateId) && valid {
 		rf.votedFor = args.CandidateId
+		rf.persist()
 		reply.VoteGranted = true
 		DPrintf("[%d]: 接收来自服务器 %d 的投票请求; Term --> %d", rf.me, args.CandidateId, rf.currentTerm)
 		rf.resetElectionTimer()
-		rf.persist()
-	} else {
-		reply.VoteGranted = false
-		reply.Term = rf.currentTerm
 	}
+	reply.Term = rf.currentTerm
 }
 
 func (rf *Raft) sendRequestVote(Id int, args *RequestVoteArgs, reply *RequestVoteReply) bool {
@@ -100,12 +98,15 @@ func (rf *Raft) candidateRequest(Id int, count *int, args *RequestVoteArgs, beco
 	if reply.VoteGranted {
 		*count++
 		DPrintf("[%v]： 收到投票，目前票数： %v", rf.me, *count)
+	} else {
+		return
 	}
 	//确保目前仍然是候选者
 	if 2*(*count) > len(rf.peers) && rf.currentTerm == args.Term && rf.state == Candidate {
 		becomeLeader.Do(func() {
 			DPrintf("[%v]：投票过半，提前结束", rf.me)
 			rf.state = Leader
+			rf.persist()
 			LastLog := rf.log.LastLog()
 			for index, _ := range rf.peers {
 				rf.nextIndex[index] = LastLog.Index + 1
@@ -113,9 +114,5 @@ func (rf *Raft) candidateRequest(Id int, count *int, args *RequestVoteArgs, beco
 			}
 			rf.appendEntries(true)
 		})
-	} else if *server == len(rf.peers) && 2*(*count) < len(rf.peers) {
-		rf.state = Follower
-		rf.resetElectionTimer()
-		DPrintf("[%d]: 没收到足够的选票，转为 follower", rf.me)
 	}
 }

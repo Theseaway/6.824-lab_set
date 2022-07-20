@@ -7,6 +7,7 @@ func (rf *Raft) leaderElection() {
 	DPrintf("[%v]: 目前Term: %v，服务器 %v 请求投票", rf.me, rf.currentTerm, rf.me)
 	rf.state = Candidate
 	rf.votedFor = rf.me
+	rf.persist()
 	rf.resetElectionTimer()
 	term := rf.currentTerm
 	votecount := 1

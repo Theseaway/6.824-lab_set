@@ -135,6 +135,7 @@ func (rf *Raft) AppendEntries(args *AppendEntriesArgs, reply *AppendEntriesReply
 	}
 	if rf.state == Candidate {
 		rf.state = Follower
+		rf.persist()
 	}
 	// rule 2
 	// 如果本机log索引号小于leader索引号，拒绝接受
@@ -204,8 +205,8 @@ func (rf *Raft) AppendEntries(args *AppendEntriesArgs, reply *AppendEntriesReply
 		}
 		if entry.Index > rf.log.LastLog().Index {
 			rf.log.append(args.Entries[idx:]...)
-			DPrintf("[%d]: entry now is\n %v", rf.me, rf.log.Entries)
 			rf.persist()
+			DPrintf("[%d]: entry now is\n %v", rf.me, rf.log.Entries)
 			break
 		}
 	}
