@@ -844,7 +844,7 @@ func TestFigure82C(t *testing.T) {
 	cfg.begin("Test (2C): Figure 8")
 
 	cfg.one(rand.Int(), 1, true)
-
+	DPrintf("TEST: function one finished")
 	nup := servers
 	for iters := 0; iters < 1000; iters++ {
 		leader := -1
@@ -954,7 +954,7 @@ func TestFigure8Unreliable2C(t *testing.T) {
 
 		if leader != -1 && (rand.Int()%1000) < int(RaftElectionTimeout/time.Millisecond)/2 {
 			cfg.disconnect(leader)
-			DPrintf("Test : server -> %d disconnect️")
+			DPrintf("TEST : server disconnect --> %d")
 			nup -= 1
 		}
 
@@ -962,7 +962,7 @@ func TestFigure8Unreliable2C(t *testing.T) {
 			s := rand.Int() % servers
 			if cfg.connected[s] == false {
 				cfg.connect(s)
-				DPrintf("TEST: server --> %d reconnect")
+				DPrintf("TEST: server reconnect --> %d")
 				nup += 1
 			}
 		}

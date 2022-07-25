@@ -175,38 +175,19 @@ func (rf *Raft) AppendEntries(args *AppendEntriesArgs, reply *AppendEntriesReply
 		return
 	}
 
-	DPrintf("[%d]: \nargs.Entries: %v\nLocal: %v\n", rf.me, args.Entries, rf.log.Entries)
-
-	/*
-		if len(args.Entries) > 0 {
-			entry := args.Entries[0]
-			if entry.Index <= rf.log.LastLog().Index && rf.log.at(entry.Index).Term != entry.Term {
-				rf.log.truncate(entry.Index)
-				rf.persist()
-			}
-			if entry.Index > rf.log.LastLog().Index {
-				rf.log.append(args.Entries[0:]...)
-				if entry.Index == 200 {
-					DPrintf("debug code")
-				}
-				DPrintf("[%d]: entry now is\n %v", rf.me, rf.log.Entries)
-
-				rf.persist()
-			}
-		}
-
-	*/
+	DPrintf("[%d]: args.Entries %v\n Local: %v\n", rf.me, args.Entries, rf.log.Entries)
 
 	for idx := 0; idx < len(args.Entries); idx++ {
 		entry := args.Entries[idx]
 		if entry.Index <= rf.log.LastLog().Index && rf.log.at(entry.Index).Term != entry.Term {
 			rf.log.truncate(entry.Index)
+			DPrintf("[%d]: truncate entries --> %d", rf.me, entry.Index)
 			rf.persist()
 		}
 		if entry.Index > rf.log.LastLog().Index {
 			rf.log.append(args.Entries[idx:]...)
 			rf.persist()
-			DPrintf("[%d]: entry now is\n %v", rf.me, rf.log.Entries)
+			DPrintf("[%d]: entry now is %v", rf.me, rf.log.Entries)
 			break
 		}
 	}

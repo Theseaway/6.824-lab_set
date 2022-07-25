@@ -214,6 +214,7 @@ func (rf *Raft) Start(command interface{}) (int, int, bool) {
 	DPrintf("[%d]: START ENTRY (cmd,term,index)--> %v", rf.me, entry)
 	rf.log.append(entry)
 	rf.persist()
+	DPrintf("[%d]: Leader entry now is %v", rf.me, rf.log.Entries)
 	rf.appendEntries(false)
 	return entry.Index, entry.Term, true
 }
