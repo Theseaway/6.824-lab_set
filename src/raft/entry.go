@@ -1,5 +1,7 @@
 package raft
 
+import "fmt"
+
 type AppendEntriesArgs struct {
 	Term         int
 	LeaderId     int
@@ -70,6 +72,9 @@ func (rf *Raft) leaderSendEntries(peer int, args *AppendEntriesArgs) {
 		return
 	}
 	if rf.state == Leader { //确保当前还处于leader状态
+		if reply.Success && reply.Conflict {
+			fmt.Println("debug code")
+		}
 		if reply.Success {
 			match := args.PrevLogIndex + len(args.Entries)
 			next := match + 1
@@ -81,10 +86,10 @@ func (rf *Raft) leaderSendEntries(peer int, args *AppendEntriesArgs) {
 				rf.nextIndex[peer] = reply.XLen
 			} else { // 日志不匹配的情况
 				//   leader: 4 4 6 6 6
-				// follower: 4 4 5 5
+				// follower: 4 4|5 5
 
 				//   leader: 4 4 6 6 6
-				// follower: 4 4 4
+				// follower: 4 4|4
 				lastLogInXTerm := rf.findLastLogInTerm(reply.XTerm)
 				if lastLogInXTerm > 0 {
 					rf.nextIndex[peer] = lastLogInXTerm
@@ -123,24 +128,30 @@ func (rf *Raft) Commit() {
 func (rf *Raft) AppendEntries(args *AppendEntriesArgs, reply *AppendEntriesReply) {
 	rf.mu.Lock()
 	defer rf.mu.Unlock()
-
+	//只要出错就立即返回，因此先将Success置为false
+	reply.Success = false
+	reply.Term = rf.currentTerm
 	if args.Term < rf.currentTerm {
-		reply.Success = false
-		reply.Term = rf.currentTerm
 		return
 	}
 
 	if args.Term > rf.currentTerm {
 		rf.setNewTerm(args.Term)
 	}
+
 	if rf.state == Candidate {
 		rf.state = Follower
 		rf.persist()
 	}
+	rf.resetElectionTimer()
+
 	// rule 2
 	// 如果本机log索引号小于leader索引号，拒绝接受
-	//    leader: 3 3 4 5 6 6 6
+	//                PrevLogIndex
+	//					  ↓
+	//    leader: 3 3 4 5 6 6
 	//  follower: 3 3 4
+	//  只要follower的日志最新索引小于args的日志索引就适用，包括接收了未被提交的日志等意外情况
 	if rf.log.LastLog().Index < args.PrevLogIndex {
 		reply.Conflict = true
 		reply.XTerm = -1
@@ -153,41 +164,44 @@ func (rf *Raft) AppendEntries(args *AppendEntriesArgs, reply *AppendEntriesReply
 
 	// 如果本机log的args.PrevLogIndex处的日志的Term与传入参数的Term数不太一样
 	// 那么拒绝接受并进行检查日志在哪里不匹配
-
+	//          PrevLogIndex
+	//				 ↓
 	//   leader: 4 6 6 6
-	// follower: 4 5 5
+	// follower: 4|5 5
+	// 或者是下面的情况
+	//            PrevLogIndex
+	//			       ↓
+	// leader:   4 4 6 6 6
+	// follower: 4 4|4 4
 	if rf.log.at(args.PrevLogIndex).Term != args.PrevLogTerm {
 		reply.Conflict = true
 		xTerm := rf.log.at(args.PrevLogIndex).Term
 		for xIndex := args.PrevLogIndex; xIndex > 0; xIndex-- {
-			//   leader: 4 6 6 6
-			// follower: 4 5 5
+			// 找到此Term接收的第一个日志的Index
 			if rf.log.at(xIndex-1).Term != xTerm {
 				reply.XIndex = xIndex
 				DPrintf("[%v]: log conflict previous Term is %v", rf.me, rf.log.at(xIndex-1).Term)
 				break
 			}
 		}
-		//   leader: 4 4 6 6 6
-		// follower: 4 4 4 4
 		reply.XTerm = xTerm
 		reply.XLen = rf.log.Len()
 		return
 	}
 
-	DPrintf("[%d]: args.Entries %v\n Local: %v\n", rf.me, args.Entries, rf.log.Entries)
-
-	for idx := 0; idx < len(args.Entries); idx++ {
+	DPrintf("[%d]: args.Entries %v Local: %v", rf.me, args.Entries, rf.log.Entries)
+	length := len(args.Entries)
+	for idx := 0; idx < length; idx++ {
 		entry := args.Entries[idx]
 		if entry.Index <= rf.log.LastLog().Index && rf.log.at(entry.Index).Term != entry.Term {
 			rf.log.truncate(entry.Index)
-			DPrintf("[%d]: truncate entries --> %d", rf.me, entry.Index)
+			DPrintf("[%d]: After Truncate, Entry : %v", rf.me, rf.log.Entries)
 			rf.persist()
 		}
 		if entry.Index > rf.log.LastLog().Index {
 			rf.log.append(args.Entries[idx:]...)
 			rf.persist()
-			DPrintf("[%d]: entry now is %v", rf.me, rf.log.Entries)
+			DPrintf("[%d]: Entry now is %v", rf.me, rf.log.Entries)
 			break
 		}
 	}
@@ -217,12 +231,12 @@ func (rf *Raft) AppendEntries(args *AppendEntriesArgs, reply *AppendEntriesReply
 	*/
 
 	// append entries rpc 5
+	// leader 提交后，follower也提交
 	if args.LeaderCommit > rf.commitIndex {
 		rf.commitIndex = min(args.LeaderCommit, rf.log.LastLog().Index)
 		rf.SendMsg()
 	}
 	reply.Success = true
-	rf.resetElectionTimer()
 }
 
 // 4 4 6 6 6

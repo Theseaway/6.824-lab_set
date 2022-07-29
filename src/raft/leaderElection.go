@@ -26,5 +26,4 @@ func (rf *Raft) leaderElection() {
 			go rf.candidateRequest(Id, &votecount, &args, &becomeLeader, &servercount)
 		}
 	}
-	//当代码到这里的时候，已经跳出此函数了
 }

@@ -40,7 +40,6 @@ func (rf *Raft) setNewTerm(term int) {
 		rf.votedFor = -1
 		rf.persist()
 		DPrintf("[%d]: 设置term为 --> %v\n", rf.me, rf.currentTerm)
-		rf.resetElectionTimer()
 	}
 }
 
@@ -84,12 +83,12 @@ func (rf *Raft) sendRequestVote(Id int, args *RequestVoteArgs, reply *RequestVot
 func (rf *Raft) candidateRequest(Id int, count *int, args *RequestVoteArgs, becomeLeader *sync.Once, server *int) {
 	reply := RequestVoteReply{}
 	ok := rf.sendRequestVote(Id, args, &reply)
-	*server++
 	if !ok {
 		return
 	}
 	rf.mu.Lock()
 	defer rf.mu.Unlock()
+	*server++
 	if reply.VoteGranted == false && reply.Term > rf.currentTerm {
 		DPrintf("[%v]: 有新的Term存在：%v", rf.me, reply.Term)
 		rf.setNewTerm(reply.Term)

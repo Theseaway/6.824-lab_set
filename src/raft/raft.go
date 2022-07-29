@@ -288,7 +288,7 @@ func Make(peers []*labrpc.ClientEnd, me int,
 	rf.commitIndex = 0
 	rf.lastApplied = 0
 	rf.state = Follower
-	rf.heartBeat = 105 * time.Millisecond
+	rf.heartBeat = 50 * time.Millisecond
 
 	rf.applyCh = applyCh
 	rf.applyCond = sync.NewCond(&rf.mu)

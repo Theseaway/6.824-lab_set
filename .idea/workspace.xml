@@ -5,14 +5,33 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="b9689d2a-9add-414c-bc71-f73c14f133e7" name="变更" comment="">
-      <change afterPath="$PROJECT_DIR$/src/raft/log_read.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/6.824-lab_set.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/6.824-lab_set.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/raft/entry.go" beforeDir="false" afterPath="$PROJECT_DIR$/src/raft/entry.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/raft/leaderElection.go" beforeDir="false" afterPath="$PROJECT_DIR$/src/raft/leaderElection.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/raft/raft.go" beforeDir="false" afterPath="$PROJECT_DIR$/src/raft/raft.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/raft/test-1.log" beforeDir="false" afterPath="$PROJECT_DIR$/src/raft/test-1.log" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/raft/test_test.go" beforeDir="false" afterPath="$PROJECT_DIR$/src/raft/test_test.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/raft/test-1.err" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/raft/test-1.log" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/raft/test-10.err" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/raft/test-10.log" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/raft/test-2.err" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/raft/test-2.log" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/raft/test-3.err" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/raft/test-3.log" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/raft/test-4.err" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/raft/test-4.log" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/raft/test-5.err" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/raft/test-5.log" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/raft/test-6.err" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/raft/test-6.log" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/raft/test-7.err" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/raft/test-7.log" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/raft/test-8.err" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/raft/test-8.log" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/raft/test-9.err" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/raft/test-9.log" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/raft/tester" beforeDir="false" afterPath="$PROJECT_DIR$/src/raft/tester" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/raft/util.go" beforeDir="false" afterPath="$PROJECT_DIR$/src/raft/util.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/raft/vote.go" beforeDir="false" afterPath="$PROJECT_DIR$/src/raft/vote.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -51,23 +70,11 @@
     "WebServerToolWindowFactoryState": "false",
     "go.import.settings.migrated": "true",
     "go.sdk.automatically.set": "true",
-    "last_opened_file_path": "/Users/seaway/Share/6.824-lab_set",
+    "last_opened_file_path": "/Users/seaway/Share/tmp/6.824-lab_set",
     "settings.editor.selected.configurable": "com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable"
   }
 }]]></component>
-  <component name="RunManager" selected="Python.log_read">
-    <configuration name="6.824/raft 中的 TestBackup2B" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
-      <module name="6.824-lab_set" />
-      <working_directory value="$PROJECT_DIR$/src/raft" />
-      <root_directory value="$PROJECT_DIR$/src" />
-      <kind value="PACKAGE" />
-      <package value="6.824/raft" />
-      <directory value="$PROJECT_DIR$" />
-      <filePath value="$PROJECT_DIR$" />
-      <framework value="gotest" />
-      <pattern value="^\QTestBackup2B\E$" />
-      <method v="2" />
-    </configuration>
+  <component name="RunManager" selected="Go 测试.6.824/raft 中的 TestFigure8Unreliable2C">
     <configuration name="6.824/raft 中的 TestFigure8Unreliable2C" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
       <module name="6.824-lab_set" />
       <working_directory value="$PROJECT_DIR$/src/raft" />
@@ -80,53 +87,36 @@
       <pattern value="^\QTestFigure8Unreliable2C\E$" />
       <method v="2" />
     </configuration>
-    <configuration name="6.824/raft 中的 TestPersist12C" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
-      <module name="6.824-lab_set" />
-      <working_directory value="$PROJECT_DIR$/src/raft" />
-      <root_directory value="$PROJECT_DIR$/src" />
-      <kind value="PACKAGE" />
-      <package value="6.824/raft" />
-      <directory value="$PROJECT_DIR$" />
-      <filePath value="$PROJECT_DIR$" />
-      <framework value="gotest" />
-      <pattern value="^\QTestPersist12C\E$" />
-      <method v="2" />
-    </configuration>
-    <configuration name="test_test.go" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
-      <module name="6.824-lab_set" />
-      <working_directory value="$PROJECT_DIR$/src/raft" />
-      <root_directory value="$PROJECT_DIR$/src" />
-      <kind value="FILE" />
-      <directory value="$PROJECT_DIR$" />
-      <filePath value="$PROJECT_DIR$/src/raft/test_test.go" />
-      <framework value="gotest" />
-      <method v="2" />
-    </configuration>
     <configuration name="log_read" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="6.824-lab_set" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
-      <option name="SDK_HOME" value="" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+        <env name="TERM" value="xterm-color" />
+      </envs>
+      <option name="SDK_HOME" value="$PROJECT_DIR$/venv/bin/python" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/src/raft" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/src/raft/log_read.py" />
       <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="SHOW_COMMAND_LINE" value="true" />
+      <option name="EMULATE_TERMINAL" value="true" />
       <option name="MODULE_MODE" value="false" />
       <option name="REDIRECT_INPUT" value="false" />
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
+    <list>
+      <item itemvalue="Go 测试.6.824/raft 中的 TestFigure8Unreliable2C" />
+      <item itemvalue="Python.log_read" />
+    </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.log_read" />
         <item itemvalue="Go 测试.6.824/raft 中的 TestFigure8Unreliable2C" />
-        <item itemvalue="Go 测试.test_test.go" />
-        <item itemvalue="Go 测试.6.824/raft 中的 TestBackup2B" />
-        <item itemvalue="Go 测试.6.824/raft 中的 TestPersist12C" />
+        <item itemvalue="Python.log_read" />
       </list>
     </recent_temporary>
   </component>
@@ -163,12 +153,24 @@
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/src/raft/log_read.py</url>
-          <line>156</line>
-          <option name="timeStamp" value="53" />
+        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
+          <url>file://$PROJECT_DIR$/src/raft/entry.go</url>
+          <line>74</line>
+          <option name="timeStamp" value="107" />
         </line-breakpoint>
       </breakpoints>
+      <default-breakpoints>
+        <breakpoint type="python-exception">
+          <properties notifyOnTerminate="true" exception="BaseException">
+            <option name="notifyOnTerminate" value="true" />
+          </properties>
+        </breakpoint>
+      </default-breakpoints>
     </breakpoint-manager>
+    <watches-manager>
+      <configuration name="PythonConfigurationType">
+        <watch expression="server_list[1]" />
+      </configuration>
+    </watches-manager>
   </component>
 </project>
