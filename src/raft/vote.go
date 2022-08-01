@@ -39,7 +39,7 @@ func (rf *Raft) setNewTerm(term int) {
 		rf.currentTerm = term
 		rf.votedFor = -1
 		rf.persist()
-		DPrintf("[%d]: 设置term为 --> %v\n", rf.me, rf.currentTerm)
+		DPrintf("[%d]: Term 设置为$%d#\n", rf.me, rf.currentTerm)
 	}
 }
 
@@ -69,7 +69,7 @@ func (rf *Raft) RequestVote(args *RequestVoteArgs, reply *RequestVoteReply) {
 		rf.votedFor = args.CandidateId
 		rf.persist()
 		reply.VoteGranted = true
-		DPrintf("[%d]: 接收来自服务器 %d 的投票请求; Term --> %d", rf.me, args.CandidateId, rf.currentTerm)
+		DPrintf("[%d]: 接收来自服务器 %d 的投票请求; Term 设置为$%d#", rf.me, args.CandidateId, rf.currentTerm)
 		rf.resetElectionTimer()
 	}
 	reply.Term = rf.currentTerm
@@ -90,20 +90,20 @@ func (rf *Raft) candidateRequest(Id int, count *int, args *RequestVoteArgs, beco
 	defer rf.mu.Unlock()
 	*server++
 	if reply.VoteGranted == false && reply.Term > rf.currentTerm {
-		DPrintf("[%v]: 有新的Term存在：%v", rf.me, reply.Term)
+		DPrintf("[%v]:有新的Term存在：%v", rf.me, reply.Term)
 		rf.setNewTerm(reply.Term)
 		return
 	}
 	if reply.VoteGranted {
 		*count++
-		DPrintf("[%v]： 收到投票，目前票数： %v", rf.me, *count)
+		DPrintf("[%v]:收到投票，目前票数： %v", rf.me, *count)
 	} else {
 		return
 	}
 	//确保目前仍然是候选者
 	if 2*(*count) > len(rf.peers) && rf.currentTerm == args.Term && rf.state == Candidate {
 		becomeLeader.Do(func() {
-			DPrintf("[%v]：投票过半，提前结束", rf.me)
+			DPrintf("[%v]:投票过半，提前结束", rf.me)
 			rf.state = Leader
 			rf.persist()
 			LastLog := rf.log.LastLog()

@@ -317,27 +317,27 @@ func (rf *Raft) CommitInfo() string {
 func (rf *Raft) LoopCommit() {
 	rf.mu.Lock()
 	defer rf.mu.Unlock()
-	defer DPrintf("[%d]: function LoopCommit end", rf.me)
+	//defer DPrintf("[%d]: function LoopCommit end", rf.me)
 	for !rf.killed() {
 		// all server rule 1
-		DPrintf("[%d]: function LoopCommit start", rf.me)
+		//DPrintf("[%d]: function LoopCommit start", rf.me)
 		if rf.commitIndex > rf.lastApplied && rf.log.LastLog().Index > rf.lastApplied {
 			rf.lastApplied++
-			DPrintf("[%d]: commitIndex --> %d; logIndex --> %d; lastApplied --> %d", rf.me, rf.commitIndex, rf.log.LastLog().Index, rf.lastApplied)
+			//DPrintf("[%d]: commitIndex --> %d; logIndex --> %d; lastApplied --> %d", rf.me, rf.commitIndex, rf.log.LastLog().Index, rf.lastApplied)
 			applyMsg := ApplyMsg{
 				CommandValid: true,
 				Command:      rf.log.at(rf.lastApplied).Command,
 				CommandIndex: rf.lastApplied,
 			}
-			DPrintVerbose("[%v]: COMMIT %d: %v", rf.me, rf.lastApplied, rf.CommitInfo())
+			DPrintVerbose("[%v]: COMMIT $%d#: %v", rf.me, rf.lastApplied, rf.CommitInfo())
 			rf.mu.Unlock()
 			rf.applyCh <- applyMsg
 			rf.mu.Lock()
 		} else {
-			DPrintf("[%d]: function LoopCommit wait", rf.me)
+			//DPrintf("[%d]: function LoopCommit wait", rf.me)
 			rf.applyCond.Wait()
-			DPrintf("[%d]: applyCond wake up", rf.me)
-			DPrintf("[%d]: commitIndex --> %d; logIndex --> %d; lastApplied --> %d", rf.me, rf.commitIndex, rf.log.LastLog().Index, rf.lastApplied)
+			//DPrintf("[%d]: applyCond wake up", rf.me)
+			//DPrintf("[%d]: commitIndex --> %d; logIndex --> %d; lastApplied --> %d", rf.me, rf.commitIndex, rf.log.LastLog().Index, rf.lastApplied)
 		}
 	}
 }

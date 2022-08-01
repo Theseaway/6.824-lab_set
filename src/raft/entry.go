@@ -1,7 +1,5 @@
 package raft
 
-import "fmt"
-
 type AppendEntriesArgs struct {
 	Term         int
 	LeaderId     int
@@ -72,9 +70,6 @@ func (rf *Raft) leaderSendEntries(peer int, args *AppendEntriesArgs) {
 		return
 	}
 	if rf.state == Leader { //确保当前还处于leader状态
-		if reply.Success && reply.Conflict {
-			fmt.Println("debug code")
-		}
 		if reply.Success {
 			match := args.PrevLogIndex + len(args.Entries)
 			next := match + 1
