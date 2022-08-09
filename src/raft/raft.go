@@ -78,6 +78,10 @@ type Raft struct {
 	// Your data here (2A, 2B, 2C).
 	// Look at the paper's Figure 2 for a description of what
 	// state a Raft server must maintain.
+	LeaderID  int
+	LastIndex int
+	LastTerm  int
+
 	state       RaftState
 	currentTerm int
 	votedFor    int
@@ -108,6 +112,16 @@ func (rf *Raft) GetState() (int, bool) {
 	return term, isleader
 }
 
+func (rf *Raft) persistData() []byte {
+	w := new(bytes.Buffer)
+	e := labgob.NewEncoder(w)
+	e.Encode(rf.currentTerm)
+	e.Encode(rf.votedFor)
+	e.Encode(rf.log)
+	data := w.Bytes()
+	return data
+}
+
 //
 // save Raft's persistent state to stable storage,
 // where it can later be retrieved after a crash and restart.
@@ -116,12 +130,7 @@ func (rf *Raft) GetState() (int, bool) {
 func (rf *Raft) persist() {
 	// Your code here (2C).
 	// Example:
-	w := new(bytes.Buffer)
-	e := labgob.NewEncoder(w)
-	e.Encode(rf.currentTerm)
-	e.Encode(rf.votedFor)
-	e.Encode(rf.log)
-	data := w.Bytes()
+	data := rf.persistData()
 	rf.persister.SaveRaftState(data)
 	// w := new(bytes.Buffer)
 	// e := labgob.NewEncoder(w)
@@ -181,8 +190,27 @@ func (rf *Raft) CondInstallSnapshot(lastIncludedTerm int, lastIncludedIndex int,
 // service no longer needs the log through (and including)
 // that index. Raft should now trim its log as much as possible.
 func (rf *Raft) Snapshot(index int, snapshot []byte) {
+	rf.mu.Lock()
+	defer rf.mu.Unlock()
 	// Your code here (2D).
+	if index >= rf.log.LastLog().Index || index < rf.log.Index0 {
+		return
+	}
+	if index > rf.commitIndex {
+		return
+	}
 
+	rf.LastIndex = index
+	rf.LastTerm = rf.log.at(index).Term
+
+	tmpLog := []Entry{}
+	for i := index + 1; i <= rf.log.LastLog().Index; i++ {
+		tmpLog = append(tmpLog, *rf.log.at(i))
+	}
+	rf.log.Entries = tmpLog
+	rf.log.Index0 = index + 1
+	rf.persist()
+	rf.persister.SaveStateAndSnapshot(rf.persistData(), snapshot)
 }
 
 //
@@ -308,7 +336,7 @@ func (rf *Raft) SendMsg() {
 
 func (rf *Raft) CommitInfo() string {
 	nums := []string{}
-	for i := 0; i <= rf.lastApplied; i++ {
+	for i := rf.log.Index0; i <= rf.log.LastLog().Index && i <= rf.lastApplied; i++ {
 		nums = append(nums, fmt.Sprintf("%4d", rf.log.at(i).Command))
 	}
 	return fmt.Sprint(strings.Join(nums, "|"))

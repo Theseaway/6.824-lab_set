@@ -25,7 +25,7 @@ func makeEmptyLog() Log {
 }
 
 func (l *Log) at(idx int) *Entry {
-	return &l.Entries[idx]
+	return &l.Entries[(idx - l.Index0)]
 }
 
 func (l *Log) append(entries ...Entry) {
@@ -33,15 +33,15 @@ func (l *Log) append(entries ...Entry) {
 }
 
 func (l *Log) truncate(idx int) {
-	l.Entries = l.Entries[:idx]
+	l.Entries = l.Entries[:(idx - l.Index0)]
 }
 
 func (l *Log) Tail(idx int) []Entry {
-	return l.Entries[idx:]
+	return l.Entries[(idx - l.Index0):]
 }
 
 func (l *Log) Len() int {
-	return len(l.Entries)
+	return len(l.Entries) + l.Index0
 }
 
 func (l *Log) LastLog() *Entry {

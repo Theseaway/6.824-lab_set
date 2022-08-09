@@ -6,14 +6,12 @@
   <component name="ChangeListManager">
     <list default="true" id="b9689d2a-9add-414c-bc71-f73c14f133e7" name="变更" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/raft/config.go" beforeDir="false" afterPath="$PROJECT_DIR$/src/raft/config.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/raft/entry.go" beforeDir="false" afterPath="$PROJECT_DIR$/src/raft/entry.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/raft/leaderElection.go" beforeDir="false" afterPath="$PROJECT_DIR$/src/raft/leaderElection.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/raft/log_read.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/raft/log_read.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/raft/log.go" beforeDir="false" afterPath="$PROJECT_DIR$/src/raft/log.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/raft/raft.go" beforeDir="false" afterPath="$PROJECT_DIR$/src/raft/raft.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/raft/test-1.err" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/raft/test-1.log" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/raft/tester" beforeDir="false" afterPath="$PROJECT_DIR$/src/raft/tester" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/raft/util.go" beforeDir="false" afterPath="$PROJECT_DIR$/src/raft/util.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/raft/vote.go" beforeDir="false" afterPath="$PROJECT_DIR$/src/raft/vote.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -56,7 +54,7 @@
     &quot;settings.editor.selected.configurable&quot;: &quot;com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable&quot;
   }
 }</component>
-  <component name="RunManager" selected="Python.log_read">
+  <component name="RunManager" selected="Go 测试.6.824/raft 中的 TestSnapshotBasic2D">
     <configuration name="6.824/raft 中的 TestFigure8Unreliable2C" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
       <module name="6.824-lab_set" />
       <working_directory value="$PROJECT_DIR$/src/raft" />
@@ -67,6 +65,18 @@
       <filePath value="$PROJECT_DIR$" />
       <framework value="gotest" />
       <pattern value="^\QTestFigure8Unreliable2C\E$" />
+      <method v="2" />
+    </configuration>
+    <configuration name="6.824/raft 中的 TestSnapshotBasic2D" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
+      <module name="6.824-lab_set" />
+      <working_directory value="$PROJECT_DIR$/src/raft" />
+      <root_directory value="$PROJECT_DIR$/src" />
+      <kind value="PACKAGE" />
+      <package value="6.824/raft" />
+      <directory value="$PROJECT_DIR$" />
+      <filePath value="$PROJECT_DIR$" />
+      <framework value="gotest" />
+      <pattern value="^\QTestSnapshotBasic2D\E$" />
       <method v="2" />
     </configuration>
     <configuration name="log_read" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
@@ -92,11 +102,13 @@
       <method v="2" />
     </configuration>
     <list>
+      <item itemvalue="Go 测试.6.824/raft 中的 TestSnapshotBasic2D" />
       <item itemvalue="Go 测试.6.824/raft 中的 TestFigure8Unreliable2C" />
       <item itemvalue="Python.log_read" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Go 测试.6.824/raft 中的 TestSnapshotBasic2D" />
         <item itemvalue="Python.log_read" />
         <item itemvalue="Go 测试.6.824/raft 中的 TestFigure8Unreliable2C" />
       </list>

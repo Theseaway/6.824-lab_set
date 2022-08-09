@@ -40,18 +40,21 @@ func (rf *Raft) appendEntries(HeartBeat bool) {
 			DPrintf("[%d]: state --> %v; nextIndex on server %d is %d", rf.me, rf.state, peer, rf.nextIndex[peer])
 			// 获取可能匹配的prevLog的Index和Term，然后进行再次的匹配
 			// 如果不匹配，会重新再进行匹配
-			prevLog := rf.log.at(nextIndex - 1)
-			args := AppendEntriesArgs{
-				Term:         rf.currentTerm,
-				LeaderId:     rf.me,
-				PrevLogIndex: prevLog.Index,
-				PrevLogTerm:  prevLog.Term,
-				//依据nextIndex发送所需要的日志
-				Entries:      make([]Entry, lastLog.Index-nextIndex+1),
-				LeaderCommit: rf.commitIndex,
+			if nextIndex > rf.log.Index0 {
+				prevLog := rf.log.at(nextIndex - 1)
+				args := AppendEntriesArgs{
+					Term:         rf.currentTerm,
+					LeaderId:     rf.me,
+					PrevLogIndex: prevLog.Index,
+					PrevLogTerm:  prevLog.Term,
+					//依据nextIndex发送所需要的日志
+					Entries:      make([]Entry, lastLog.Index-nextIndex+1),
+					LeaderCommit: rf.commitIndex,
+				}
+				copy(args.Entries, rf.log.Tail(nextIndex))
+				go rf.leaderSendEntries(peer, &args)
+			} else {
 			}
-			copy(args.Entries, rf.log.Tail(nextIndex))
-			go rf.leaderSendEntries(peer, &args)
 		}
 	}
 }
@@ -75,6 +78,8 @@ func (rf *Raft) leaderSendEntries(peer int, args *AppendEntriesArgs) {
 			next := match + 1
 			rf.nextIndex[peer] = max(rf.nextIndex[peer], next)
 			rf.matchIndex[peer] = max(rf.matchIndex[peer], match)
+			DPrintf("[%d]: 服务器 %d 对应的 nextIndex 为 $%d#", rf.me, peer, rf.nextIndex[peer])
+			DPrintf("[%d]: 服务器 %d 对应的 matchIndex 为 $%d#", rf.me, peer, rf.matchIndex[peer])
 		} else if reply.Conflict {
 			DPrintf("[%v]: 冲突Index --> %v ，服务器标号 --> %v", rf.me, reply.XIndex, peer)
 			if reply.XTerm == -1 { // 日志缺失情况，把next 的开头改为reply.XLen开头。
@@ -134,12 +139,16 @@ func (rf *Raft) AppendEntries(args *AppendEntriesArgs, reply *AppendEntriesReply
 		rf.setNewTerm(args.Term)
 	}
 
+	if args.PrevLogIndex < rf.log.Index0 {
+		return
+	}
+
 	if rf.state == Candidate {
 		rf.state = Follower
 		rf.persist()
 	}
 	rf.resetElectionTimer()
-
+	rf.LeaderID = args.LeaderId
 	// rule 2
 	// 如果本机log索引号小于leader索引号，拒绝接受
 	//                PrevLogIndex
@@ -200,30 +209,6 @@ func (rf *Raft) AppendEntries(args *AppendEntriesArgs, reply *AppendEntriesReply
 			break
 		}
 	}
-
-	/*
-		for idx, entry := range args.Entries {
-			// append entries rpc 3
-			DPrintf("[%d]: LOOP IN APPEND ENTRY;\n entry.Index --> %d, lastlog.Index --> %d"+
-				"; entry.Term --> %d, lastlog.Term --> %d", rf.me, entry.Index, rf.log.LastLog().Index,
-				entry.Term, rf.log.LastLog().Term)
-			if entry.Index <= rf.log.LastLog().Index && rf.log.at(entry.Index).Term != entry.Term {
-				rf.log.truncate(entry.Index)
-				rf.persist()
-			}
-			// append entries rpc 4
-			if entry.Index > rf.log.LastLog().Index {
-				rf.log.append(args.Entries[idx:]...)
-				if entry.Index == 200 {
-					DPrintf("debug code")
-				}
-				DPrintf("[%d]: after append entry %v\n local log is\n %v", rf.me, args.Entries[idx:], rf.log.Entries)
-				rf.persist()
-				break
-			}
-		}
-
-	*/
 
 	// append entries rpc 5
 	// leader 提交后，follower也提交
