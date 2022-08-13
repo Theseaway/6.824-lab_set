@@ -7,11 +7,7 @@
     <list default="true" id="b9689d2a-9add-414c-bc71-f73c14f133e7" name="变更" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/raft/entry.go" beforeDir="false" afterPath="$PROJECT_DIR$/src/raft/entry.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/raft/log.go" beforeDir="false" afterPath="$PROJECT_DIR$/src/raft/log.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/raft/raft.go" beforeDir="false" afterPath="$PROJECT_DIR$/src/raft/raft.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/raft/test-1.err" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/raft/test-1.log" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/raft/tester" beforeDir="false" afterPath="$PROJECT_DIR$/src/raft/tester" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -129,7 +125,7 @@
                   <entry key="branch">
                     <value>
                       <list>
-                        <option value="lab/raft" />
+                        <option value="raft" />
                       </list>
                     </value>
                   </entry>

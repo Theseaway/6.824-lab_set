@@ -204,11 +204,11 @@ func (rf *Raft) Snapshot(index int, snapshot []byte) {
 	rf.LastTerm = rf.log.at(index).Term
 
 	tmpLog := []Entry{}
-	for i := index + 1; i <= rf.log.LastLog().Index; i++ {
+	for i := index; i <= rf.log.LastLog().Index; i++ {
 		tmpLog = append(tmpLog, *rf.log.at(i))
 	}
 	rf.log.Entries = tmpLog
-	rf.log.Index0 = index + 1
+	rf.log.Index0 = index
 	rf.persist()
 	rf.persister.SaveStateAndSnapshot(rf.persistData(), snapshot)
 }

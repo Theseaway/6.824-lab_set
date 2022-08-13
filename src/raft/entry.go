@@ -18,6 +18,20 @@ type AppendEntriesReply struct {
 	XLen     int
 }
 
+type SnapShotArgs struct {
+	Term              int
+	LeaderID          int
+	LastIncludedIndex int
+	LastIncludedTerm  int
+	SnapShot          []byte
+	Offset            int
+	Done              bool
+}
+
+type SnapShotReply struct {
+	Term int
+}
+
 func (rf *Raft) appendEntries(HeartBeat bool) {
 	lastLog := rf.log.LastLog()
 	for peer, _ := range rf.peers {
@@ -54,9 +68,30 @@ func (rf *Raft) appendEntries(HeartBeat bool) {
 				copy(args.Entries, rf.log.Tail(nextIndex))
 				go rf.leaderSendEntries(peer, &args)
 			} else {
+				go rf.SendSnapshot(peer)
 			}
 		}
 	}
+}
+
+func (rf *Raft) SendSnapshot(peer int) {
+	rf.mu.Lock()
+	defer rf.mu.Unlock()
+	args := SnapShotArgs{
+		Term:              rf.currentTerm,
+		LeaderID:          rf.LeaderID,
+		LastIncludedIndex: rf.LastIndex,
+		LastIncludedTerm:  rf.LastTerm,
+		SnapShot:          rf.persister.snapshot,
+		Offset:            0,
+		Done:              true,
+	}
+	reply := SnapShotReply{}
+
+}
+
+func (rf *Raft) InstallSnapShot(args *SnapShotReply, reply *SnapShotReply) {
+
 }
 
 func (rf *Raft) leaderSendEntries(peer int, args *AppendEntriesArgs) {
