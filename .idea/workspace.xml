@@ -5,7 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="b9689d2a-9add-414c-bc71-f73c14f133e7" name="变更" comment="">
-      <change beforePath="$PROJECT_DIR$/src/raft/entry.go" beforeDir="false" afterPath="$PROJECT_DIR$/src/raft/entry.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/raft/raft.go" beforeDir="false" afterPath="$PROJECT_DIR$/src/raft/raft.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -49,8 +49,8 @@
     &quot;settings.editor.selected.configurable&quot;: &quot;com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable&quot;
   }
 }</component>
-  <component name="RunManager" selected="Go 测试.6.824/raft 中的 TestSnapshotBasic2D">
-    <configuration name="6.824/raft 中的 TestFigure8Unreliable2C" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
+  <component name="RunManager" selected="Go 测试.6.824/raft 中的 TestSnapshotAllCrash2D">
+    <configuration name="6.824/raft 中的 TestSnapshotAllCrash2D" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
       <module name="6.824-lab_set" />
       <working_directory value="$PROJECT_DIR$/src/raft" />
       <root_directory value="$PROJECT_DIR$/src" />
@@ -59,10 +59,10 @@
       <directory value="$PROJECT_DIR$" />
       <filePath value="$PROJECT_DIR$" />
       <framework value="gotest" />
-      <pattern value="^\QTestFigure8Unreliable2C\E$" />
+      <pattern value="^\QTestSnapshotAllCrash2D\E$" />
       <method v="2" />
     </configuration>
-    <configuration name="6.824/raft 中的 TestSnapshotBasic2D" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
+    <configuration name="6.824/raft 中的 TestSnapshotInstall2D" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
       <module name="6.824-lab_set" />
       <working_directory value="$PROJECT_DIR$/src/raft" />
       <root_directory value="$PROJECT_DIR$/src" />
@@ -71,41 +71,59 @@
       <directory value="$PROJECT_DIR$" />
       <filePath value="$PROJECT_DIR$" />
       <framework value="gotest" />
-      <pattern value="^\QTestSnapshotBasic2D\E$" />
+      <pattern value="^\QTestSnapshotInstall2D\E$" />
       <method v="2" />
     </configuration>
-    <configuration name="log_read" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+    <configuration name="6.824/raft 中的 TestSnapshotInstallCrash2D" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
       <module name="6.824-lab_set" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-        <env name="TERM" value="xterm-color" />
-      </envs>
-      <option name="SDK_HOME" value="$PROJECT_DIR$/venv/bin/python" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/src/raft" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/src/raft/log_read.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="true" />
-      <option name="EMULATE_TERMINAL" value="true" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
+      <working_directory value="$PROJECT_DIR$/src/raft" />
+      <root_directory value="$PROJECT_DIR$/src" />
+      <kind value="PACKAGE" />
+      <package value="6.824/raft" />
+      <directory value="$PROJECT_DIR$" />
+      <filePath value="$PROJECT_DIR$" />
+      <framework value="gotest" />
+      <pattern value="^\QTestSnapshotInstallCrash2D\E$" />
+      <method v="2" />
+    </configuration>
+    <configuration name="6.824/raft 中的 TestSnapshotInstallUnCrash2D" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
+      <module name="6.824-lab_set" />
+      <working_directory value="$PROJECT_DIR$/src/raft" />
+      <root_directory value="$PROJECT_DIR$/src" />
+      <kind value="PACKAGE" />
+      <package value="6.824/raft" />
+      <directory value="$PROJECT_DIR$" />
+      <filePath value="$PROJECT_DIR$" />
+      <framework value="gotest" />
+      <pattern value="^\QTestSnapshotInstallUnCrash2D\E$" />
+      <method v="2" />
+    </configuration>
+    <configuration name="6.824/raft 中的 TestSnapshotInstallUnreliable2D" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
+      <module name="6.824-lab_set" />
+      <working_directory value="$PROJECT_DIR$/src/raft" />
+      <root_directory value="$PROJECT_DIR$/src" />
+      <kind value="PACKAGE" />
+      <package value="6.824/raft" />
+      <directory value="$PROJECT_DIR$" />
+      <filePath value="$PROJECT_DIR$" />
+      <framework value="gotest" />
+      <pattern value="^\QTestSnapshotInstallUnreliable2D\E$" />
       <method v="2" />
     </configuration>
     <list>
-      <item itemvalue="Go 测试.6.824/raft 中的 TestSnapshotBasic2D" />
-      <item itemvalue="Go 测试.6.824/raft 中的 TestFigure8Unreliable2C" />
-      <item itemvalue="Python.log_read" />
+      <item itemvalue="Go 测试.6.824/raft 中的 TestSnapshotAllCrash2D" />
+      <item itemvalue="Go 测试.6.824/raft 中的 TestSnapshotInstall2D" />
+      <item itemvalue="Go 测试.6.824/raft 中的 TestSnapshotInstallCrash2D" />
+      <item itemvalue="Go 测试.6.824/raft 中的 TestSnapshotInstallUnCrash2D" />
+      <item itemvalue="Go 测试.6.824/raft 中的 TestSnapshotInstallUnreliable2D" />
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Go 测试.6.824/raft 中的 TestSnapshotBasic2D" />
-        <item itemvalue="Python.log_read" />
-        <item itemvalue="Go 测试.6.824/raft 中的 TestFigure8Unreliable2C" />
+        <item itemvalue="Go 测试.6.824/raft 中的 TestSnapshotAllCrash2D" />
+        <item itemvalue="Go 测试.6.824/raft 中的 TestSnapshotInstallUnCrash2D" />
+        <item itemvalue="Go 测试.6.824/raft 中的 TestSnapshotInstallCrash2D" />
+        <item itemvalue="Go 测试.6.824/raft 中的 TestSnapshotInstallUnreliable2D" />
+        <item itemvalue="Go 测试.6.824/raft 中的 TestSnapshotInstall2D" />
       </list>
     </recent_temporary>
   </component>

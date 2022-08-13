@@ -158,6 +158,8 @@ func (rf *Raft) readPersist(data []byte) {
 		rf.currentTerm = currentTerm
 		rf.votedFor = votedFor
 		rf.log = logs
+		rf.lastApplied = rf.log.Index0
+		rf.commitIndex = rf.log.Index0
 	}
 	// Your code here (2C).
 	// Example:
