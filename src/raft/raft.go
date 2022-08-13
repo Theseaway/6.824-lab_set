@@ -179,9 +179,29 @@ func (rf *Raft) readPersist(data []byte) {
 // have more recent info since it communicate the snapshot on applyCh.
 //
 func (rf *Raft) CondInstallSnapshot(lastIncludedTerm int, lastIncludedIndex int, snapshot []byte) bool {
+	rf.mu.Lock()
+	defer rf.mu.Unlock()
+	if lastIncludedIndex <= rf.commitIndex {
+		return false
+	}
+	tmpLog := make([]Entry, 0)
+	if lastIncludedIndex <= rf.log.LastLog().Index && rf.log.at(lastIncludedIndex).Term == lastIncludedTerm {
+		tmpLog = append(tmpLog, rf.log.Tail(lastIncludedIndex)...)
+	} else {
+		tmpLog = append(tmpLog, Entry{
+			Command: nil,
+			Term:    lastIncludedTerm,
+			Index:   lastIncludedIndex,
+		})
+	}
+	rf.log.Entries = tmpLog
+	rf.log.Index0 = lastIncludedIndex
+	rf.persister.snapshot = snapshot
 
+	rf.lastApplied = lastIncludedIndex
+	rf.commitIndex = lastIncludedIndex
 	// Your code here (2D).
-
+	rf.persister.SaveStateAndSnapshot(rf.persistData(), snapshot)
 	return true
 }
 

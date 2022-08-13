@@ -76,7 +76,6 @@ func (rf *Raft) appendEntries(HeartBeat bool) {
 
 func (rf *Raft) SendSnapshot(peer int) {
 	rf.mu.Lock()
-	defer rf.mu.Unlock()
 	args := SnapShotArgs{
 		Term:              rf.currentTerm,
 		LeaderID:          rf.LeaderID,
@@ -86,12 +85,46 @@ func (rf *Raft) SendSnapshot(peer int) {
 		Offset:            0,
 		Done:              true,
 	}
+	rf.mu.Unlock()
 	reply := SnapShotReply{}
-
+	ok := rf.peers[peer].Call("Raft.InstallSnapShot", &args, &reply)
+	if !ok {
+		return
+	}
+	rf.mu.Lock()
+	defer rf.mu.Unlock()
+	if reply.Term > rf.currentTerm {
+		rf.setNewTerm(reply.Term)
+		return
+	}
+	if rf.state == Leader {
+		rf.nextIndex[peer] = rf.LastIndex + 1
+		rf.matchIndex[peer] = rf.LastIndex
+	}
 }
 
-func (rf *Raft) InstallSnapShot(args *SnapShotReply, reply *SnapShotReply) {
-
+func (rf *Raft) InstallSnapShot(args *SnapShotArgs, reply *SnapShotReply) {
+	rf.mu.Lock()
+	defer rf.mu.Unlock()
+	reply.Term = rf.currentTerm
+	if args.Term < rf.currentTerm {
+		return
+	}
+	if args.Term > rf.currentTerm {
+		rf.setNewTerm(args.Term)
+	}
+	rf.state = Follower
+	rf.votedFor = args.LeaderID
+	rf.persist()
+	if args.LastIncludedIndex <= rf.log.Index0 {
+		return
+	}
+	rf.applyCh <- ApplyMsg{
+		SnapshotValid: true,
+		Snapshot:      args.SnapShot,
+		SnapshotTerm:  args.LastIncludedTerm,
+		SnapshotIndex: args.LastIncludedIndex,
+	}
 }
 
 func (rf *Raft) leaderSendEntries(peer int, args *AppendEntriesArgs) {
