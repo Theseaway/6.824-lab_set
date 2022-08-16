@@ -119,12 +119,14 @@ func (rf *Raft) InstallSnapShot(args *SnapShotArgs, reply *SnapShotReply) {
 	if args.LastIncludedIndex <= rf.log.Index0 {
 		return
 	}
+	rf.mu.Unlock()
 	rf.applyCh <- ApplyMsg{
 		SnapshotValid: true,
 		Snapshot:      args.SnapShot,
 		SnapshotTerm:  args.LastIncludedTerm,
 		SnapshotIndex: args.LastIncludedIndex,
 	}
+	rf.mu.Lock()
 }
 
 func (rf *Raft) leaderSendEntries(peer int, args *AppendEntriesArgs) {
